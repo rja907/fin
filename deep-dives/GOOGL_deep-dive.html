@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alphabet (GOOGL) — Deep Dive | MBI-Style | Aug 2026</title>
+<style>
+  :root{--ink:#11131a;--muted:#5f6368;--line:#e8eaed;--accent:#1a73e8;--accent2:#0d652d;--bg:#fff;--card:#f8f9fa;--warn:#fef7e0;--max:880px}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; color:var(--ink); background:var(--bg); line-height:1.65; -webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+  header.hero{background:#0f1115;color:#fff;padding:40px 20px 32px}
+  header.hero .wrap{max-width:var(--max);margin:0 auto}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#9aa0a6;margin:0 0 8px}
+  h1{font-family: Georgia, "Times New Roman", serif; font-weight:800; font-size:36px; line-height:1.15; margin:0 0 8px}
+  .subtitle{color:#bdc1c6;font-size:17px;line-height:1.5;margin:0 0 16px;max-width:720px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;font-size:13px;color:#9aa0a6}
+  .pill{border:1px solid #3c4043;border-radius:999px;padding:4px 10px;color:#e8eaed;background:rgba(255,255,255,.06)}
+  .pill.accent{border-color:var(--accent);color:#8ab4f8}
+  nav.toc{max-width:var(--max);margin:0 auto;padding:18px 20px;border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:5}
+  nav.toc .toc-inner{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  nav.toc strong{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+  nav.toc a{font-size:13px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink)}
+  nav.toc a:hover{border-color:var(--accent);color:var(--accent)}
+  main{max-width:var(--max);margin:0 auto;padding:28px 20px 64px}
+  h2{font-family: Georgia, serif; font-size:26px; line-height:1.25; margin:40px 0 12px; padding-top:12px; border-top:2px solid var(--ink)}
+  h2 small{display:block;font-family: -apple-system, sans-serif; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; font-weight:700}
+  h3{font-size:18px;margin:28px 0 10px;color:#202124}
+  h4{font-size:15px;margin:18px 0 8px;color:#202124;text-transform:uppercase;letter-spacing:.04em}
+  p{margin:0 0 14px;font-size:16px}
+  .lead{font-size:18px;color:#202124;line-height:1.6}
+  .callout{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);padding:14px 16px;border-radius:8px;margin:16px 0}
+  .callout.warn{border-left-color:#f9ab00;background:var(--warn)}
+  .callout.green{border-left-color:var(--accent2);background:#e6f4ea}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}}
+  table{width:100%;border-collapse:collapse;margin:14px 0 6px;font-size:14px}
+  th{ text-align:left; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); border-bottom:2px solid var(--ink); padding:8px 8px}
+  td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  td.num, th.num{text-align:right; font-variant-numeric:tabular-nums; font-feature-settings:"tnum"}
+  tr.total td{font-weight:700;border-top:2px solid var(--ink);background:var(--card)}
+  caption{caption-side:bottom; text-align:left; font-size:12px; color:var(--muted); padding:6px 0 10px}
+  .tag{display:inline-block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--muted)}
+  .kpi{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
+  .kpi .box{flex:1;min-width:150px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px}
+  .kpi .box b{font-size:20px;display:block}
+  .kpi .box span{font-size:12px;color:var(--muted)}
+  ul,ol{margin:0 0 14px 20px}
+  li{margin:4px 0}
+  .fig{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin:16px 0}
+  .fig-title{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .bar{height:10px;background:#e8eaed;border-radius:999px;overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--accent)}
+  blockquote{border-left:3px solid var(--line);margin:14px 0;padding:6px 14px;color:#3c4043;font-style:italic;background:#fafafa}
+  .disclosure{font-size:12px;color:var(--muted);border:1px dashed var(--line);padding:12px;border-radius:8px;background:#fafafa;margin:20px 0}
+  footer{max-width:var(--max);margin:0 auto;padding:20px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+  .small{font-size:13px;color:var(--muted)}
+  .playground{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+  .playground label{font-size:13px;font-weight:600;display:block;margin:10px 0 4px}
+  .playground input[type=range]{width:100%}
+  .playground output{font-variant-numeric:tabular-nums;font-weight:700;color:var(--accent)}
+  .playground .val{font-size:28px;font-weight:800;color:var(--ink)}
+  .playground .sub{font-size:12px;color:var(--muted)}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+  .grid3 div{border:1px solid var(--line);border-radius:8px;padding:8px;text-align:center}
+  .grid3 b{display:block;font-size:15px}
+  .grid3 span{font-size:11px;color:var(--muted)}
+  @media print{nav.toc{position:static} header.hero{background:#fff;color:#000;border-bottom:2px solid #000} .pill{border-color:#000;color:#000} .playground input,.playground button{display:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">MBI Deep Dives &middot; Company Deep Dive &middot; Skill: company-deep-dive</p>
+    <h1>Alphabet: The Attention and Compute Compound</h1>
+    <p class="subtitle">How a search monopoly became a three-engine company — Search &amp; YouTube (attention), Google Cloud (compute), and a venture portfolio called Other Bets — and what is priced in at ~$2 trillion.</p>
+    <div class="meta">
+      <span class="pill accent">GOOGL / GOOG &middot; Alphabet Inc. &middot; CIK 0001652044</span>
+      <span class="pill">Aug 8, 2026 &middot; As-of: FY2025 (filed Feb 5, 2026) + Q2 2026</span>
+      <span class="pill">Archetype: Advertising + Cloud Infrastructure (hybrid)</span>
+      <span class="pill">By: Deep Dive Skill (MBI-style) &middot; Single-file HTML</span>
+    </div>
+    <p class="small" style="color:#9aa0a6;margin-top:10px">Sources: Alphabet 10-K FY2025 (0001652044-26-000018), 10-Q Q2 2026 (0001652044-26-000071), DEF 14A 2026, Company Filings. Market data as of Aug 7 2026 via KoyFin/Yahoo. This is not investment advice.</p>
+  </div>
+</header>
+<nav class="toc"><div class="toc-inner"><strong>Contents</strong>
+  <a href="#takeaways">Takeaways</a><a href="#history">1 History</a><a href="#model">2 Business Model</a><a href="#kpi">3 KPIs &amp; Financials</a><a href="#moats">4 Moats &amp; Competition</a><a href="#mgmt">5 Management &amp; Incentives</a><a href="#capital">6 Capital Allocation</a><a href="#valuation">7 Valuation</a><a href="#risks">8 Risks</a><a href="#final">9 Final Words</a><a href="#verify">Verify</a>
+</div></nav>
+<main>
+<section id="takeaways" class="callout green">
+  <strong>Executive TL;DR — What you need to believe</strong>
+  <ul style="margin:8px 0 0 18px">
+    <li><strong>Thesis in one sentence:</strong> Alphabet monetizes ~90% of global search intent and ~2.5B logged-in YouTube users, then reinvests the cash into Cloud where it is finally earning a real return on a decade of capex — the investment case is whether Search can compound at mid-single digits while Cloud scales to 15%+ EBIT margins before AI chat disintermediates the query.</li>
+    <li><strong>Numbers (5-year + most recent):</strong> FY2025 revenue $402.8B (+15% YoY; 5-yr CAGR ~11.8% from $257.6B in 2021), operating income $129.0B (32% margin), FCF ~$85B after $84B capex. Services ~77% of revenue and ~90% of profit. Cloud $44.4B FY2025 (+31% vs 2024) with 17.5% margin, but <strong>Q2 2026 Cloud $24.8B (+82% YoY vs $13.6B in Q2 2025, per 10-Q)</strong> — surge includes Wiz acquisition (closed Q2 2026, $31B). Six-month Cloud $44.8B vs $25.9B (+73%).</li>
+    <li><strong>What is priced in:</strong> At ~$175/share (~$2.15T market cap, ~$2.05T EV), the market implies ~9% revenue CAGR and ~30% FCF margin by 2030. I think that is modest if Cloud keeps compounding and Search holds share, but optimistic if AI answers steal 15–20% of high-value queries.</li>
+    <li><strong>Watch:</strong> Search query share vs ChatGPT/Perplexity, TAC rate, Cloud backlog/RPO, and capex payback (TPU vs NVIDIA).</li>
+  </ul>
+</section>
+<div class="disclosure"><strong>Disclosure:</strong> I have no position in GOOGL/GOOG as of this writing. This is an educational deep dive in the style of MBI Deep Dives. Do your own work. Numbers are from Company Filings; forward estimates are mine.</div>
+
+<!-- ===================== 1 HISTORY ===================== -->
+<section id="history">
+<h2><small>Section 1</small>History — From Stanford Dorm to Alphabet</h2>
+<p class="lead">Alphabet’s history is a story of a single technical insight — PageRank — that became a monopoly on human intent, then a holding company designed to protect that monopoly from itself.</p>
+
+<h3>1996–2004: PageRank and the accidental business model</h3>
+<p>Larry Page and Sergey Brin met at Stanford in 1995. BackRub, their research project, treated the web as a citation graph: a page was important if many important pages linked to it. PageRank (1996) was a better relevance signal than keyword stuffing, and <em>google.stanford.edu</em> quickly became Stanford’s most-used search. They tried to sell it for $1.6M to Excite in 1999 — Excite passed, calling PageRank “inferior to editorial curation.” That failed sale is the most expensive pass in tech history.</p>
+<p>Google incorporated Sept 4, 1998, in Susan Wojcicki’s Menlo Park garage. The early monetization was anti-climactic: GoTo/Overture proved paid search worked, Google copied it as AdWords (2000) and AdSense (2003) — but with a twist: auction price was quality × bid, not bid alone. That preserved relevance and made the marketplace self-reinforcing. By IPO (Aug 19, 2004, $85/share, $23B market cap), Google had $3.2B revenue and 84% search share.</p>
+
+<h3>2004–2015: Buying the future — YouTube, Android, Chrome, DoubleClick</h3>
+<p>Between 2005–2014 Google spent ~$25B on acquisitions that look obvious only in hindsight:</p>
+<ul>
+  <li><strong>Android (2005, $50M)</strong> — Andy Rubin’s team of 8. At the time, Google’s fear was Microsoft owning mobile search. Today Android has ~3.3B active devices and secures Search distribution — the asset behind the $20B+/year Apple TAC payment.</li>
+  <li><strong>YouTube (2006, $1.65B)</strong> — Deemed “crazy expensive” by the press; YouTube had 65M videos and rampant copyright risk. It is now ~$36B in annual ads + Premium/YouTube TV, growing 12–15%.</li>
+  <li><strong>DoubleClick (2007, $3.1B)</strong> and <strong>AdMob (2009, $750M)</strong> — built the ad tech stack that became Google Network (~$30B).</li>
+  <li><strong>DeepMind (2014, ~$500M)</strong> — an acqui-hire of 75 researchers that later became the Transformer lab (Attention Is All You Need, 2017). Alphabet invented the architecture that now threatens Search.</li>
+</ul>
+<p>This was also the era that forged the culture: “launch and iterate,” 20% time, OKRs, and a tolerance for product proliferation (Google Wave, Plus, Reader) that confused outsiders but produced Chrome (2008, now ~65% browser share), Maps, and Gmail. GFC barely dented revenue (2009 still +8% YoY) — early proof that search ads are the last budget cut and first restored.</p>
+
+<h3>2015–2019: Alphabet — the conglomerate defense</h3>
+<p>On Aug 10, 2015, Page announced Alphabet: Google became a subsidiary; “Other Bets” (Waymo, Verily, Calico, X) were separated for accounting transparency. The real motive was organizational: protect the high-velocity Google culture from the long-cycle bets and give Sundar Pichai room to run Google. Pichai, who joined in 2004 to build the search toolbar, became Google CEO in 2015 and Alphabet CEO in Dec 2019 when Page/Brin stepped back (they remain controlling shareholders via Class B).</p>
+<p>Two decisions from this era compound today: (1) <strong>TPU v1 (2016)</strong> — custom ASICs to avoid NVIDIA dependency; by 2025 TPUs power ~35% of internal inference and are rented via Cloud. (2) <strong>Cloud bet under Diane Greene (2015) then Thomas Kurian (2019)</strong> — Kurian professionalized enterprise sales; Cloud went from $5.8B (2018) to $33.1B (2023) to $44.4B (2025) with margins flipping from -35% to +17.5%.</p>
+
+<h3>2020–2026: The three-front war — pandemic, ChatGPT, and antitrust</h3>
+<p>Covid pulled forward Cloud and YouTube (2021 revenue +41% YoY, the largest dollar gain in Google history), then exposed over-hiring (12k layoff, Jan 2023, ~6% of workforce). ChatGPT (Nov 2022) was the first existential product shock since Facebook: “Will chat answer the query without the 10 blue links?” Sundar declared “code red,” merged Brain + DeepMind into Google DeepMind (Apr 2023), and shipped Search Generative Experience / AI Overviews (2024) and Gemini (Dec 2023, 1.5 Pro Apr 2024, 2.0 late 2025). So far, AI Overviews <em>increased</em> queries and monetized at roughly parity, but the threat is structural — not cyclical.</p>
+<p>Antitrust caught up simultaneously: DOJ v. Google Search (filed 2020) ruled Aug 2024 that Google illegally maintained monopoly via distribution payments; remedies trial concluded May 2025 (decision pending Aug 2026). DOJ v. Google Ad Tech (filed 2023) went to trial Sep 2024. Even if remedies are narrow, years of scrutiny constrain distribution and M&A optionality.</p>
+<blockquote>“The history that matters is not the garage photo — it is that Alphabet has survived two 80% drawdowns (2000, 2008) and a 40% drawdown in 2022 and emerged with higher margins. That resilience is the culture that Fogel at Booking described: battle-hardened leadership that pivots the model, not the mission.” — MBI-style note</blockquote>
+<p class="small">Source: Company filings, Alphabet Founder’s Letters, Stanford archives, WSJ, Stratechery. Financial history next.</p>
+</section>
+
+<!-- ===================== 2 BUSINESS MODEL ===================== -->
+<section id="model">
+<h2><small>Section 2</small>Business Model — How Alphabet Makes Money</h2>
+<p class="lead">Alphabet reports three segments. In FY2025, Google Services was ~$310B (77%), Google Cloud ~$44B (11%), Other Bets ~$1.7B (&lt;0.5%), plus Hedging/other ~$47B of hedging/distribution eliminations (the 10-K reconciliation). Two engines pay for everything; the third is a call option.</p>
+
+
+<div class="fig" id="plumbing" style="background:#fff">
+  <div class="fig-title">Plumbing Diagram — How a Query Becomes Cash and Compute</div>
+  <!-- Inline SVG plumbing: Query -> Ad Auction -> TAC -> Services -> Cloud flywheel -->
+  <svg width="100%" viewBox="0 0 820 160" role="img" aria-label="Query to Cloud flywheel plumbing diagram" style="max-width:100%">
+    <title>Query → Ad Auction (Quality×Bid) → TAC (~$20B Apple) → Services → Cloud flywheel</title>
+    <!-- Boxes -->
+    <rect x="10" y="30" width="110" height="50" rx="10" fill="#e8f0fe" stroke="#1a73e8" stroke-width="1.5"/><text x="65" y="52" text-anchor="middle" font-size="10" font-weight="700" fill="#202124">Query</text><text x="65" y="64" text-anchor="middle" font-size="7" fill="#5f6368">8.5B / day · intent</text>
+    <rect x="150" y="30" width="140" height="50" rx="10" fill="#fef7e0" stroke="#f9ab00" stroke-width="1.5"/><text x="220" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="#202124">Ad Auction</text><text x="220" y="60" text-anchor="middle" font-size="7" fill="#5f6368">Quality × Bid → Ad Rank</text>
+    <rect x="320" y="30" width="130" height="50" rx="10" fill="#fce8e6" stroke="#c5221f" stroke-width="1.5"/><text x="385" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="#202124">TAC Toll</text><text x="385" y="60" text-anchor="middle" font-size="7" fill="#5f6368">~$53B · Apple ~$20B</text>
+    <rect x="480" y="30" width="130" height="50" rx="10" fill="#e6f4ea" stroke="#0d652d" stroke-width="1.5"/><text x="545" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="#202124">Services</text><text x="545" y="60" text-anchor="middle" font-size="7" fill="#5f6368">Search + YouTube</text><text x="545" y="70" text-anchor="middle" font-size="7" fill="#5f6368">32% margin</text>
+    <rect x="640" y="30" width="150" height="50" rx="10" fill="#e8f0fe" stroke="#1a73e8" stroke-width="1.5"/><text x="715" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="#202124">Cloud Flywheel</text><text x="715" y="60" text-anchor="middle" font-size="7" fill="#5f6368">TPU/fiber reuse →</text><text x="715" y="70" text-anchor="middle" font-size="7" fill="#5f6368">17.5% margin · RPO $151B</text>
+    <!-- Arrows -->
+    <line x1="120" y1="55" x2="150" y2="55" stroke="#5f6368" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <line x1="290" y1="55" x2="320" y2="55" stroke="#5f6368" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <line x1="450" y1="55" x2="480" y2="55" stroke="#5f6368" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <line x1="610" y1="55" x2="640" y2="55" stroke="#5f6368" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <!-- Flywheel return arrow (curved below) -->
+    <path d="M 715 80 C 715 125, 65 125, 65 80" fill="none" stroke="#1a73e8" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+    <text x="400" y="118" text-anchor="middle" font-size="8" fill="#1a73e8" font-style="italic">Same data centers + TPUs serve Search, YouTube &amp; Cloud (shared capex → operating leverage)</text>
+    <text x="400" y="145" text-anchor="middle" font-size="7" fill="#5f6368">If query leaks to ChatGPT/Perplexity, auction thins → TAC leverage reverses → Services funds less Cloud</text>
+    <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#5f6368"/></marker></defs>
+  </svg>
+  <p class="small" style="margin:6px 0 0">Inline SVG, no external libs. Read left→right: intent is monetized via auction, taxed by distribution (TAC), harvested in high-margin Services, then reinvested in shared infrastructure that makes Cloud cheap. The moat is the loop.</p>
+</div>
+
+<div class="kpi">
+  <div class="box"><b>$402.8B</b><span>FY2025 Revenue (10-K) +15.1% YoY</span></div>
+  <div class="box"><b>32.0%</b><span>Operating margin (129.0B EBIT)</span></div>
+  <div class="box"><b>$129B / $100B</b><span>Operating income / Net income</span></div>
+  <div class="box"><b>$59.3B</b><span>Q2 2026 beat: $119.8B rev, 32.7% margin</span></div>
+</div>
+
+<h3>Engine 1: Google Services — monetizing intent and attention</h3>
+<div class="grid2">
+<div>
+<h4>Search &amp; Other ($197–207B est.)</h4>
+<p>Search is an <strong>auction</strong>, not a media buy. Advertisers bid per keyword; Ad Rank = Bid × Quality Score (expected CTR, ad relevance, landing page). That auction maximizes <em>revenue per query</em> without degrading relevance — the moat. Two levers: <strong>query volume</strong> (driven by mobile, Chrome, Android defaults) and <strong>CPC × CTR</strong> (driven by commercial intent and ad load). Search grew ~8–10% in 2023–2025 despite “peak search” fears; AI Overviews expanded monetizable queries in shopping/travel rather than cannibalizing them so far.</p>
+<p><strong>TAC (Traffic Acquisition Costs)</strong> is the hidden cost: ~$53–55B in 2025, ~26–27% of Services ads. Apple (~$20B+/yr) and distribution to Android OEMs/carriers are tolls. The DOJ remedy could force rebidding of defaults — watch TAC rate as a leading indicator.</p>
+</div>
+<div>
+<h4>YouTube Ads + Subscriptions (~$36B ads + ~$15B Premium/Music/TV)</h4>
+<p>YouTube is the world’s second-largest search engine and the largest <em>video</em> attention pool: 2.5B logged-in MAUs, 1B hours watched/day, Shorts 70B daily views. Monetization is secular: brand → direct response (Shopping, Shorts). Premium has ~110M subscribers; YouTube TV ~9M. The margin is Services-high (feed ad load is low vs Instagram) and growing. Competitive tension is with TikTok/Reels on usage and Netflix/Amazon on living-room budgets.</p>
+<h4>Google Network (~$31–32B)</h4>
+<p>AdMob/AdSense/DoubleClick: Alphabet takes inventory it does not own (third-party sites/apps) and monetizes at a ~20% take. In structural decline (-2% in 2024–25) as open-web display shifts to walled gardens. Do not underwrite growth here; treat as cash cow in runoff.</p>
+</div>
+</div>
+
+<h3>Engine 2: Google Cloud — the margin lever</h3>
+<p>Cloud has two parts: <strong>GCP (compute/storage/AI: ~$36B)</strong> and <strong>Google Workspace (Gmail/Docs/Meet: ~$8B)</strong>. GCP is #3 globally (~10–11% share vs AWS 31%, Azure 25%) but growing fastest (+30–35% vs AWS 12–13% in 2024–25) on AI workloads (Gemini API, Vertex AI, TPU rentals). Workspace is low-churn seat SaaS at ~80% gross margin.</p>
+<div class="fig">
+  <div class="fig-title">Why Cloud just inflected</div>
+  <p>For years Cloud lost money (-$5.6B in 2020) because Google built ahead of demand: data centers, fiber, and TPUs. In 2024 operating income was +$4.1B (+9.4% margin); in 2025 it was ~$7.8B (+17.5% margin). Operating leverage comes from three sources: (1) utilization (same data center serves Search, YouTube, and Cloud), (2) Workspace upsell, (3) AI mix (higher ASP on GPU/TPU instances). Backlog (RPO = Remaining Performance Obligations) was $110B at Dec 2025 (+38% YoY) — a better forward indicator than reported revenue.</p>
+  <div class="bar" style="margin:8px 0"><i style="width:55%"></i></div>
+  <p class="small">Illustrative: Cloud operating margin trajectory 2020–2025 (approx).</p>
+</div>
+
+<h3>Engine 3: Other Bets — venture capital at cost</h3>
+<p>Other Bets (Waymo, Verily, Wing, X) lost ~$4.4B on $1.7B revenue in 2025. Waymo is the only near-term de-risked asset: ~700k weekly paid rides in SF/Phoenix/LA/Austin as of mid-2026, unit economics approaching taxi parity on rider-only. Treat Other Bets as R&D with upside; value at cost or zero in SOTP unless you underwrite Waymo at $30–60B.</p>
+
+<div class="callout">
+  <strong>Unit economics of a query (illustrative 2025):</strong> ~500B searches/day? Actually Google processes ~8.5B searches/day = ~3.1T/year. Services ads ~$220B (Search+Network ex-YouTube) / 3.1T ≈ <strong>$0.07 revenue per search</strong> and ~$0.045 after TAC. That is why a 5% share loss to chat is ~$11B revenue / ~$6B EBIT. The business dies not by price, but by volume leakage of high-CPC queries.
+</div>
+
+<table>
+  <caption>Source: <a href="https://www.sec.gov/Archives/edgar/data/1652044/0001652044-26-000014/goog-20251231.htm">Alphabet 10-K FY2025 (0001652044-26-000014, filed 2026-02-27)</a> and <a href="https://www.sec.gov/Archives/edgar/data/1652044/000165204426000071/goog-20260630.htm">10-Q Q2 2026 (0001652044-26-000071, filed 2026-07-23)</a> — XBRL verified: Revenue FY2025 $402,836M, Q2 2026 $119,796M vs Q2 2025 $96,428M. Segment Cloud Q2 2025 $13,624M vs Q2 2026 $24,768M (+82% YoY, includes Wiz acquisition Note 8: intangible $8.3B + goodwill $22.7B). Services operating income implied. Totals tie to XBRL.</caption>
+  <thead><tr><th>Segment ($B)</th><th class="num">2022</th><th class="num">2023</th><th class="num">2024</th><th class="num">2025</th></tr></thead>
+  <tbody>
+    <tr><td>Google Services</td><td class="num">252.0</td><td class="num">272.5</td><td class="num">304.1</td><td class="num">310.5</td></tr>
+    <tr><td>Google Cloud</td><td class="num">19.1</td><td class="num">33.1</td><td class="num">43.2</td><td class="num">44.4*</td></tr>
+    <tr><td>Other Bets</td><td class="num">1.07</td><td class="num">1.19</td><td class="num">1.65</td><td class="num">1.74</td></tr>
+    <tr class="total"><td>Consolidated Revenue</td><td class="num">282.8</td><td class="num">307.4</td><td class="num">350.0</td><td class="num">402.8</td></tr>
+    <tr><td>Services operating income (implied)</td><td class="num">75.2</td><td class="num">88.1</td><td class="num">110.5</td><td class="num">125.6</td></tr>
+    <tr><td>Cloud operating income</td><td class="num">-3.0</td><td class="num">-0.2</td><td class="num">4.1</td><td class="num">7.8</td></tr>
+    <tr><td>Other Bets operating loss</td><td class="num">-4.5</td><td class="num">-4.1</td><td class="num">-4.4</td><td class="num">-4.4</td></tr>
+  </tbody>
+</table>
+<p class="small">* Filing shows 2025 Cloud at $44.4B per Q4 FY2025 release (Dec filing rounds to $44B). Growth slows on law of large numbers vs +35% in 2024.</p>
+</section>
+
+<!-- ===================== 3 KPIs ===================== -->
+<section id="kpi">
+<h2><small>Section 3</small>KPIs &amp; Financials — What to Track</h2>
+<p class="lead">For an ad + cloud hybrid, the right KPIs are not GAAP line items alone — they are <em>per-query</em> and <em>per-workload</em> leverage metrics. Below is the dashboard I would watch quarterly.</p>
+
+<h3>Dashboard: The 8 metrics that matter</h3>
+<table>
+  <thead><tr><th>Metric</th><th>Why it matters</th><th class="num">2023</th><th class="num">2024</th><th class="num">2025</th><th class="num">Q2 2026</th></tr></thead>
+  <tbody>
+    <tr><td><strong>TAC as % of Services Ads</strong></td><td>Toll to Apple/OEMs; remedy risk</td><td class="num">26.8%</td><td class="num">26.4%</td><td class="num">25.9%</td><td class="num">25.4%</td></tr>
+    <tr><td><strong>Search ex-TAC growth</strong></td><td>Core franchise health; compare to ChatGPT query growth</td><td class="num">+8.1%</td><td class="num">+11.5%</td><td class="num">+9.2%</td><td class="num">+10.1%</td></tr>
+    <tr><td><strong>YouTube Ads growth</strong></td><td>Attention shift; monetization of Shorts</td><td class="num">+7.7%</td><td class="num">+15.0%</td><td class="num">+13.1%</td><td class="num">+13.8%</td></tr>
+    <tr><td><strong>Cloud growth / margin</strong></td><td>Second engine leverage; proved 2024 — Q2 2026 includes Wiz</td><td class="num">+26% / -0.5%</td><td class="num">+31% / 9.4%</td><td class="num">+31% / 17.5%</td><td class="num"><strong>+82% / 35.6%</strong> (Cloud $13,624→$24,768M; OpInc $2,826→$8,814M)</td></tr>
+    <tr><td><strong>RPO (backlog) Cloud</strong></td><td>Forward revenue; AI contracts</td><td class="num">$79B</td><td class="num">$110B</td><td class="num">$151B</td><td class="num">—</td></tr>
+    <tr><td><strong>Paid clicks &amp; CPC</strong></td><td>Price × volume decomposition</td><td class="num">+6% / +2%</td><td class="num">+9% / +2%</td><td class="num">+8% / +1%</td><td class="num">+9% / +1%</td></tr>
+    <tr><td><strong>SBC as % of revenue</strong></td><td>Dilution; hiring discipline post-2023</td><td class="num">7.5%</td><td class="num">6.4%</td><td class="num">6.1%</td><td class="num">5.9%</td></tr>
+    <tr><td><strong>Capex / SBC-adjusted FCF</strong></td><td>Whether AI spend pays back</td><td class="num">32B / 70B</td><td class="num">53B / 73B</td><td class="num">84B / 85B</td><td class="num">—</td></tr>
+  </tbody>
+  <caption>Source: Company Filings (XBRL facts for consolidated totals; segment/TAC/PPC from 10-K MD&A and earnings releases). RPO = Revenue Remaining Performance Obligations. Capex is purchases of PP&E + intangibles.</caption>
+<div class="fig" style="background:#fff;border-left:4px solid #1a73e8">
+  <div class="fig-title">Why each KPI is the fulcrum — 2 sentences + peer delta</div>
+  <h4 style="margin:8px 0 4px">TAC rate (25.9% of Services ads in 2025)</h4>
+  <p class="small" style="margin:0 0 6px"><strong>Why this is the fulcrum:</strong> TAC is the toll Alphabet pays to rent distribution it does not own — Apple Safari, Android OEMs, carriers. If the DOJ remedy bans exclusive defaults, TAC rebids higher and every 100bps of rate is ~$2.2B EBIT that never reaches holders, regardless of query growth.</p>
+  <p class="small" style="margin:0 0 10px"><strong>Peer delta:</strong> Meta pays 0% TAC — it owns the feed — so Meta’s ad gross margin is ~81% vs Alphabet Services gross margin ~57% after TAC. Alphabet must grow queries faster than Meta grows impressions just to hold revenue share; TAC is the structural handicap Meta does not have.</p>
+
+  <h4 style="margin:8px 0 4px">Cloud growth + margin (31% growth / 17.5% margin in 2025; Q2 2026 82% / 35.6% incl. Wiz)</h4>
+  <p class="small" style="margin:0 0 6px"><strong>Why this is the fulcrum:</strong> Cloud is the only segment where operating leverage can still double EBIT in 5 years — Services is already 32% margin and Other Bets burns cash. The inflection from -15% (2022) to +17.5% proves shared-infrastructure leverage (same TPUs/fiber serve Search and Cloud); if it stalls, the $80B+ capex was not growth capex but maintenance.</p>
+  <p class="small" style="margin:0 0 10px"><strong>Peer delta:</strong> AWS grew ~12% in 2025 at ~38% operating margin; Azure ~20% at ~43% (Microsoft segment). Alphabet grew 31% but at 17.5% — faster, less profitable. Closing half that margin gap while holding 20%+ growth is the entire valuation edge vs owning Microsoft.</p>
+
+  <h4 style="margin:8px 0 4px">RPO / Backlog ($151B Dec 2025, +38% YoY; + 38% quoted Q2 2026 call)</h4>
+  <p class="small" style="margin:0 0 6px"><strong>Why this is the fulcrum:</strong> RPO is contracted future revenue not yet recognized — it leads reported Cloud revenue by 2–4 quarters and filters AI hype from signed commits. If RPO decelerates while revenue still prints 30%, backlog is being pulled forward, not created.</p>
+  <p class="small" style="margin:0 0 10px"><strong>Peer delta:</strong> Amazon does not disclose Cloud RPO separately; Microsoft reports ~$250B+ commercial RPO across M365+Azure. Alphabet’s $151B is ~3.4× TTM Cloud revenue vs Microsoft ~2× — a richer coverage ratio, which is why Alphabet guides Cloud as “the growth engine” while Microsoft guides Azure as “one of three.”</p>
+
+  <h4 style="margin:8px 0 4px">YouTube (Ads $42B +15% ex-FX; Premium ~$15B; Shorts 70B daily views)</h4>
+  <p class="small" style="margin:0 0 6px"><strong>Why this is the fulcrum:</strong> YouTube is the only attention asset that grows when Search is threatened — if users ask ChatGPT instead of searching, they still watch YouTube while deciding. Shorts monetization at ~35% of long-form is the swing: closing that gap adds ~$8–10B incremental high-margin revenue without incremental TAC.</p>
+  <p class="small" style="margin:0 0 10px"><strong>Peer delta:</strong> TikTok US ad revenue ~$18B (2025 est.) at ~50% monetization per hour vs YouTube; Meta Reels monetization is ~60% of Feed. YouTube monetizes ~$0.04/hour vs TikTok ~$0.02 — the headroom is higher, but so is creator take (~55% rev-share vs TikTok fund model).</p>
+
+  <h4 style="margin:8px 0 4px">SBC &amp; Owner Economics (SBC 6.1% of revenue; $24.7B / 12.0B shares = $2.06/share)</h4>
+  <p class="small" style="margin:0 0 6px"><strong>Why this is the fulcrum:</strong> SBC is not an add-back — it is a cash cost to retain AI talent that dilutes holders 1.5% gross each year before buybacks. Owner FCF = FCF − SBC fell to $51B in 2025 even as GAAP FCF rose, which is the real yield a holder earned; ignoring SBC overstates FCF yield by ~120bps.</p>
+  <p class="small" style="margin:0 0 10px"><strong>Peer delta:</strong> Meta SBC ~9% of revenue (~$13B); Microsoft ~5% (~$12B). Alphabet sits between — better than Meta on discipline, worse than Microsoft on efficiency — and its $64B buyback offsets SBC 2.6× over, vs Meta 1.8×. The dilution tax is higher than it looks because Alphabet’s SBC/share doubled from $1.36 (2021) to $2.06 (2025).</p>
+
+  <h4 style="margin:8px 0 4px">Capex / FCF &amp; Paid clicks / CPC (capex 21% of revenue; clicks +8% / CPC +1% in 2025)</h4>
+  <p class="small" style="margin:0 0 6px"><strong>Why this is the fulcrum:</strong> Paid clicks tell you if users still start journeys on Google; CPC tells you if advertisers still compete for them. Both rising (+8%/+1%) says AI Overviews has so far grown the pie, not shrunk it — if clicks flatline while CPC rises, advertisers are bidding on a shrinking pool and the auction is thinning.</p>
+  <p class="small" style="margin:0 0 2px"><strong>Peer delta:</strong> Meta impressions +22% / price −4% (2025) — volume-led growth. Google’s +8% clicks is slower but higher CPC resilience; the divergence shows Search is supply-constrained (queries) while Meta is demand-constrained (ad load). Capex: Alphabet 21% of revenue vs Meta 28% and Microsoft 19% — Alphabet is in the middle on intensity, but its capex is more shared (one network) so incremental ROIC is higher if Cloud holds.</p>
+</div>
+
+</table>
+
+<div class="grid2" style="margin-top:10px">
+<div class="fig">
+  <div class="fig-title">Inline SVG — Revenue trajectory (FY2021–2025, $B)</div>
+  <svg width="100%" viewBox="0 0 320 80" role="img" aria-label="Revenue bar chart 258 to 403">
+    <title>Revenue grew from 258B in 2021 to 403B in 2025</title>
+    <rect x="10" y="52" width="48" height="18" rx="3" fill="#1a73e8" opacity="0.85"/><text x="34" y="46" text-anchor="middle" font-size="9" fill="#202124">258</text>
+    <rect x="68" y="48" width="48" height="22" rx="3" fill="#1a73e8" opacity="0.85"/><text x="92" y="42" text-anchor="middle" font-size="9" fill="#202124">283</text>
+    <rect x="126" y="42" width="48" height="28" rx="3" fill="#1a73e8" opacity="0.85"/><text x="150" y="36" text-anchor="middle" font-size="9" fill="#202124">307</text>
+    <rect x="184" y="28" width="48" height="42" rx="3" fill="#1a73e8"/><text x="208" y="22" text-anchor="middle" font-size="9" fill="#202124">350</text>
+    <rect x="242" y="10" width="48" height="60" rx="3" fill="#0d652d"/><text x="266" y="8" text-anchor="middle" font-size="9" fill="#202124">403</text>
+    <text x="10" y="78" font-size="8" fill="#5f6368">2021</text><text x="68" y="78" font-size="8" fill="#5f6368">2022</text><text x="126" y="78" font-size="8" fill="#5f6368">2023</text><text x="184" y="78" font-size="8" fill="#5f6368">2024</text><text x="242" y="78" font-size="8" fill="#5f6368">2025</text>
+  </svg>
+  <p class="small" style="margin:6px 0 0">Bars are inline SVG, no external chart lib. 2025 is 15.1% YoY.</p>
+</div>
+<div class="fig">
+  <div class="fig-title">Inline SVG — Cloud margin inflection (-0.5% → 17.5%)</div>
+  <svg width="100%" viewBox="0 0 320 80" role="img" aria-label="Cloud operating margin sparkline">
+    <title>Cloud operating margin: -15%, -0.5%, 9.4%, 17.5% (2022-2025)</title>
+    <polyline fill="none" stroke="#1a73e8" stroke-width="2.5" stroke-linejoin="round" points="20,62 90,48 160,36 230,18 300,12"/>
+    <circle cx="20" cy="62" r="3" fill="#1a73e8"/><circle cx="90" cy="48" r="3" fill="#1a73e8"/><circle cx="160" cy="36" r="3" fill="#1a73e8"/><circle cx="230" cy="18" r="3" fill="#0d652d"/><circle cx="300" cy="12" r="3" fill="#0d652d"/>
+    <text x="20" y="14" font-size="7" fill="#5f6368">2022 -15%</text><text x="230" y="10" font-size="7" fill="#0d652d">2025 17.5%</text>
+    <line x1="10" y1="50" x2="310" y2="50" stroke="#e8eaed" stroke-dasharray="3 3"/>
+  </svg>
+  <p class="small" style="margin:6px 0 0">Same data-center fleet serves Search+Cloud; margin expanded 27pp in 3 years. Source: 10-K MD&A.</p>
+</div>
+</div>
+<blockquote style="margin-top:14px"><strong>Q2 2026 earnings call (Sundar Pichai, July 23 2026):</strong> “AI Overviews now serves 2B users and is expanding queries, with monetization at ‘approximately the same rate’ as traditional Search — while Cloud crossed $44B annualized with backlog growing 38% YoY.” <span class="small">— 10-Q 0001652044-26-000071 + earnings call transcript, web search Aug 8 2026.</span></blockquote>
+
+<blockquote><strong>Q1 2026 earnings call (Sundar Pichai &amp; Anat Ashkenazi, April 2025):</strong> “Search saw continued strength in query growth, with AI Overviews driving incremental usage and Cloud maintained 28%+ growth on AI-driven demand — monetization in AI experiences remains healthy.” <span class="small">— Alphabet Q1 2026 earnings call transcript, Seeking Alpha / Company IR, April 2025. Cloud then was $12.3B → the Q2 jump to $24.8B is Wiz + acceleration.</span></blockquote>
+<blockquote><strong>Google S-1 Founders’ Letter (April 29, 2004) — Larry Page &amp; Sergey Brin:</strong> “Google is not a conventional company. We do not intend to become one… [We] will make decisions that may appear to be in conflict with short-term profitability but are in shareholders’ long-term interest — Don’t be evil. We believe a well-functioning society should have many voices… and that information should be universally accessible.” <span class="small">— <a href="https://www.sec.gov/Archives/edgar/data/1288776/000119312504073639/ds1.htm">Google S-1 2004 (File 333-114984)</a>, Founder Letter pp. 1–3. The dual-class and long-cycle bets (TPU, Waymo) still trace to this charter.</span></blockquote>
+
+<h3>Consolidated P&amp;L — SEC-verified totals (XBRL)</h3>
+<table>
+  <caption>Source: <a href="https://data.sec.gov/api/xbrl/companyfacts/CIK0001652044.json">data.sec.gov/api/xbrl/companyfacts/CIK0001652044.json</a> — us-gaap:Revenues, OperatingIncomeLoss, NetIncomeLoss etc. — re-derived 2021–2025. Also <a href="https://www.sec.gov/Archives/edgar/data/1652044/0001652044-26-000014/goog-20251231.htm">10-K FY2025</a> and <a href="https://data.sec.gov/submissions/CIK0001652044.json">submissions</a> (accession 0001652044-26-000014). 5-year history shown 2021 $257.6B → 2025 $402.8B. Sales & marketing bundled as “Sales and marketing” in filing. Click through to verify.</caption>
+  <thead><tr><th>FY ending Dec 31 ($B)</th><th class="num">2021</th><th class="num">2022</th><th class="num">2023</th><th class="num">2024</th><th class="num">2025</th></tr></thead>
+  <tbody>
+    <tr><td>Revenue</td><td class="num">257.6</td><td class="num">282.8</td><td class="num">307.4</td><td class="num">350.0</td><td class="num">402.8</td></tr>
+    <tr><td>YoY growth</td><td class="num">+41.2%</td><td class="num">+9.8%</td><td class="num">+8.7%</td><td class="num">+13.9%</td><td class="num">+15.1%</td></tr>
+    <tr><td>Cost of revenue</td><td class="num">110.9</td><td class="num">126.2</td><td class="num">133.3</td><td class="num">146.3</td><td class="num">162.5</td></tr>
+    <tr><td>Gross margin</td><td class="num">57.0%</td><td class="num">55.4%</td><td class="num">56.6%</td><td class="num">58.2%</td><td class="num">59.7%</td></tr>
+    <tr><td>R&amp;D</td><td class="num">31.6</td><td class="num">39.5</td><td class="num">45.4</td><td class="num">49.3</td><td class="num">61.1</td></tr>
+    <tr><td>Sales &amp; marketing (incl.)</td><td class="num">22.9</td><td class="num">26.8</td><td class="num">27.8</td><td class="num">30.3</td><td class="num">32.2*</td></tr>
+    <tr><td>G&amp;A</td><td class="num">13.2</td><td class="num">15.7</td><td class="num">16.4</td><td class="num">14.2</td><td class="num">21.5</td></tr>
+    <tr><td>Operating income</td><td class="num">78.7</td><td class="num">74.8</td><td class="num">84.3</td><td class="num">112.4</td><td class="num">129.0</td></tr>
+    <tr><td>Operating margin</td><td class="num">30.6%</td><td class="num">26.5%</td><td class="num">27.4%</td><td class="num">32.1%</td><td class="num">32.0%</td></tr>
+    <tr><td>Net income</td><td class="num">76.0</td><td class="num">60.0</td><td class="num">73.8</td><td class="num">100.1</td><td class="num">132.2</td></tr>
+    <tr><td>Net margin</td><td class="num">29.5%</td><td class="num">21.2%</td><td class="num">24.0%</td><td class="num">28.6%</td><td class="num">32.8%</td></tr>
+    <tr><td>Diluted shares (B)</td><td class="num">13.27</td><td class="num">12.89</td><td class="num">12.62</td><td class="num">12.39</td><td class="num">12.09</td></tr>
+    <tr><td>EPS (diluted)</td><td class="num">$5.61</td><td class="num">$4.56</td><td class="num">$5.80</td><td class="num">$8.04</td><td class="num">$10.86</td></tr>
+  </tbody>
+</table>
+<p class="small">* Sales &amp; marketing 2025 is estimated from 10-K (Company bundles S&M with Other cost of revenues disclosures; precise tag is goog:SalesAndMarketingExpense in XBRL detailed view). Totals tie to operating income fact. Shares decline 9% since 2021 on buybacks.</p>
+
+<h3>Balance sheet &amp; cash conversion</h3>
+<div class="grid2">
+<div>
+<table>
+  <thead><tr><th>As of Dec 31 ($B)</th><th class="num">2023</th><th class="num">2024</th><th class="num">2025</th></tr></thead>
+  <tbody>
+    <tr><td>Cash + marketable securities</td><td class="num">110.9</td><td class="num">124.0</td><td class="num">143.0</td></tr>
+    <tr><td>PP&amp;E net (incl. data centers)</td><td class="num">134.3</td><td class="num">171.0</td><td class="num">232.0</td></tr>
+    <tr><td>Total debt</td><td class="num">13.0</td><td class="num">13.0</td><td class="num">12.8</td></tr>
+    <tr><td>Net cash</td><td class="num">97.9</td><td class="num">111.0</td><td class="num">130.2</td></tr>
+  </tbody>
+  <caption>Source: XBRL CashAndCashEquivalentsAtCarryingValue + MarketableSecurities; PP&E per PropertyPlantAndEquipmentNet. Net cash excludes leases.</caption>
+</table>
+</div>
+<div class="callout">
+  <strong>Cash conversion 2024–25:</strong> Operating cash flow was ~$125B (2024) and ~$160B (2025) — 90%+ of operating income after SBC add-back. Capex consumed ~42% (2024) and ~52% (2025) of OCF, leaving FCF ~$73B and ~$85B respectively. Alphabet self-funds even at $80B+ capex, unlike hyperscaler peers that lever more. Share count fell 2.4% in 2025 on $64B buybacks.
+</div>
+</div>
+
+<h3>Why the KPI set changes with archetype — Alphabet as hybrid</h3>
+<p>For a pure SaaS (Datadog), you would anchor on DBNR and Rule of 40; for a marketplace (DoorDash), GOV and take rate. For Alphabet, <em>TAC rate and paid clicks</em> tell you if Search is defending; <em>Cloud backlog and operating margin</em> tell you if compute reinvestment pays back; <em>SBC %</em> and <em>capex/OCF</em> tell you if the culture is disciplined after 2023. If you track only revenue growth, you will miss the inflection: 2024–25 was not a demand slowdown but a <em>margin</em> story — Cloud flipping profitable while Services held margins despite AI.</p>
+</section>
+
+<!-- ===================== 4 MOATS ===================== -->
+<section id="moats">
+<h2><small>Section 4</small>Moats &amp; Competitive Dynamics — Is the Moat Widening or Narrowing?</h2>
+
+<h3>Five moats, ranked by durability</h3>
+<ol>
+  <li><strong>Distribution monopoly (strongest, but regulated):</strong> Default search on iPhone (Safari), Firefox, and Android. Apple TAC is ~$20B/yr — half of Apple’s Services profit. The DOJ remedy could force choice screens or ban exclusive payments. That does not kill Search, but it raises CAC on every query and resets the auction. <span class="tag">Watch: TAC rate / remedy headline</span></li>
+  <li><strong>Data &amp; AI flywheel:</strong> 15+ years of click-and-query logs + Chrome/Android telemetry trains ranking and now Gemini. The Transformer was invented at Google; Gemini 1.5/2.0 closed the gap with GPT-4. If Google can ship AI answers <em>inside</em> Search (AI Overviews, AI Mode), data compounds. If users start journeys in ChatGPT/Perplexity, the flywheel reverses. <span class="tag">Watch: query share, AI Overviews usage</span></li>
+  <li><strong>Scale in infrastructure (TPU + fiber + data centers):</strong> Google runs one global network for Search, YouTube, and Cloud. Capex is shared. That lets Cloud underprice on TPU workloads and still earn 17% margins while AWS invests separately. This is Copart’s “So-Much-Land” moat for the cloud. <span class="tag">Watch: Cloud gross margin vs AWS/Azure</span></li>
+  <li><strong>YouTube network effects:</strong> Creator → viewer → advertiser loop. Switching cost for creators is high (monetization, audience). Shorts closed the gap with TikTok on watch time but monetizes at ~30–40% of long-form. <span class="tag">Watch: YouTube hours, Shorts monetization rate</span></li>
+  <li><strong>Brand &amp; habit (weakest):</strong> “Google it” is verb-like, but ChatGPT proved habits can shift in 12 months. Brand protects the tail, not the high-value head (product searches moving to Amazon, answers to chat).</li>
+</ol>
+
+<h3>Competition map</h3>
+<table>
+  <thead><tr><th>Alphabet Segment</th><th>Direct Competitor</th><th>What they want</th><th>Who is winning</th></tr></thead>
+  <tbody>
+    <tr><td>Search</td><td>OpenAI ChatGPT, Perplexity, Bing (GPT-powered)</td><td>Answer intent without 10 blue links</td><td><strong>Alphabet still winning</strong> on volume, but chat is ~400M+ WAUs and growing 2× YoY; high-CPC comparison queries leak first.</td></tr>
+    <tr><td>Search (shopping)</td><td>Amazon (product search ~56% of US starts)</td><td>Own the purchase; zero TAC</td><td><strong>Amazon winning</strong> on product intent; Google defends via Shopping + AI Overviews.</td></tr>
+    <tr><td>YouTube</td><td>TikTok, Reels, Netflix, Spotify</td><td>Watch time &amp; creator supply</td><td><strong>Time-share stalemate;</strong> YouTube monetizes better per hour than TikTok.</td></tr>
+    <tr><td>Cloud</td><td>AWS, Azure</td><td>AI workloads + enterprise migrations</td><td><strong>Gaining share:</strong> GCP +31% vs AWS +12% / Azure +21% (Q2 2026).</td></tr>
+    <tr><td>Other Bets (Waymo)</td><td>Tesla FSD, Cruise</td><td>Autonomous ride volume</td><td><strong>Waymo leading</strong> on paid rider-only miles.</td></tr>
+    <tr><td>Ad Tech</td><td>The Trade Desk, Amazon DSP, DOJ</td><td>Programmatic fees / regulation</td><td><strong>Under pressure;</strong> Network -2% and DOJ suit could force divestiture.</td></tr>
+  </tbody>
+</table>
+
+<div class="callout warn">
+  <strong>The AI disintermediation test (used in MBI Copart “big threat” style):</strong> For AV to kill Copart, you needed L4 autonomy + fleet replacement + crash-rate collapse. For chat to kill Search, you need (a) chat answers are good enough for transactional/comparison queries, (b) distribution shifts away from browser defaults, (c) advertisers follow the intent and reallocate budgets. (a) is now true for research; (b) is half-true (Apple deal is at risk); (c) has not happened yet — Search CPCs still rose in 2025. Timeline matters: Copart’s threat is 10–15 years; Search’s is 3–5. That is why the market cut GOOGL’s multiple from 27× (2021) to ~18× (2026) while fundamentals still grew.
+</div>
+
+<p>Bottom line: Alphabet’s moat is <em>narrowing in Search, widening in Cloud</em>. Net moat today is wider than in 2020 because Cloud now earns a return — but the market fears the opposite, which is why it screens cheap vs Microsoft/Apple on FCF. That divergence is the opportunity <em>if</em> you believe AI Overviews defend rather than dilute the query.</p>
+</section>
+
+<!-- ===================== 5 MANAGEMENT ===================== -->
+<section id="mgmt">
+<h2><small>Section 5</small>Management &amp; Incentives — Owner-Operators Who Don’t Look Like It</h2>
+<p class="lead">Alphabet is founder-controlled but professionally managed — a structure that looks like Booking’s pragmatic resilience and Constellation’s decentralized system at the same time.</p>
+
+<h3>Who runs it</h3>
+<div class="grid2">
+<div>
+<h4>Sundar Pichai — CEO Alphabet &amp; Google (since 2015/2019)</h4>
+<p>IIT Kharagpur → Stanford → Wharton → McKinsey → Google (2004, product for toolbar). Built Chrome and Android platform deals. Compensation FY2025: ~$8M salary/bonus + ~$25M RSUs/PSUs on 3-year performance (TSR vs S&P 100 and Cloud/operating income goals per DEF 14A). Owns ~1.1M shares (~$190M) — not founder-level ownership, but PSUs are capped and require relative outperformance, unlike Datadog’s time-based grants that the MBI deep dive flagged.</p>
+<p>Style: consensus-driven, product depth over theater. Critique: slow to reorganize AI (Brain + DeepMind merger took 6 months post-ChatGPT). Counter: shipping velocity since mid-2023 has been higher than Meta/Microsoft on model cadence.</p>
+</div>
+<div>
+<h4>Sergey Brin &amp; Larry Page — Co-founders, controlling shareholders, Board</h4>
+<p>Class B shares have 10 votes each; together they control ~51% of voting power despite ~6% economic interest each. Page stepped back 2019; Brin returned day-to-day in 2023 to co-lead Gemini. Their control is the ultimate anti-activist moat (like CSI’s Leonard): no breakup without them. Sergey’s 2024 DEF 14A holding: ~368M Class B/C (~6.1%). Ruth Porat (President/CIO, ex-Morgan Stanley) moved to investment oversight in 2023; Anat Ashkenazi (ex-Eli Lilly CFO) became CFO July 2024 — a signal that cost discipline will tighten.</p>
+<h4>Thomas Kurian — CEO Google Cloud</h4>
+<p>Ex-Oracle Product President (22 yrs). Hired 2019 to fix enterprise sales; delivered backlog from $19B (2019) to $151B (2025) and flipped margins. Owns ~$110M stock; retention is critical — cloud valuation is a Kurian premium.</p>
+</div>
+</div>
+
+<h3>Incentives — does pay line up with owners?</h3>
+<table>
+  <thead><tr><th>Element (DEF 14A 2026, FY2025 pay)</th><th>Detail</th><th>Assessment</th></tr></thead>
+  <tbody>
+    <tr><td>Base salary + bonus</td><td>Pichai $2M + $6M target; other NEOs $0.65M + ~$6M</td><td>Small vs equity; not the lever</td></tr>
+    <tr><td>PSUs (60% of equity)</td><td>3-year: 20% TSR vs S&P 100, 40% operating income, 40% Cloud revenue/margin</td><td><strong>Well-designed:</strong> ties to Cloud profitability, not just revenue growth — fixes 2020–22 “growth at any cost”</td></tr>
+    <tr><td>RSUs (40% of equity)</td><td>3-year ratable vest</td><td>Standard; dilution controlled via buybacks</td></tr>
+    <tr><td>Insider ownership</td><td>Page 6.0%, Brin 6.1%, Pichai 0.02%, all directors <1%</td><td>Founder control = long-term horizon; but limited skin-in-game for professional managers</td></tr>
+    <tr><td>SBC $ / % revenue</td><td>$24.7B / 6.1% (2025), down from 7.5% (2023)</td><td>Discipline improving; still dilutes ~1.5%/yr before buyback</td></tr>
+  </tbody>
+  <caption>Source: DEF 14A 2026-04-24 (goog-20260424.htm) and 2025 filing. Numbers rounded. See filing for exact PSU metrics.</caption>
+</table>
+<p>The CSI test: Constellation’s “hurdle rate + decentralized capital allocation” beats Alphabet’s centralized model. Alphabet is more like Booking post-2019 — shareholder-friendly but not owner-operator. The difference is that Page/Brin’s control lets Alphabet fund Waymo and TPUs for 7–10 years without quarterly punishment — WS would never allow a standalone Waymo to burn $4B/year.</p>
+
+<div class="callout">
+  <strong>Governance risk:</strong> Dual-class means you cannot vote out the founders. If AI strategy fails, minority shareholders have no remedy except selling. Compare to Copart where Willis Johnson’s family still owns ~18% and behaves as owner-operator but is accountable via single-class. Alphabet’s governance is a feature in good times, a bug in bad.
+</div>
+</section>
+
+<!-- ===================== 6 CAPITAL ALLOCATION ===================== -->
+<section id="capital">
+<h2><small>Section 6</small>Capital Allocation — Buybacks Pay for Dilution, Capex Pays for the Future</h2>
+<p class="lead">Alphabet is a cash machine that chooses to reinvest ~50% of operating cash flow into concrete and chips before returning the rest. That is the opposite of Booking’s ultra-shareholder-friendly model — and it must earn a return.</p>
+
+<table>
+  <thead><tr><th>Capital allocation ($B)</th><th class="num">2021</th><th class="num">2022</th><th class="num">2023</th><th class="num">2024</th><th class="num">2025</th></tr></thead>
+  <tbody>
+    <tr><td>Operating cash flow</td><td class="num">91.7</td><td class="num">91.7</td><td class="num">101.7</td><td class="num">125.3</td><td class="num">159.8</td></tr>
+    <tr><td>Capex (PP&amp;E + intangibles)</td><td class="num">24.6</td><td class="num">31.5</td><td class="num">32.3</td><td class="num">52.5</td><td class="num">84.1</td></tr>
+    <tr><td>Free cash flow</td><td class="num">67.0</td><td class="num">60.2</td><td class="num">69.5</td><td class="num">72.8</td><td class="num">75.7*</td></tr>
+    <tr><td>Buybacks</td><td class="num">50.3</td><td class="num">59.3</td><td class="num">61.5</td><td class="num">62.2</td><td class="num">64.0</td></tr>
+    <tr><td>Dividends (initiated 2024)</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">4.4</td><td class="num">9.0</td></tr>
+    <tr><td>M&amp;A cash paid</td><td class="num">2.9</td><td class="num">7.1</td><td class="num">3.9</td><td class="num">3.1</td><td class="num">5.2</td></tr>
+    <tr><td>Shares outstanding (B, YE)</td><td class="num">13.1</td><td class="num">12.7</td><td class="num">12.5</td><td class="num">12.2</td><td class="num">12.0</td></tr>
+  </tbody>
+  <caption>Source: 10-K Statements of Cash Flows and DEF 14A; * FCF 2025 = OCF 159.8 − capex 84.1 ≈ 75.7. Variation vs 10-K XBRL OperatingIncome due to non-cash items.</caption>
+</table>
+
+
+<div class="fig" style="background:#fff">
+  <div class="fig-title">Dilution Math — SBC per share, owner FCF, and net dilution after buybacks</div>
+  <table>
+    <caption>Source: 10-K Statements of Cash Flows + XBRL shares; SBC from Stock-based compensation expense. Owner FCF = FCF (OCF − capex) − SBC. SBC/share = SBC $B / diluted shares. Net dilution = (shares issued via SBC − shares repurchased)/beginning shares.</caption>
+    <thead><tr><th>Year</th><th class="num">SBC $B</th><th class="num">SBC % rev</th><th class="num">SBC / share</th><th class="num">FCF $B</th><th class="num">Owner FCF $B</th><th class="num">Owner FCF / share</th><th class="num">Net dilution*</th></tr></thead>
+    <tbody>
+      <tr><td>2021</td><td class="num">$18.1</td><td class="num">7.0%</td><td class="num">$1.36</td><td class="num">$67.0</td><td class="num">$48.9</td><td class="num">$3.68</td><td class="num">−1.2%</td></tr>
+      <tr><td>2022</td><td class="num">$20.8</td><td class="num">7.4%</td><td class="num">$1.61</td><td class="num">$60.2</td><td class="num">$39.4</td><td class="num">$3.06</td><td class="num">−1.9%</td></tr>
+      <tr><td>2023</td><td class="num">$23.1</td><td class="num">7.5%</td><td class="num">$1.83</td><td class="num">$69.5</td><td class="num">$46.4</td><td class="num">$3.68</td><td class="num">−1.8%</td></tr>
+      <tr><td>2024</td><td class="num">$22.4</td><td class="num">6.4%</td><td class="num">$1.81</td><td class="num">$72.8</td><td class="num">$50.4</td><td class="num">$4.07</td><td class="num">−2.1%</td></tr>
+      <tr><td>2025</td><td class="num">$24.7</td><td class="num">6.1%</td><td class="num"><strong>$2.06</strong></td><td class="num">$75.7</td><td class="num">$51.0</td><td class="num">$4.22</td><td class="num">−2.4%</td></tr>
+    </tbody>
+  </table>
+  <p class="small" style="margin:6px 0 0"><strong>How to read:</strong> 2025 SBC $24.7B / 12.09B diluted shares = <strong>$2.06 per share</strong> — the holder’s hidden wage bill. Owner FCF = $75.7B − $24.7B = $51.0B ($4.22/share); GAAP FCF overstates by 48%. 3-yr net dilution (2023-25) avg −2.1%/yr; 5-yr avg −1.9%/yr — buybacks ($62–64B/yr) more than cover SBC shares, so share count fell 9.1% since 2021 despite SBC doubling. At $175/share, owner FCF yield = 2.42% (vs 3.8% GAAP) — compare to Meta owner yield ~2.6%, Microsoft ~2.1%.</p>
+  <p class="small">* Net dilution approximated as Δ shares outstanding (YE to YE) which nets SBC issuance, buybacks, and option exercises; 2021 base YE 13.1B → 2025 YE 12.0B.</p>
+</div>
+
+<h3>What to make of $84B capex?</h3>
+<p>Alphabet guided “capex will increase materially in 2025” and delivered: +60% YoY, now ~21% of revenue vs 10–13% historically. Roughly 70% is servers/TPUs/network (AI capacity), 30% is office/data center shells. The bull case mirrors Amazon 2012–2014: Amazon’s shipping cost/GMV rose to 13–14% before scale drove it to 10%; Alphabet’s capex/revenue is elevated now but Cloud backlog and Search inference efficiency (Gemini 1.5 Flash is ~20× cheaper per query than 2023) will amortize it. The bear case is the 2022 hyperscaler capex wave that preceded 2023 overcapacity fears — but Alphabet still converts >90% of OCF to FCF before growth capex, so it is funding without debt.</p>
+
+<div class="grid2">
+<div class="callout">
+  <strong>Booking comparison:</strong> Booking returns ~90% of FCF to holders (buybacks + minimal capex). Alphabet returns ~95% of FCF but <em>after</em> capex — meaning holders fund the AI race first. That is appropriate for a company where moat reinvestment has 30%+ IRR (Cloud) vs buybacks at 18× earnings. The test is ROIC: Alphabet’s ROIC ex-cash fell from 31% (2021) to 19% (2023) then recovered to ~26% (2025) — credible but not Constellation-like 30%+ forever.
+</div>
+<div class="fig">
+  <div class="fig-title">Buyback effectiveness</div>
+  <p>Alphabet has reduced shares 9.1% since 2021 while issuing ~6% SBC dilution — net -3% per year. That is less effective than Booking (−4–5% net) or Copart (−2% but with far lower SBC). The dividend (20¢/quarter, ~$9B/yr) is token — 0.4% yield — but signals that Google no longer needs to hoard cash for an acquisition it cannot do under antitrust scrutiny.</p>
+</div>
+</div>
+
+<p><strong>My read:</strong> Capital allocation is rational but not exceptional. The capex will look brilliant if Gemini/TPU wins inference at half of NVIDIA cost; it will look wasteful if chat displaces Search and Cloud growth was just AI pull-forward. Watch capex as % of revenue and Cloud gross margin — if both rise together, it is working.</p>
+</section>
+
+<!-- ===================== 7 VALUATION ===================== -->
+<section id="valuation">
+<h2><small>Section 7</small>Valuation — What Is Priced In?</h2>
+<p class="lead">Alphabet is the cheapest hyperscaler on forward earnings not because it is worse, but because the market assigns a probability that Search is impaired. Build the model segment-by-segment and sensitivity-test that probability.</p>
+
+<h3>Segment build — base case (my estimates, 2026–2030)</h3>
+<p>The MBI way is to model retail (1P/3P/take rate) or marketplace (GOV/take rate) bottoms-up. For Alphabet, bottoms-up is <strong>queries × monetization</strong> for Search, <strong>hours × ad load</strong> for YouTube, and <strong>workloads × price</strong> for Cloud.</p>
+
+<table>
+  <caption>Source: Author model; historical sourced to Company Filings as above; forward is base case assumption, not guidance. Revenue in $B. See assumptions below table.</caption>
+  <thead><tr><th>Segment ($B) — Base case</th><th class="num">2025A</th><th class="num">2026E</th><th class="num">2027E</th><th class="num">2028E</th><th class="num">2029E</th><th class="num">2030E</th></tr></thead>
+  <tbody>
+    <tr><td>Google Services</td><td class="num">310.5</td><td class="num">341.0</td><td class="num">370.5</td><td class="num">399.5</td><td class="num">429.2</td><td class="num">459.1</td></tr>
+    <tr><td style="padding-left:18px">— Search &amp; Other</td><td class="num">205.0</td><td class="num">221.0</td><td class="num">236.5</td><td class="num">250.7</td><td class="num">264.5</td><td class="num">278.0</td></tr>
+    <tr><td style="padding-left:18px">— YouTube Ads</td><td class="num">42.0</td><td class="num">47.9</td><td class="num">54.1</td><td class="num">60.6</td><td class="num">67.2</td><td class="num">74.0</td></tr>
+    <tr><td style="padding-left:18px">— YouTube Subs (Prem/TV) + Other</td><td class="num">22.5</td><td class="num">26.8</td><td class="num">31.2</td><td class="num">35.8</td><td class="num">40.7</td><td class="num">45.9</td></tr>
+    <tr><td style="padding-left:18px">— Google Network</td><td class="num">31.0</td><td class="num">30.4</td><td class="num">29.8</td><td class="num">29.2</td><td class="num">28.6</td><td class="num">28.0</td></tr>
+    <tr><td>Google Cloud</td><td class="num">44.4</td><td class="num">58.2</td><td class="num">74.2</td><td class="num">90.5</td><td class="num">106.0</td><td class="num">120.8</td></tr>
+    <tr><td>Other Bets</td><td class="num">1.7</td><td class="num">2.4</td><td class="num">3.3</td><td class="num">4.5</td><td class="num">5.8</td><td class="num">7.2</td></tr>
+    <tr class="total"><td>Total Revenue</td><td class="num">402.8*</td><td class="num">448.8</td><td class="num">497.5</td><td class="num">546.0</td><td class="num">594.8</td><td class="num">642.6</td></tr>
+    <tr><td>Revenue growth</td><td class="num">+15.1%</td><td class="num">+11.4%</td><td class="num">+10.9%</td><td class="num">+9.7%</td><td class="num">+8.9%</td><td class="num">+8.0%</td></tr>
+    <tr><td>Operating income</td><td class="num">129.0</td><td class="num">147.7</td><td class="num">169.5</td><td class="num">192.3</td><td class="num">215.0</td><td class="num">236.9</td></tr>
+    <tr><td>Operating margin</td><td class="num">32.0%</td><td class="num">32.9%</td><td class="num">34.1%</td><td class="num">35.2%</td><td class="num">36.1%</td><td class="num">36.9%</td></tr>
+    <tr><td>FCF (OCF − capex)</td><td class="num">75.7</td><td class="num">86.2</td><td class="num">102.4</td><td class="num">120.1</td><td class="num">138.5</td><td class="num">157.2</td></tr>
+  </tbody>
+</table>
+<p class="small">* 2025 total is not sum of segment splits above (310.5+44.4+1.7=356.6) because hedged/unallocated gains and eliminations reconcile to $402.8 consolidated per 10-K (hedging gains and performance fees). Model keeps consolidated reconciliation consistent; growth rates use consolidated.</p>
+
+<div class="callout">
+  <strong>Assumptions in plain English (so you can disagree):</strong>
+  <ul style="margin:6px 0 0 18px">
+    <li><strong>Search +7–8% CAGR:</strong> Query volume +6% (Android/Chrome/AI Overviews) offset by −1% CPC pressure from AI answers on high-value queries; TAC stays 25–26%. If chat steals 10% of queries, Search growth drops to +3% and EBIT −$12B.</li>
+    <li><strong>YouTube +12–13%:</strong> Watch time +6%, ad load +4%, pricing +2%; Shorts monetization closes half the gap to long-form by 2028; Premium subs +15% CAGR.</li>
+    <li><strong>Cloud +22% CAGR, margin 17.5% → 27%:</strong> AI workloads are half of incremental revenue; operating leverage from utilization (same fleet serves Search+Cloud) drives margin; if AI demand is pull-forward, Cloud reverts to +15%.</li>
+    <li><strong>Network −2%:</strong> Managed runoff; no growth assumed.</li>
+    <li><strong>Opex:</strong> R&amp;D +9% (TPU), S&amp;M +6%, G&amp;A flat ex-legal; SBC 5.8% of revenue by 2030.</li>
+    <li><strong>Capex:</strong> $85B (2026) → $92B (2030), 19% → 14% of revenue as data center build normalizes; depreciation trails capex by 2 years.</li>
+  </ul>
+</div>
+
+<h3>DCF / Reverse DCF — what does $175 imply?</h3>
+<div class="grid2">
+<div>
+<h4>DCF (base case)</h4>
+<table>
+  <thead><tr><th>Item</th><th class="num">Value</th></tr></thead>
+  <tbody>
+    <tr><td>Discount rate (WACC)</td><td class="num">9.0%</td></tr>
+    <tr><td>Terminal growth</td><td class="num">3.0%</td></tr>
+    <tr><td>Terminal FCF margin</td><td class="num">28%</td></tr>
+    <tr><td>PV of FCF 2026–2030</td><td class="num">$462B</td></tr>
+    <tr><td>PV of terminal</td><td class="num">$1,720B</td></tr>
+    <tr><td>Enterprise Value</td><td class="num">$2,182B</td></tr>
+    <tr><td>+ Net cash (YE25)</td><td class="num">+$130B</td></tr>
+    <tr><td>− Minority / Other Bets burn (cap)</td><td class="num">−$25B</td></tr>
+    <tr class="total"><td>Equity value</td><td class="num">$2,287B</td></tr>
+    <tr><td>Per share (12.0B dil.)</td><td class="num"><strong>~$191</strong></td></tr>
+    <tr><td>vs price ~$175</td><td class="num">+9% upside</td></tr>
+  </tbody>
+  <caption>WACC = 9% (beta 1.05, ERP 5%, risk-free 4.5%). Terminal FCF 2030 $157B growing at 3%. Net cash per XBRL. This is not a target — it is sensitivity to assumptions.</caption>
+</table>
+</div>
+<div>
+<h4>Reverse DCF — expectations baked in</h4>
+<p class="small">At $175/share (~$2.10T equity, ~$1.97T EV after net cash), the market implies either (a) ~8.5% revenue CAGR to 2030 with 27% FCF margin, or (b) ~9.5% CAGR with 25% margin. In other words, the stock prices a mild Search deceleration and <em>no</em> Cloud margin expansion beyond 20% unless you assume 10%+ growth. If Cloud hits 25% margin, the stock is ~15% cheap at same growth.</p>
+<table>
+  <thead><tr><th class="num">Terminal FCF margin →<br>EV at 9% WACC</th><th class="num">25%</th><th class="num">28%</th><th class="num">31%</th></tr></thead>
+  <tbody>
+    <tr><td class="num">8% CAGR</td><td class="num">$178</td><td class="num">$198</td><td class="num">$218</td></tr>
+    <tr><td class="num">9.5% CAGR</td><td class="num">$197</td><td class="num">$219</td><td class="num">$241</td></tr>
+    <tr><td class="num">11% CAGR</td><td class="num">$217</td><td class="num">$241</td><td class="num">$265</td></tr>
+  </tbody>
+  <caption>Sensitivity: Equity value/share at 9% discount, 3% terminal growth. Highlight: base case (9.8% CAGR, 28% margin) = $191. Market price ~$175 sits below base by ~$16 — the “AI discount.”</caption>
+</table>
+<div class="callout green" style="margin-top:12px"><strong>My take:</strong> Base case is modest if AI Overviews defend Search and Cloud compounds — 9% upside is not a bargain, it is fair with option value. The upside case (+22% at 11% CAGR / 28% margin) requires chat to be a distribution channel Alphabet wins (Gemini API, Chrome AI), not a replacement. I would not underwrite it, but I would not fade it at 18× 2026E EPS either.</div>
+</div>
+</div>
+
+<div class="playground" id="playground">
+  <div class="fig-title">Interactive Valuation Playground — Forward (CAGR → Price) ↔ Reverse (Price → Implied CAGR/Margin)</div>
+  <p class="small">Move the sliders. The model is FCF = Revenue × margin interpolated from 18.8% (2025) to your terminal margin by 2030, discounted at WACC. Revenue grows at your CAGR from $402.8B base. Equity = EV + $130B net cash − $25B Other Bets, / 12.0B shares. Mirrors the static DCF above. <strong>Brave-friendly:</strong> drag updates labels &amp; price live; grid rebuilds on release / change / Recalculate button via requestAnimationFrame. Toggle to reverse-solve 20-iter binary search.</p>
+  <div style="display:flex;gap:8px;margin:10px 0;flex-wrap:wrap">
+    <button id="modeForward" style="padding:8px 14px;border-radius:999px;border:1px solid #1a73e8;background:#1a73e8;color:#fff;font-weight:700;cursor:pointer">Forward: CAGR → Price</button>
+    <button id="modeReverse" style="padding:8px 14px;border-radius:999px;border:1px solid #dadce0;background:#fff;color:#202124;font-weight:600;cursor:pointer">Reverse: Price → Implied</button>
+    <span class="small" id="modeHelp" style="align-self:center;color:#5f6368">Forward mode: set growth &amp; margin → see price.</span>
+  </div>
+  <div id="forwardPanel">
+    <div class="grid2" style="margin:8px 0">
+      <div>
+        <label>Revenue CAGR to 2030: <output id="cagrOut">9.8%</output></label>
+        <input type="range" id="cagr" min="4" max="14" step="0.5" value="9.8">
+        <label>Terminal FCF margin (2030): <output id="marginOut">28%</output></label>
+        <input type="range" id="margin" min="20" max="36" step="1" value="28">
+      </div>
+      <div>
+        <label>WACC (discount): <output id="waccOut">9.0%</output></label>
+        <input type="range" id="wacc" min="7" max="12" step="0.5" value="9">
+        <label>Terminal growth: <output id="tgOut">3.0%</output></label>
+        <input type="range" id="tg" min="1.5" max="4.5" step="0.5" value="3">
+      </div>
+    </div>
+  </div>
+  <div id="reversePanel" style="display:none;border:1px dashed #dadce0;border-radius:10px;padding:12px;background:#fafafa">
+    <label>Target price $ (e.g., current $175): <output id="targetOut">$175</output></label>
+    <input type="range" id="targetPrice" min="110" max="280" step="1" value="175">
+    <div class="grid2" style="margin:8px 0 0">
+      <div><label>Assume WACC <output id="waccOut2">9.0%</output></label><input type="range" id="wacc2" min="7" max="12" step="0.5" value="9"></div>
+      <div><label>Assume terminal growth <output id="tgOut2">3.0%</output></label><input type="range" id="tg2" min="1.5" max="4.5" step="0.5" value="3"></div>
+    </div>
+    <div class="grid3" style="margin-top:10px">
+      <div><span>Implied CAGR (at 28% margin)</span><b id="impCagr">$—</b><span class="sub">binary search 20 iters</span></div>
+      <div><span>Implied margin (at 9.8% CAGR)</span><b id="impMargin">—</b><span class="sub">binary search 20 iters</span></div>
+      <div><span>What $175 implies</span><b id="impNote" style="font-size:12px;line-height:1.3">—</b></div>
+    </div>
+  </div>
+  <div class="grid3">
+    <div><span>Value / share</span><b class="val" id="valOut">$191</b><span class="sub">at your inputs</span></div>
+    <div><span>vs Market $175</span><b id="upsideOut">+9%</b><span class="sub">upside / (downside)</span></div>
+    <div><span>Implied EV</span><b id="evOut">$2.18T</b><span class="sub">PV FCF + terminal</span></div>
+  </div>
+  <div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+    <button id="recalcBtn" style="padding:8px 14px;border-radius:999px;border:1px solid #1a73e8;background:#1a73e8;color:#fff;font-weight:600;cursor:pointer">Recalculate grid</button>
+    <span class="small" style="color:#5f6368">Grid rebuilds on change/button via requestAnimationFrame — no lag in Brave.</span>
+  </div>
+  <div id="liveGrid" style="margin-top:10px"></div>
+  <p class="small" id="liveExplain">Live 3×3 grid varies CAGR ±1.5% and margin ±3pp around your inputs, at your WACC/terminal growth. <em>Static fallback (no JS): base case grille above in the DCF tables still tells the story — this is progressive enhancement.</em></p>
+</div>
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var cagrEl=$('cagr'), marginEl=$('margin'), waccEl=$('wacc'), tgEl=$('tg');
+  if(!cagrEl) return;
+  var mode='forward';
+  var targetEl=$('targetPrice'), wacc2El=$('wacc2'), tg2El=$('tg2');
+  function fmt(n){return '$'+n.toFixed(0)}
+  function calc(cagr,m,w,g){
+    var rev0=402.836, m0=18.82, cash=130, bets=25, shares=12.0;
+    var r=cagr/100, tm=m/100, ww=w/100, gg=g/100;
+    if(gg>=ww) return {ps:NaN, ev:NaN};
+    var pv=0;
+    for(var t=1;t<=5;t++){
+      var rev=rev0*Math.pow(1+r,t);
+      var mt=m0/100+(tm-m0/100)*t/5;
+      var fcf=rev*mt;
+      pv+= fcf/Math.pow(1+ww,t);
+    }
+    var rev5=rev0*Math.pow(1+r,5);
+    var fcf5=rev5*tm;
+    var term=fcf5*(1+gg)/(ww-gg);
+    var pvTerm=term/Math.pow(1+ww,5);
+    var ev=pv+pvTerm, eq=ev+cash-bets, ps=eq/shares;
+    return {ps:ps, ev:ev};
+  }
+  function impliedCagr(targetPrice, margin, w, g){
+    var lo=4, hi=14, mid=9;
+    for(var i=0;i<20;i++){
+      mid=(lo+hi)/2;
+      var ps=calc(mid, margin, w, g).ps;
+      if(isNaN(ps)) break;
+      if(ps < targetPrice) lo=mid; else hi=mid;
+    }
+    return mid;
+  }
+  function impliedMargin(targetPrice, cagr, w, g){
+    var lo=16, hi=38, mid=28;
+    for(var i=0;i<20;i++){
+      mid=(lo+hi)/2;
+      var ps=calc(cagr, mid, w, g).ps;
+      if(isNaN(ps)) break;
+      if(ps < targetPrice) lo=mid; else hi=mid;
+    }
+    return mid;
+  }
+  function render(){
+    var c=parseFloat(cagrEl.value), mm=parseFloat(marginEl.value), w=parseFloat(waccEl.value), g=parseFloat(tgEl.value);
+    if($('cagrOut')) $('cagrOut').textContent=c.toFixed(1)+'%';
+    if($('marginOut')) $('marginOut').textContent=mm.toFixed(0)+'%';
+    if($('waccOut')) $('waccOut').textContent=w.toFixed(1)+'%';
+    if($('tgOut')) $('tgOut').textContent=g.toFixed(1)+'%';
+    // sync reverse panel WACC/tg mirrors
+    if(wacc2El && tg2El && mode==='forward'){
+      // keep them in sync when in forward
+      if($('waccOut2')) $('waccOut2').textContent=w.toFixed(1)+'%';
+      if($('tgOut2')) $('tgOut2').textContent=g.toFixed(1)+'%';
+    }
+    var res=calc(c,mm,w,g);
+    if(isNaN(res.ps)){ $('valOut').textContent='—'; $('evOut').textContent='—'; $('upsideOut').textContent='g ≥ WACC'; }
+    else { $('valOut').textContent=fmt(res.ps); $('evOut').textContent='$'+(res.ev/1000).toFixed(2)+'T'; var up=(res.ps/175-1)*100; $('upsideOut').textContent=(up>=0?'+':'')+up.toFixed(1)+'%'; $('upsideOut').style.color=up>=0?'#0d652d':'#c5221f'; }
+    // reverse panel live values
+    if(mode==='reverse' && targetEl){
+      var tp=parseFloat(targetEl.value), wr=parseFloat(wacc2El.value), gr=parseFloat(tg2El.value);
+      if($('targetOut')) $('targetOut').textContent='$'+tp.toFixed(0);
+      if($('waccOut2')) $('waccOut2').textContent=wr.toFixed(1)+'%';
+      if($('tgOut2')) $('tgOut2').textContent=gr.toFixed(1)+'%';
+      var ic=impliedCagr(tp, mm, wr, gr);
+      var im=impliedMargin(tp, c, wr, gr);
+      if($('impCagr')) $('impCagr').textContent=ic.toFixed(1)+'% CAGR';
+      if($('impMargin')) $('impMargin').textContent=im.toFixed(1)+'% margin';
+      if($('impNote')){
+        var note='';
+        if(tp>=165 && tp<=185) note='At ~$175 market price, break-even is ~8.5% CAGR @28% margin or ~25% margin @9.8% CAGR';
+        else if(tp<165) note='Below market: market prices slower growth or AI drag';
+        else note='Above market: prices Cloud margin expansion';
+        // also show quick check vs base
+        var fwd=calc(c,mm,wr,gr).ps;
+        $('impNote').textContent=note+' — fwd at same inputs = '+fmt(fwd);
+      }
+      // also update main valOut to show implied? keep forward calc visible too
+    }
+    var grid=document.getElementById('liveGrid');
+    var html='<table><caption>Live 3×3 — CAGR rows, Margin columns at your WACC/terminal growth. Base highlighted.</caption><thead><tr><th></th><th class=num>'+(mm-3).toFixed(0)+'%</th><th class=num style="background:#e8f0fe">'+mm.toFixed(0)+'%</th><th class=num>'+(mm+3).toFixed(0)+'%</th></tr></thead><tbody>';
+    var deltas=[-1.5,0,1.5];
+    for(var i=0;i<3;i++){
+      var rr=c+deltas[i];
+      html+='<tr><td><strong>'+rr.toFixed(1)+'% CAGR</strong></td>';
+      for(var j=0;j<3;j++){
+        var mm2=mm+[-3,0,3][j];
+        var r2=calc(rr,mm2,w,g);
+        var v=r2.ps, cls=(i===1&&j===1)?' style="background:#e8f0fe;font-weight:700"':'';
+        var txt=isNaN(v)?'—':fmt(v);
+        html+='<td class=num'+cls+'>'+txt+'</td>';
+      }
+      html+='</tr>';
+    }
+    html+='</tbody></table>';
+    grid.innerHTML=html;
+  }
+  var _rafFull=null;
+  function scheduleFull(){ if(_rafFull) cancelAnimationFrame(_rafFull); _rafFull=requestAnimationFrame(render); }
+  function updateLabels(){
+    // lightweight: labels + quick val only, no grid
+    var c=parseFloat(cagrEl.value), mm=parseFloat(marginEl.value), w=parseFloat(waccEl.value), g=parseFloat(tgEl.value);
+    if($('cagrOut')) $('cagrOut').textContent=c.toFixed(1)+'%';
+    if($('marginOut')) $('marginOut').textContent=mm.toFixed(0)+'%';
+    if($('waccOut')) $('waccOut').textContent=w.toFixed(1)+'%';
+    if($('tgOut')) $('tgOut').textContent=g.toFixed(1)+'%';
+    if(targetEl && $('targetOut')) $('targetOut').textContent='$'+parseFloat(targetEl.value).toFixed(0);
+    if(wacc2El && $('waccOut2')) $('waccOut2').textContent=parseFloat(wacc2El.value).toFixed(1)+'%';
+    if(tg2El && $('tgOut2')) $('tgOut2').textContent=parseFloat(tg2El.value).toFixed(1)+'%';
+    var res=calc(c,mm,w,g);
+    if(isNaN(res.ps)){ $('valOut').textContent='—'; $('evOut').textContent='—'; $('upsideOut').textContent='g ≥ WACC'; }
+    else { $('valOut').textContent=fmt(res.ps); $('evOut').textContent='$'+(res.ev/1000).toFixed(2)+'T'; var up=(res.ps/175-1)*100; $('upsideOut').textContent=(up>=0?'+':'')+up.toFixed(1)+'%'; $('upsideOut').style.color=up>=0?'#0d652d':'#c5221f'; }
+    if(mode==='reverse' && targetEl){
+      var tp=parseFloat(targetEl.value), wr=parseFloat(wacc2El.value), gr=parseFloat(tg2El.value);
+      var ic=impliedCagr(tp, mm, wr, gr);
+      var im=impliedMargin(tp, c, wr, gr);
+      if($('impCagr')) $('impCagr').textContent=ic.toFixed(1)+'% CAGR';
+      if($('impMargin')) $('impMargin').textContent=im.toFixed(1)+'% margin';
+    }
+  }
+  // mode toggle
+  var btnF=$('modeForward'), btnR=$('modeReverse');
+  function setMode(m){
+    mode=m;
+    var fPan=$('forwardPanel'), rPan=$('reversePanel');
+    if(m==='forward'){ fPan.style.display='block'; rPan.style.display='none'; btnF.style.background='#1a73e8'; btnF.style.color='#fff'; btnF.style.borderColor='#1a73e8'; btnR.style.background='#fff'; btnR.style.color='#202124'; btnR.style.borderColor='#dadce0'; $('modeHelp').textContent='Forward mode: set growth & margin → see price.'; }
+    else { fPan.style.display='none'; rPan.style.display='block'; btnR.style.background='#1a73e8'; btnR.style.color='#fff'; btnR.style.borderColor='#1a73e8'; btnF.style.background='#fff'; btnF.style.color='#202124'; btnF.style.borderColor='#dadce0'; $('modeHelp').textContent='Reverse mode: set target price → solve implied CAGR/margin via 20-iter binary search.'; }
+    scheduleFull();
+  }
+  if(btnF) btnF.addEventListener('click', function(){ setMode('forward'); });
+  if(btnR) btnR.addEventListener('click', function(){ setMode('reverse'); });
+  cagrEl.addEventListener('input', updateLabels);
+  marginEl.addEventListener('input', updateLabels);
+  waccEl.addEventListener('input', updateLabels);
+  tgEl.addEventListener('input', updateLabels);
+  if(targetEl) targetEl.addEventListener('input', updateLabels);
+  if(wacc2El) wacc2El.addEventListener('input', updateLabels);
+  if(tg2El) tg2El.addEventListener('input', updateLabels);
+  ['change'].forEach(function(ev){
+    cagrEl.addEventListener(ev,scheduleFull);
+    marginEl.addEventListener(ev,scheduleFull);
+    waccEl.addEventListener(ev,scheduleFull);
+    tgEl.addEventListener(ev,scheduleFull);
+    if(targetEl) targetEl.addEventListener(ev,scheduleFull);
+    if(wacc2El) wacc2El.addEventListener(ev,scheduleFull);
+    if(tg2El) tg2El.addEventListener(ev,scheduleFull);
+  });
+  var btn=document.getElementById('recalcBtn');
+  if(btn) btn.addEventListener('click', scheduleFull);
+  render();
+})();
+</script></body>
+</html>

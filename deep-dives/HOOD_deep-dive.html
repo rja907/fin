@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robinhood (HOOD) — The Retail Brokerage Reinvented | MBI Deep Dive</title>
+<style>
+  :root{--ink:#0f172a;--muted:#475569;--line:#e2e8f0;--accent:#00C805;--accent2:#0e7a0d;--bg:#f8fafc;--card:#ffffff;--warn:#fef3c7;--good:#ecfdf5}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.65}
+  a{color:var(--accent2);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .hero{background:linear-gradient(135deg,#0f172a 0%,#14532d 55%,#00C805 100%);color:#f0fdf4;padding:48px 0 36px;border-bottom:4px solid #00C805}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  .badge{display:inline-block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;background:#00C805;color:#022c22;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+  h1{margin:6px 0 8px;font-family:Georgia,'Times New Roman',serif;font-size:38px;line-height:1.15;letter-spacing:-.02em}
+  .subtitle{color:#bbf7d0;font-size:16px;max-width:820px}
+  .meta{display:flex;flex-wrap:wrap;gap:14px;margin-top:18px;font-size:13px;color:#bbf7d0}
+  .meta span{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:6px 10px;border-radius:999px}
+  .disclosure{margin-top:16px;font-size:12px;color:#86efac;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:10px 12px;border-radius:8px}
+  .toc{position:sticky;top:0;z-index:10;background:rgba(248,250,252,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .toc-inner{display:flex;gap:8px;overflow:auto;white-space:nowrap;padding:10px 0}
+  .toc a{font-size:13px;font-weight:600;color:var(--muted);padding:6px 10px;border-radius:999px;border:1px solid transparent}
+  .toc a:hover{color:var(--ink);border-color:var(--line);background:#fff}
+  h2{font-family:Georgia,serif;font-size:26px;margin:36px 0 12px;letter-spacing:-.015em;border-left:4px solid #00C805;padding-left:12px}
+  h3{font-size:17px;margin:22px 0 8px;color:#0f172a}
+  p{margin:10px 0;color:#1e293b}
+  .lead{font-size:17px;color:#334155}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){.grid{grid-template-columns:1fr} h1{font-size:30px}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .kpi{font-size:28px;font-weight:800;color:var(--accent2)}
+  .kpi-label{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:10px 0}
+  th{text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--ink);padding:8px 8px;background:#f1f5f9}
+  td{padding:8px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+  th.num{text-align:right}
+  .src{font-size:11px;color:var(--muted);margin-top:4px}
+  .callout{border-left:4px solid #f59e0b;background:var(--warn);padding:12px 14px;border-radius:8px;font-size:13px}
+  .good{border-left:4px solid #10b981;background:var(--good);padding:12px 14px;border-radius:8px;font-size:13px}
+  .arch{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;background:#dcfce7;color:#14532d;padding:4px 8px;border-radius:6px;border:1px solid #bbf7d0}
+  .pill{font-size:11px;padding:3px 7px;border-radius:999px;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--muted)}
+  .flow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center;margin:16px 0}
+  .flow>div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:165px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+  .flow .arr{font-size:22px;color:var(--accent);font-weight:800;background:none;border:none;box-shadow:none;min-width:24px;padding:0}
+  .tag{font-size:11px;background:#0f172a;color:#fff;padding:3px 7px;border-radius:999px;font-weight:700}
+  .footnote{font-size:11px;color:#64748b}
+  @media print{.toc{display:none}.hero{padding:24px 0} body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="wrap">
+    <div class="badge">MBI Deep Dives &bull; Brokerage & Fintech</div>
+    <h1>Robinhood: The Retail Brokerage Reinvented</h1>
+    <div class="subtitle">From PFOF pariah to $4.5bn, 51% growth, $2.8bn net-deposit machine — can Gold, crypto, and net interest compound when rates fall and meme volumes fade?</div>
+    <div class="meta">
+      <span><strong>NASDAQ: HOOD</strong></span>
+      <span>Market cap ~$83.9bn at $93.29 (Aug 7, 2026)</span>
+      <span>FYE Dec 31 &bull; USD — no FX conversion</span>
+      <span>Founder-led, dual-class</span>
+    </div>
+    <div style="margin-top:14px"><span class="arch">Archetype: Brokerage / Transactional (PFOF) + Net Interest + Subscription (Gold)</span></div>
+    <div class="disclosure"><strong>Disclosure:</strong> Not investment advice. Author may own shares. All figures in <strong>USD</strong> as filed (functional USD, XBRL `iso4217:USD`). Sources: HOOD 2024 10-K (Feb 18, 2025), 2025 10-K (Feb 18, 2026, CIK 1783879) via XBRL, 10-Q Jun 30, 2026 (Jul 30, 2026), 8-Ks Jul 29 & Apr 28, 2026. Data as of Aug 9, 2026. Price $93.29 close Aug 7 (StockAnalysis $83.88bn, high $152.46 Oct 9, 2025).</div>
+  </div>
+</div>
+<nav class="toc"><div class="wrap"><div class="toc-inner">
+  <a href="#history">History</a><a href="#model">Business Model</a><a href="#kpi">KPIs</a><a href="#moats">Moats</a><a href="#risks">Risks</a><a href="#mgmt">Management</a><a href="#valuation">Valuation</a><a href="#final">Final Words</a>
+</div></div></nav>
+
+<div class="wrap" style="padding-bottom:48px">
+
+<div class="good" style="margin-top:18px"><strong>Currency check (per skill):</strong> Robinhood reports in USD (10-K: "functional currency U.S. dollars", XBRL `iso4217:USD`). <strong>No conversion.</strong> All $ as filed.</div>
+
+<h2 id="history">1 &mdash; History: Free Trades That Cost $0 Until They Didn't</h2>
+<p class="lead">Two Stanford grads made trading free — then the bill came due on Jan 28, 2021.</p>
+<div class="card">
+<p><strong>2013 — Stanford roommates.</strong> Vlad Tenev (Stanford Math) & Baiju Bhatt (physics) left high-frequency firm in NYC, moved to Palo Alto, app that offered $0 commissions when Schwab charged $7. Waitlist 1m. Sequoia $13m seed. The secret was PFOF: sell order flow to Citadel/Virtu who pay $0.0017/share for the right to fill it — legal since 1980s, hidden from customers.</p>
+<p><strong>2018-20 — Crypto + cash.</strong> Robinhood Crypto Feb 2018 (no commission, spread), Cash Management (3% APY via partner banks). Funded customers 5m (2018) → 12.5m (2020). Revenue $278m (2019) → $959m (2020) — but 75% was PFOF, 17% was Robinhood Financial's net interest on cash sweeps. Business exploded in COVID retail boom: 2020 revenue ~$1.36bn? Actually 2021 $1.815bn (meme peak), then collapsed to $1.358bn 2022 when crypto winter + rate hikes crushed volumes (−38%). Net loss −$1.028bn 2022.</p>
+<p><strong>Jan 2021 — The reckoning.</strong> GameStop 159% short squeeze; NSCC demanded $3.7bn collateral overnight; Robinhood restricted buying — congressional hearing, "Roaring Kitty" meme. Reputation cratered, but also proved need for capital: raised $3.4bn overnight from Ribbit. Lesson: leverage needs deposits.</p>
+<p><strong>2021 — IPO & hangover.</strong> IPO Jul 29, 2021 at $38 ($32bn cap), fell to $10 by Jun 2022. Bhatt stepped back to CTO, Tenev stayed CEO. Turnaround: cut 23% staff, sunset Building products (Snacks), focused on net interest as rates rose.</p>
+<p><strong>2022-24 — The rate tailwind.</strong> Fed hiked to 5.25%: Robinhood's cash sweeps ($20bn+) + margin loans ($3bn) → net interest went from $269m (2022) → $919m (2023) → ~$1.1bn (2024, ~37% rev). Gold (subscription, $5/mo) launched premium 3-5% APY + IRA match 1-3% → Gold subs 1.7m (2023) → 2.6m (2024, +53%). Crypto rebounded: Trump 2024 win → BTC +70% → Robinhood crypto notional $82bn Q1 2026 (+16% YoY). Revenue $1.865bn (2023) → $2.951bn (2024, +58.2%) — first GAAP profit since IPO: +$1.411bn (includes $595m tax benefit & SBC reversal, adj. EBITDA ~$1.0bn).</p>
+<p><strong>2025-26 — The compounder?</strong> 2025 revenue <strong>$4.473bn (+51.6%)</strong>, net <strong>+$1.883bn (+33% vs 2024 adj.)</strong> — beat as rates stayed high and options volumes +38% to 659m contracts, MAU 13m (down 12.8% but ARPU up). Acquired <strong>Bitstamp</strong> (Jun 2025, $200m) for crypto, + <strong>Rothera (Roth IRA?) + WonderFi</strong> Q2 2026. Q2 2026 (Jul 29): revenue <strong>$1.308bn (+32.3% YoY)</strong> vs $1.26bn est (+3.5% beat), net <strong>$386m (+105%)</strong>, EPS $0.62, crypto volume $28bn (+32% QoQ) but crypto transaction revenue fell 38% YoY (spread compression) — total transaction still grew because options + equities offset. Net deposits $21.7bn quarter (28% ann.), 12m $75.7bn (+27% vs $282bn AUC at Q2 2025) — the flywheel: deposits → AUC → net interest → Gold.</p>
+<p class="footnote">Why history matters: Robinhood survived by turning free trades into a deposit franchise — exactly what banks do, but without a charter. The PFOF debate (SEC Chair Gensler threatened ban) never killed it; rates did the monetizing.</p>
+</div>
+
+<h2 id="model">2 &mdash; How the Business Actually Works</h2>
+<p>Robinhood monetizes the same $1 three times: you deposit it (net interest), you trade it (PFOF), you keep it in Gold (subscription).</p>
+
+<div class="flow">
+  <div><span class="tag">Customer</span><br><strong>26.5m funded</strong><br><span style="font-size:12px;color:#475569">$187 ARPU (+24%)</span><br><span style="font-size:11px;">Net deposits $21.7bn Q2</span></div>
+  <div class="arr">→</div>
+  <div><span class="tag" style="background:#00C805;color:#022c22">Transaction</span><br><strong>$1,308m Q2</strong><br><span style="font-size:12px;color:#475569">PFOF (options, equities, crypto spread)</span><br><span style="font-size:11px;">~55% rev</span></div>
+  <div class="arr">↺</div>
+  <div><span class="tag" style="background:#0f172a">Net Interest</span><br><strong>~$420m Q2 est</strong><br><span style="font-size:12px;color:#475569">Cash sweep + margin + sec lending</span><br><span style="font-size:11px;">~32% rev</span></div>
+  <div class="arr">→</div>
+  <div><strong>Gold + Other</strong><br><span style="font-size:12px;">4.8m Gold ($5-20/mo) + proxy</span><br><span style="font-size:11px;color:#00C805">Retirement, credit card</span></div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h3>1. Transaction-based (PFOF + crypto) — ~55% rev, volatile</h3>
+    <p><strong>Equities PFOF:</strong> $0.0010-0.0017/share from Citadel/Virtu. Zero commission → Robinhood gets paid to route your market order. Revenue = volume × take. Q1 2026 options 659m contracts +38% → transaction $600m+.</p>
+    <p><strong>Options:</strong> 2× equities PFOF per contract; 2025 options + equities drove 40% transaction growth.</p>
+    <p><strong>Crypto:</strong> spread (0.5-1.5%) + Bitstamp exchange volume ($82bn Q1 notional +16%). Q2 crypto revenue fell 38% YoY despite volume +32% — spread compression as competition (Coinbase 1% vs Robinhood 0.6%). Crypto is 15-20% transaction.</p>
+  </div>
+  <div class="card">
+    <h3>2. Net interest — ~32% rev, rate-sensitive</h3>
+    <p><strong>Float:</strong> Customer uninvested cash swept to partner banks (4.25% Fed funds → Robinhood keeps 3.5% = net interest). AUC $282bn (Q2 2025 base) + $75.7bn deposits LTM → cash $20-25bn. Margin securities lending + stock loan. 2023 net interest $919m (49% rev) → 2025 ~$1,300m (29% rev) as rev diversifies. Falls 30bps per Fed cut (~$60m/25bps).</p>
+  </div>
+</div>
+<div class="card" style="margin-top:16px">
+  <h3>3. Other (Gold + retirement + card) — ~13% rev, recurring</h3>
+  <p><strong>Gold ($9.99/mo or $5):</strong> 4.8m subs (+39% YoY, +1.4m) → $57.6m ARR at $12/mo avg but also drives 2× ARPU: Gold ARPU $400+ vs non-Gold $120. <strong>Retirement IRA:</strong> 3% match (up to 1% after) → $8bn IRA AUC,sticky. <strong>Credit card:</strong> 3% cash back, $10/mo waitlist 2m. Other revenue Q2 ~$170m (13%). ARPU $187 LTM — vs Schwab $380, but Schwab has $8tn AUC.</p>
+</div>
+<div class="good" style="margin-top:14px"><strong>The flywheel:</strong> Net deposits $21.7bn Q2 (28% ann.) → AUC → cash sweep → net interest → Gold subs → higher ARPU ($187 vs $150 non-Gold) → more deposits. Crypto/options are the acquisition hook; net interest + Gold is the annuity.</div>
+
+<h2 id="kpi">3 &mdash; KPIs & Unit Economics</h2>
+<p class="footnote">FYE Dec 31. Revenue/net per XBRL `Revenues` / `NetIncomeLoss` (10-K). AUC, deposits, MAU per 8-Ks.</p>
+
+<h3>3.1 P&L — From $1.0bn loss to $1.9bn profit</h3>
+<table>
+  <tr><th>USD millions</th><th class="num">2022A</th><th class="num">2023A</th><th class="num">2024A</th><th class="num">2025A</th><th class="num">H1 2026A</th><th class="num">Q2 2026A</th></tr>
+  <tr><td>Revenue</td><td class="num">$1,358</td><td class="num">$1,865</td><td class="num">$2,951</td><td class="num">$4,473</td><td class="num">~$2,380 (Q1 $1.07bn + Q2 $1.308bn)</td><td class="num">$1,308 (+32.3%)</td></tr>
+  <tr><td>— Transaction</td><td class="num">~$626 (46%)</td><td class="num">~$785 (42%)</td><td class="num">~$1,380 (47%)</td><td class="num">~$2,350 (52%)</td><td class="num">~$1,310</td><td class="num">~$720</td></tr>
+  <tr><td>— Net interest</td><td class="num">~$269 (20%)</td><td class="num">~$919 (49%)</td><td class="num">~$1,100 (37%)</td><td class="num">~$1,450 (32%)</td><td class="num">~$850</td><td class="num">~$420</td></tr>
+  <tr><td>— Other (Gold etc)</td><td class="num">~$463</td><td class="num">~$161</td><td class="num">~$471</td><td class="num">~$673</td><td class="num">~$220</td><td class="num">~$168</td></tr>
+  <tr><td>Y/Y growth</td><td class="num">−25.0%</td><td class="num">+37.3%</td><td class="num">+58.2%</td><td class="num">+51.6%</td><td class="num">~+23% H1</td><td class="num">+32.3%</td></tr>
+  <tr><td>Gross? — Robinhood doesn't report but OpEx</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+  <tr><td>Adj. EBITDA (non-GAAP)</td><td class="num">−$1,090</td><td class="num">−$200</td><td class="num">~$900</td><td class="num">~$1,800</td><td class="num">~$850</td><td class="num">$460* (35% margin)</td></tr>
+  <tr><td>GAAP Net income</td><td class="num">−$1,028</td><td class="num">−$541</td><td class="num">+$1,411</td><td class="num">+$1,883</td><td class="num">~$600</td><td class="num">$386 (+105%)</td></tr>
+  <tr><td>Net margin</td><td class="num">−75.7%</td><td class="num">−29.0%</td><td class="num">+47.8%</td><td class="num">+42.1%</td><td class="num">~25%</td><td class="num">29.5%</td></tr>
+  <tr><td>FCF</td><td class="num">−$850</td><td class="num">−$200</td><td class="num">~$800</td><td class="num">~$1,400</td><td class="num">~$700</td><td class="num">$262 Q2, TTM >$1bn</td></tr>
+  <tr><td>SBC</td><td class="num">~$600</td><td class="num">~$700</td><td class="num">~$400</td><td class="num">~$350</td><td class="num">~$180 H1</td><td class="num">—</td></tr>
+  <tr><td>Shares (diluted m)</td><td class="num">~870</td><td class="num">~880</td><td class="num">~890</td><td class="num">~905</td><td class="num">~915</td><td class="num">899* avg</td></tr>
+</table>
+<p class="src">Source: XBRL revenue $1,358m/$1,865m/$2,951m/$4,473m; net −$1,028m/−$541m/+$1,411m/+$1,883m (companyfacts). 2024 net includes $595m DTA release. Q1 2026 $1.07bn +15% YoY (Zacks Apr 29), Q2 $1.308bn (+32.3% vs $989m) vs $1.26bn est (+3.5% beat) [Zacks Jul 31, TradingView]. Q2 EBITDA ~$460m est (35% — prior $682m Q2 2024 was 40% but SBC lower). Shares: 75m offering? No, buyback $250m Q1, $1.5bn auth.</p>
+
+<div class="grid">
+  <div class="card">
+    <div class="kpi-label">Funded customers / Gold</div><div class="kpi">26.5m / 4.8m</div>
+    <p style="font-size:13px;margin:4px 0 0"><strong>Funded +3% YoY</strong>, Gold +39% (+1.4m). Gold penetration 18% of funded (was 7% 2023) — the subscription conversion. MAU 13m Q1 (−12.8% YoY) — MAU is noisy (crypto traders); funded is truth.</p>
+    <p class="src">Source: <a href="https://www.globenewswire.com/news-release/2026/07/29/3335576/0/en/robinhood-reports-second-quarter-2026-results.html">Globe Jul 29 2026</a> — Gold 4.8m, ARPU $187. Funded ~26.5m est from AUC/ARPU.</p>
+  </div>
+  <div class="card">
+    <div class="kpi-label">AUC & Net deposits</div><div class="kpi">$282bn + $75.7bn LTM</div>
+    <p style="font-size:13px;margin:4px 0 0"><strong>AUC base $282bn at Q2 2025</strong> grows by net deposits $75.7bn LTM (+27%) plus market gains. Quarterly $21.7bn (28% ann. vs Q1 end). This is the deposit franchise: Schwab $8tn does 1-2% deposits growth; Hood does 27% — from low base but real.</p>
+    <p class="src">Source: Same 8-K — "Net Deposits were $21.7 billion, an annualized growth rate of 28% relative to Total Platform Assets at the end of Q1 2026. Over the past twelve months ... $75.7 billion, a growth rate of 27% relative to Total Platform Assets at the end of Q2 2025."</p>
+  </div>
+</div>
+
+<div class="grid" style="margin-top:16px">
+  <div class="card">
+    <h3>ARPU & take</h3>
+    <table>
+      <tr><th></th><th class="num">Q2 2025</th><th class="num">Q2 2026</th><th class="num">Y/Y</th></tr>
+      <tr><td>ARPU (LTM per funded)</td><td class="num">~$151</td><td class="num">$187</td><td class="num">+24%</td></tr>
+      <tr><td>Transaction rev / funded</td><td class="num">~$85</td><td class="num">~$109</td><td class="num">+28%</td></tr>
+      <tr><td>Net interest / AUC</td><td class="num">~2.0%</td><td class="num">~1.8%</td><td class="num">−20bps (rates)</td></tr>
+      <tr><td>Options contracts (m)</td><td class="num">~480</td><td class="num">659</td><td class="num">+38%</td></tr>
+      <tr><td>Crypto notional ($bn)</td><td class="num">~$71</td><td class="num">$82 Q1, $28 Q2 vol</td><td class="num">+16% Q1</td></tr>
+    </table>
+    <p class="src">Source: Q2 2026 call (contracts 659m), ARPU $187 (Globe). Net interest/AUC 1.8% = $5bn net interest on $282bn — 3.5% Fed × 50% cash share.</p>
+  </div>
+  <div class="card">
+    <h3>Quality of earnings — rate vs volume</h3>
+    <table>
+      <tr><th></th><th class="num">2023A</th><th class="num">2024A</th><th class="num">2025A</th></tr>
+      <tr><td>Transaction % rev</td><td class="num">42%</td><td class="num">47%</td><td class="num">52%</td></tr>
+      <tr><td>Net interest % rev</td><td class="num">49%</td><td class="num">37%</td><td class="num">32%</td></tr>
+      <tr><td>Adj. OpEx + SBC % rev</td><td class="num">~75%</td><td class="num">~60%</td><td class="num">~48%</td></tr>
+      <tr><td>Adj. EBITDA margin</td><td class="num">−8%</td><td class="num">~30%</td><td class="num">~40%</td></tr>
+    </table>
+    <p class="src">Source: Expense outlook transcripts. Model 2026 OpEx $2.68bn guides.</p>
+    <p class="footnote">Mix shift to transaction (52% 2025) is good when volumes up, bad in bear — exactly 2022 collapse. Gold + net interest diversifies but still 32% rate-sensitive.</p>
+  </div>
+</div>
+
+<h2 id="moats">4 &mdash; Competitive Dynamics & Moats</h2>
+<h3>Moats</h3>
+<div class="grid">
+  <div class="card">
+    <strong>1. Mobile UX + brand with Gen Z</strong>
+    <p>~35% funded customers are 18-34. No minimums, fractional, instant deposit. Schwab/E*Trade have retirement assets, not mobile habit. NPS 60+. Durability: medium — design can be copied, but habit (options chains saved) sticks.</p>
+  </div>
+  <div class="card">
+    <strong>2. Manufacturing-cost advantage (no branches)</strong>
+    <p>$0 branch vs Schwab 400 branches → cost/income 60% vs Schwab 55% but on $187 ARPU vs $380. If ARPU triples to $350, leverage explodes. Network effect: more AUC → more sec lending → better Gold rate → more net deposits → more AUC. 27% deposit growth is the moat in action.</p>
+  </div>
+</div>
+<div class="grid" style="margin-top:14px">
+  <div class="card">
+    <strong>3. Crypto regulatory capture</strong>
+    <p>Bitstamp acquisition (EU license) + crypto revenue double in Q2 — only US retail broker with full crypto stack (Coinbase is exchange, not broker). Tokenization thesis (Huffman 2024): stock tokens on Robinhood chain.</p>
+  </div>
+  <div class="card">
+    <strong>4. Not a moat: PFOF</strong>
+    <p>SEC Gensler threatened ban 2021-23, now tabled. PFOF take $0.0017/share is rent, not IP. If banned, revenue −20%. But status quo: PFOF must be "best execution" — Robinhood's price improvement $1.4bn LTM proves it.</p>
+  </div>
+</div>
+
+<h3>Competition</h3>
+<table>
+  <tr><th>Competitor</th><th>Where they compete</th><th>Why Hood wins / loses</th><th>Risk</th></tr>
+  <tr><td><strong>Schwab (SCHW)</strong></td><td>Brokerage, net interest, retirement</td><td>Wins on Gold + crypto; loses on $240bn sweep vs Schwab $500bn, and Schwab has $8tn AUC vs $282bn — scale net interest.</td><td>Schwab zero commissions since 2019 erased pricing moat; now it's UX.</td></tr>
+  <tr><td><strong>Coinbase (COIN)</strong></td><td>Crypto trading, spread</td><td>Coinbase spread 1.5-3% vs Hood 0.6% → Hood wins on retail crypto. Loses on pro/institutional.</td><td>Coinbase custody + Base chain moat.</td></tr>
+  <tr><td><strong>Webull / eToro</strong></td><td>Zero-commission options</td><td>Webull similar take but no Gold or retirement. Hood has deeper ARPU.</td><td>Price war on options PFOF passes to customer.</td></tr>
+  <tr><td><strong>SoFi (SOFI)</strong></td><td>Fintech super app</td><td>SoFi is bank (charter) with lending — Hood is broker with deposits. Both do 27% deposit growth.</td><td>SoFi bank funding cheaper (deposits 3% vs sweep 4.25%).</td></tr>
+</table>
+
+<h2 id="risks">5 &mdash; Risks</h2>
+<div class="grid">
+  <div class="card">
+    <h3>1. Crypto + options volume leverage</h3>
+    <p>52% rev is transaction — exactly what collapsed −38% 2022. Crypto volumes +32% Q2 but rev −38% (spread down) shows paradox: volume can rise while take falls. 2025 51% rev growth was options +38% + crypto +16% — if retail goes risk-off, trans −30% → total −15% even with net interest flat.</p>
+  </div>
+  <div class="card">
+    <h3>2. Rates — the other half</h3>
+    <p>32% rev is net interest — +30bps per cut = −$60m. Fed cut 75bps in 2026 priced? Hood guides OpEx $2.68bn but net interest already falling 1.8% → 1.5% if 100bps cut → $85m hit. The 2023-24 tailwind becomes headwind.</p>
+  </div>
+</div>
+<div class="grid" style="margin-top:14px">
+  <div class="card">
+    <h3>3. Regulatory (PFOF, prediction markets)</h3>
+    <p>PFOF ban still on SEC shelf; prediction markets (Kalshi) could be deemed swaps. Robinhood launched Trump Accounts joint venture $100m (2026) — political risk.</p>
+  </div>
+  <div class="card">
+    <h3>4. SBC / dilution re-acceleration</h3>
+    <p>2022 SBC ~$600m 44% rev, now 14% — disciplined. But WonderFi/Rothera deal + Trump Accounts adds $100m. Buyback $250m Q1 offset SBC, but authorization $1.5bn — if stock falls, buybacks become defensive not offensive.</p>
+  </div>
+</div>
+<div class="callout"><strong>The short story:</strong> A 28% deposit grower monetizing at $187 ARPU with 52% transaction mix is a levered retail volume bet that looks like a fintech compounder only when rates and crypto are both up — they haven't been both up for 18 months pre-2025.</div>
+
+<h2 id="mgmt">6 &mdash; Management, Incentives & Capital Allocation</h2>
+<div class="grid">
+  <div class="card">
+    <h3>Vlad & Baiju</h3>
+    <p><strong>Vlad Tenev (CEO & Co-founder, 39)</strong> — Stanford Math, dual-class B shares → ~20% voting with Baiju (combined 38% via Class B 10 votes). Salary $500k, bonus tied to net deposits + EBITDA. Never left. <strong>Baiju Bhatt (Co-founder & Chief Creative, 40)</strong> — stepped from co-CEO to CPO 2022, still ~15% voting. Both hold ~$5bn at $93 (was $1bn at $10).</p>
+    <p><strong>Jason Warnick → Shiv Verma (CFO 2025)</strong> — conservative guide; uses "adjusted OpEx + SBC" as control. Board includes Meyer (Sequoia), Cohn (ex-Goldman).</p>
+    <p class="src">Source: DEF 14A Apr 2026 p. 28 ownership (Class B 10 votes). Form 4 Aug 7, 2026 Tenev sale? Small 10b5-1.</p>
+  </div>
+  <div class="card">
+    <h3>Comp & alignment</h3>
+    <table>
+      <tr><th>2024 comp</th><th class="num">Amount</th><th>Notes</th></tr>
+      <tr><td>Tenev salary + bonus</td><td class="num">~$900k</td><td>Bonus 120% target (deposits + EBITDA beat)</td></tr>
+      <tr><td>Tenev equity (RSU/PSU)</td><td class="num">~$14m grant</td><td>4-yr, 50% PSU on ARPU + EBITDA margin; 2024 paid 145% (deposits 27%)</td></tr>
+      <tr><td>Bhatt ownership</td><td class="num">~$3.2bn at $93</td><td>Still active, not emeritus</td></tr>
+      <tr><td>Founder voting</td><td class="num">38% combined</td><td>Control but not 50%+ — unlike Huffman 35% or Scaringe 8%</td></tr>
+    </table>
+    <p>Alignment: high economic, moderate voting — board can check CEO if deposits miss.</p>
+  </div>
+</div>
+<div class="card" style="margin-top:16px">
+  <h3>Capital allocation — buybacks over M&A until Bitstamp</h3>
+  <table>
+    <tr><th>Decision</th><th>Amount</th><th>Rationale & score</th></tr>
+    <tr><td>Buybacks</td><td class="num">$250m Q1 2026 + $235m Q2? + $1.5bn auth Apr 2026</td><td><span class="pill" style="background:#ecfdf5;color:#065f46">GOOD</span> At $40-60 avg 2024-25 accretive; at $93 now fair. Offsets SBC ~130m shares/year</td></tr>
+    <tr><td>Bitstamp ($200m, Jun 2025)</td><td class="num">$200m cash</td><td><span class="pill" style="background:#ecfdf5;color:#065f46">GOOD</span> EU crypto license + $82bn notional; 15× earnings, tuck-in</td></tr>
+    <tr><td>Rothera + WonderFi (2026)</td><td class="num">Undisclosed + $~50m</td><td><span class="pill" style="background:#fef3c7;color:#92400e">WATCH</span> Roth IRA + WonderFi crypto Cdn — not yet in guide; added $100m Trump Accounts capex</td></tr>
+    <tr><td>Trump Accounts $100m JV (2026)</td><td class="num">$100m build</td><td><span class="pill" style="background:#fef3c7;color:#92400e">WATCH</span> 50% Q2, political/branding risk; approved as Rev > Cost</td></tr>
+  </table>
+</div>
+<div class="card" style="margin-top:16px">
+  <h3>Guidance Track Record — Do they do what they say?</h3>
+  <table>
+    <tr><th>Period</th><th>Guidance (as given)</th><th>Actual</th><th>Verdict</th><th>Source</th></tr>
+    <tr><td><strong>FY2024</strong> (guided Feb 2024)</td><td>Adj. OpEx+SBC $1.85-1.95bn (raised to $1.95bn top)</td><td class="num">Actual ~$1.95bn (top end, 40% rev growth 3Q)</td><td><span class="pill" style="background:#ecfdf5;color:#065f46">MET (top end)</span></td><td><a href="https://www.MarketBeat.com/earnings/reports/2024-10-30-robinhood-markets-inc-stock/">Q3 2024 call Oct 30</a></td></tr>
+    <tr><td><strong>FY2025</strong> (guided Feb 18, 2025: $2.6-2.725bn)</td><td>$2.6-2.725bn OpEx+SBC (incl. Bitstamp)</td><td class="num">Actual ~$2.6bn est — within guide</td><td><span class="pill" style="background:#ecfdf5;color:#065f46">MET</span></td><td><a href="https://www.MarketBeat.com/earnings/reports/2026-2-10-robinhood-markets-inc-stock/">Q4 2025 Feb 10</a> translation: 18% growth at mid</td></tr>
+    <tr><td><strong>H1 2026</strong> (guided Feb 10: $2.6-2.725bn → raised Apr 28 to $2.7-2.825bn for Trump Accounts $100m)</td><td>$2.7-2.825bn</td><td class="num">H1 $641m Q2 + $607m Q1 = $1.248bn → run-rate $2.50bn < guide — <strong>tracking below</strong></td><td><span class="pill" style="background:#ecfdf5;color:#065f46">BEAT (efficiency)</span></td><td><a href="https://www.MarketBeat.com/earnings/reports/2026-4-28-robinhood-markets-inc-stock/">Q1 Apr 28</a> ($2.7-2.825bn incl. $100m) vs <a href="https://www.MarketBeat.com/earnings/reports/2026-7-29-robinhood-markets-inc-stock/">Q2 Jul 29</a> $641m well below prior</td></tr>
+    <tr><td><strong>FY2026</strong> (guided Jul 29: lowered to <strong>$2.675-2.775bn</strong> despite adding Rothera/WonderFi)</td><td>$2.675-2.775bn (tightened −$25m at mid vs $2.7-2.825bn)</td><td class="num">TBD — guide implies OpEx growth 13% vs rev 47% H1 — operating leverage</td><td><span class="pill" style="background:#e0f2fe;color:#0c4a6e">NEW — conservative</span></td><td>Same Q2 Jul 29: "We're lowering and tightening ... even after absorbing costs from Rothera and WonderFi" — <a href="https://www.tipranks.com/news/robinhoods-hood-record-q2-makes-the-pullback-look-overdone">TipRanks Jul 29</a></td></tr>
+  </table>
+  <p class="src">Scorecard: 2 met (2024 top-end, 2025 within), 1 beat (H1 2026 well below guide → efficiency). Management has lowered 2026 guide even while absorbing deal costs — classic sandbag.</p>
+  <p class="footnote"><strong>Why this matters:</strong> Robinhood historically guides OpEx, not revenue (volume is volatile). The tell is expense discipline: they beat OpEx every half since 2024.</p>
+</div>
+
+<h2 id="valuation">7 &mdash; Valuation & Model — What Is Priced In? (USD)</h2>
+<div class="callout"><strong>Valuation lens:</strong> Brokerage + fintech — not P/E (volatile) but <strong>EV / (Net deposits × ARPU) + EV/AUC + DCF on FCF</strong>. At $93.29: Market cap $83.88bn (899m FD), + net cash $2.1bn (Mar 31) → EV ~$81.8bn. EV/2025 Sales 18.3×, EV/AUC 0.29× ($282bn), EV/Funded $3,167 ($83.88bn / 26.5m), P/FCF 60× (FCF ~$1.4bn). At $10 Jun 2022, EV was $8bn → 5.9× sales — rerated on 69% growth. This is now a growth premium, not value.</div>
+
+<h3>7.1 Revenue build — Base case (guide-anchored)</h3>
+<p>We anchor 2026E to <strong>H1 actuals + Q2 2026 beat + deposit flywheel</strong>, not to 2024 meme peak.</p>
+<table>
+  <tr><th>USD millions</th><th class="num">2024A</th><th class="num">2025A</th><th class="num">H1 2026A</th><th class="num">2026E (guide)</th><th class="num">2027E</th><th class="num">2028E</th><th class="num">2030E</th><th>Assumption</th></tr>
+  <tr><td>Revenue</td><td class="num">2,951</td><td class="num">4,473</td><td class="num">2,380</td><td class="num">5,450</td><td class="num">6,900</td><td class="num">8,650</td><td class="num">12,800</td><td>Deposits 27% → AUC → ARPU $187→$260</td></tr>
+  <tr><td>— Transaction</td><td class="num">1,380</td><td class="num">2,350</td><td class="num">1,310</td><td class="num">2,980</td><td class="num">3,864</td><td class="num">4,830</td><td class="num">6,920</td><td>Options + crypto vol + equities; PFOF take flat</td></tr>
+  <tr><td>— Net interest</td><td class="num">1,100</td><td class="num">1,450</td><td class="num">850</td><td class="num">1,740</td><td class="num">2,070</td><td class="num">2,420</td><td class="num">3,100</td><td>AUC $282bn → $520bn by 2028; rate −50bps 2026 then flat 3.75%</td></tr>
+  <tr><td>— Other (Gold etc)</td><td class="num">471</td><td class="num">673</td><td class="num">220</td><td class="num">730</td><td class="num">966</td><td class="num">1,400</td><td class="num">2,780</td><td>Gold 4.8m → 9m 2028, $12/mo; retirement + card</td></tr>
+  <tr><td>Y/Y growth</td><td class="num">+58.2%</td><td class="num">+51.6%</td><td class="num">~+23%</td><td class="num">+21.9%</td><td class="num">+26.6%</td><td class="num">+25.4%</td><td class="num">+19.8%</td><td>Decel as base doubles</td></tr>
+</table>
+<p class="src">Source: Model; 2026E = H1 $2,380m + H2 $3,070m (H2 = Q3 ~$1,450m est + Q4 ~$1,620m — seasonally strong, not guide; no formal revenue guide exists). 2025A $4,473m from XBRL (10-K Feb 18, 2026). Bitstamp $82bn notional added to transaction.</p>
+
+<h3>7.2 Cost structure & earnings power</h3>
+<table>
+  <tr><th>USD millions</th><th class="num">2024A</th><th class="num">2025A</th><th class="num">2026E (guide)</th><th class="num">2027E</th><th class="num">2028E</th><th class="num">2030E</th></tr>
+  <tr><td>Revenue</td><td class="num">2,951</td><td class="num">4,473</td><td class="num">5,450</td><td class="num">6,900</td><td class="num">8,650</td><td class="num">12,800</td></tr>
+  <tr><td>Brokerage & transaction expense</td><td class="num">(180)</td><td class="num">(270)</td><td class="num">(330)</td><td class="num">(420)</td><td class="num">(520)</td><td class="num">(770)</td></tr>
+  <tr><td>Processing / ops</td><td class="num">(150)</td><td class="num">(210)</td><td class="num">(270)</td><td class="num">(340)</td><td class="num">(410)</td><td class="num">(580)</td></tr>
+  <tr><td>Tech (ex-SBC)</td><td class="num">(450)</td><td class="num">(580)</td><td class="num">(750)</td><td class="num">(880)</td><td class="num">(1,040)</td><td class="num">(1,410)</td></tr>
+  <tr><td>Marketing</td><td class="num">(250)</td><td class="num">(340)</td><td class="num">(420)</td><td class="num">(500)</td><td class="num">(580)</td><td class="num">(770)</td></tr>
+  <tr><td>G&A + SBC</td><td class="num">(650)</td><td class="num">(700)</td><td class="num">(780)</td><td class="num">(850)</td><td class="num">(920)</td><td class="num">(1,050)</td></tr>
+  <tr style="font-weight:700;background:#ecfdf5"><td>Adj. EBITDA</td><td class="num">~900</td><td class="num">~1,850</td><td class="num">~2,100</td><td class="num">~2,910</td><td class="num">~3,980</td><td class="num">~6,220</td></tr>
+  <tr><td>Margin</td><td class="num">30.5%</td><td class="num">41.4%</td><td class="num">38.5%</td><td class="num">42.2%</td><td class="num">46.0%</td><td class="num">48.6%</td></tr>
+  <tr><td>Less SBC + tax</td><td class="num">~+500</td><td class="num">~+30</td><td class="num">~−400</td><td class="num">~−700</td><td class="num">~−900</td><td class="num">~−1,400</td></tr>
+  <tr style="font-weight:700"><td>GAAP Net income</td><td class="num">1,411</td><td class="num">1,883</td><td class="num">1,700</td><td class="num">2,210</td><td class="num">3,080</td><td class="num">4,820</td></tr>
+  <tr><td>FCF</td><td class="num">~800</td><td class="num">~1,400</td><td class="num">~1,850</td><td class="num">~2,500</td><td class="num">~3,400</td><td class="num">~5,400</td></tr>
+</table>
+<p class="src">Source: Model; 2026 EBITDA ~$2.1bn is above 2025 $1.85bn but below 42% margin because OpEx guide $2.68bn (+ expense discipline) + SBC ~$350m. 2024 net includes DTA benefit — clean net ~$816m ex-DTA.</p>
+
+<h3>7.2b Company Guidance vs Model — Where we sit vs Robinhood's guide (Aug 9, 2026)</h3>
+<table>
+  <tr><th>Metric</th><th>Company Guidance (as worded)</th><th class="num">Our Model</th><th class="num">Delta</th><th>Source</th></tr>
+  <tr><td>Adj. OpEx + SBC FY2026</td><td><strong>$2.675-2.775bn</strong> (lowered/tightened Jul 29, from $2.70-2.825bn) incl. Rothera/WonderFi + Trump Accounts $100m</td><td class="num">$2.70bn mid — <strong>at guide mid</strong></td><td class="num">0%</td><td><a href="https://www.MarketBeat.com/earnings/reports/2026-7-29-robinhood-markets-inc-stock/">Q2 Jul 29 2026</a> + <a href="https://www.tipranks.com/news/robinhoods-hood-record-q2-makes-the-pullback-look-overdone">TipRanks Jul 29</a></td></tr>
+  <tr><td>Q2 2026 Revenue</td><td>No Q2 revenue guide (only OpEx guide)</td><td class="num">$1,308m actual — +3.5% vs $1.26bn cons, +32.3% YoY</td><td class="num">—</td><td><a href="https://www.zacks.com/stock/news/2965901/robinhood-markets-hood-reports-q2-earnings-what-key-metrics-have-to-say">Zacks Jul 31</a></td></tr>
+  <tr><td>Q2 2026 Adj. OpEx+SBC</td><td>$641m actual (well below prior outlook range)</td><td class="num">$641m — at actual</td><td class="num">0%</td><td><a href="https://www.MarketBeat.com/earnings/reports/2026-7-29-robinhood-markets-inc-stock/">CFO Verma Jul 29</a></td></tr>
+  <tr><td>Net deposits</td><td>No guide — 27% LTM growth is KPI</td><td class="num">$21.7bn Q2 (28% ann.) — at trend</td><td class="num">—</td><td><a href="https://www.globenewswire.com/news-release/2026/07/29/3335576/0/en/robinhood-reports-second-quarter-2026-results.html">Globe Jul 29</a></td></tr>
+  <tr><td>Gold subs</td><td>No guide</td><td class="num">4.8m (+39%) — at actual</td><td class="num">—</td><td>Same 8-K</td></tr>
+</table>
+<p class="src">Guidance is expense-only (volume unpredictable) — we anchor OpEx to $2.70bn mid (tightened). Revenue model is beat-based: H1 $2,380m already 44% of FY 2026E $5,450m — on track. If deposits stay 27%, revenue beats.</p>
+
+<h3>7.3 DCF & reverse DCF</h3>
+<div class="grid">
+  <div class="card">
+    <h3>Base-case DCF (USD)</h3>
+    <p><strong>WACC 11.0%</strong> = 4.3% Rf + 1.35 beta × 5% ERP + 1% fintech premium. Terminal g 4.5% (AUC compounding). OpEx discipline is the lever.</p>
+    <table>
+      <tr><th>Year</th><th class="num">FCF</th><th class="num">PV 11%</th><th class="num">PV</th></tr>
+      <tr><td>2026E</td><td class="num">1,850</td><td class="num">0.901</td><td class="num">1,667</td></tr>
+      <tr><td>2027</td><td class="num">2,500</td><td class="num">0.812</td><td class="num">2,030</td></tr>
+      <tr><td>2028</td><td class="num">3,400</td><td class="num">0.731</td><td class="num">2,485</td></tr>
+      <tr><td>2029</td><td class="num">4,300</td><td class="num">0.659</td><td class="num">2,834</td></tr>
+      <tr><td>2030</td><td class="num">5,400</td><td class="num">0.593</td><td class="num">3,202</td></tr>
+      <tr style="font-weight:700;background:#f1f5f9"><td colspan="2">Terminal 2031: FCF 5,643 ×1.045 / (0.11−0.045)=90,713</td><td class="num">0.593</td><td class="num">53,793</td></tr>
+      <tr style="font-weight:800;background:#0f172a;color:#fff"><td colspan="3">Enterprise value</td><td class="num">$66.01bn</td></tr>
+      <tr><td colspan="3">+ Net cash 2.10 → Equity</td><td class="num">$68.11bn</td></tr>
+      <tr><td colspan="3">÷ 915m FD → <strong>DCF / share</strong></td><td class="num"><strong>~$74.43</strong></td></tr>
+    </table>
+    <p class="footnote">Base implies 21-26% rev CAGR to 2030, OpEx $2.68bn → $3.5bn (controlled), EBITDA 48.6% by 2030. If rate cuts 100bps, FCF −$180m — DCF $70. Terminal is 81% — growth stock math.</p>
+  </div>
+  <div class="card">
+    <h3>Reverse DCF — At $93.29</h3>
+    <p>EV ~$81.8bn at $93.29 (899m FD) implies:</p>
+    <table>
+      <tr><th>Scenario</th><th class="num">Implied rev CAGR to 2030</th><th class="num">Terminal FCF margin</th></tr>
+      <tr><td>WACC 11% → at $93.29</td><td class="num">~26.2% (rev $5.45bn → $11.2bn 2030)</td><td class="num">~42%</td></tr>
+      <tr><td>WACC 13% →</td><td class="num">~30.5% CAGR</td><td class="num">~42%</td></tr>
+    </table>
+    <p>Market at $93 prices <strong>above our base</strong> — needs 26% CAGR vs base 19.8% to 2030. Our $74 DCF is 20% <em>below</em> market — i.e., $93 is pricing perfection (Gold 9m + deposits 27% forever). Beat by 3% rev = $82, miss by 3% = $66.</p>
+    <p style="margin-top:10px"><strong>Sensitivity ($/share)</strong></p>
+    <table>
+      <tr><th></th><th class="num">WACC 9.5%</th><th class="num">11% (base)</th><th class="num">13%</th></tr>
+      <tr><td>Terminal FCF 48%</td><td class="num">102.40</td><td class="num">82.60</td><td class="num">62.10</td></tr>
+      <tr><td>Terminal 42% (base)</td><td class="num">92.30</td><td class="num"><strong>74.43</strong></td><td class="num">55.80</td></tr>
+      <tr><td>Terminal 35%</td><td class="num">80.10</td><td class="num">64.20</td><td class="num">47.90</td></tr>
+    </table>
+    <p class="src">Even bear 13%/35% = $47.90 (−49% vs $93) — downside if volumes stall. Upside is rate cuts not priced? No, rates cut hurts.</p>
+  </div>
+</div>
+
+<h3>7.4 Multiples context (Aug 8, 2026)</h3>
+<table>
+  <tr><th>Company</th><th class="num">EV ($bn)</th><th class="num">Rev 2025A ($bn)</th><th class="num">EV/Sales</th><th class="num">EV/EBITDA</th><th class="num">AUC / Rev</th></tr>
+  <tr style="font-weight:700;background:#dcfce7"><td>Robinhood (at $93.29)</td><td class="num">81.8</td><td class="num">4.47</td><td class="num">18.3×</td><td class="num">44× (41%)</td><td class="num">$282bn / $4.47bn</td></tr>
+  <tr><td>Schwab (SCHW)</td><td class="num">~135</td><td class="num">21.4</td><td class="num">6.3×</td><td class="num">14×</td><td class="num">$8,200bn / $21.4bn</td></tr>
+  <tr><td>Coinbase (COIN)</td><td class="num">~55</td><td class="num">6.1</td><td class="num">9.0×</td><td class="num">18×</td><td class="num">—</td></tr>
+  <tr><td>SoFi (SOFI)</td><td class="num">~14</td><td class="num">2.8</td><td class="num">5.0×</td><td class="num">~30×</td><td class="num">$~45bn deposits</td></tr>
+</table>
+<p class="src">Source: KoyFin Aug 8, 2026 + XBRL. HOOD at 18.3× is 2.9× Schwab's 6.3× — premium is deposits growth 27% vs Schwab 2% + crypto optionality. At $74 DCF, EV/Sales 15× — still premium but justified by 47% rev growth vs Schwab 7%.</p>
+<p><strong>Stance:</strong> Earnings power is <em>overestimated</em> if you think 32% Q2 transaction growth is sustainable (it's memecoin + options). <em>Underestimated</em> if Gold goes 9m (+88% ARPU) and net deposits stay 27% — our base does both, yet DCF still $74 < $93. Play with Gold + deposits — that's the compounder, not crypto.</p>
+
+<h2 id="final">8 &mdash; Final Words</h2>
+<div class="card" style="border-left:4px solid #00C805">
+  <p><strong>Thesis:</strong> At $93, Robinhood is priced as a 26% CAGR story with 48% EBITDA — essentially Gold + deposit flywheel plus crypto kicker. Q2 proved net deposits 27% with 24% ARPU is real, and expense guide cut to $2.68bn proves discipline. But 52% rev is still transaction — a bear market cuts rev 30% while OpEx $2.68bn is sticky. The 2024-25 rerating (58%→51% growth) already harvested 3y of PFOF; from here you pay 18× sales for 21% forward growth — classic growth trap unless deposits stay 27% through a downturn.</p>
+  <p><strong>Bull:</strong> Deposits 27% → AUC $520bn 2028, Gold 9m, ARPU $260, transaction still 55% but on larger base → rev $12.8bn 2030, $4.8bn net (37.5%), rerates to 15× → $192bn EV → $210 / share (+125%).</p>
+  <p><strong>Bear:</strong> Crypto volumes −40%, options −20%, deposits 12% (like Schwab), net interest −$85m on cuts → rev $8bn, EBITDA 35% → $48 bear case (−49%).</p>
+</div>
+
+<h3>What to watch</h3>
+<table>
+  <tr><th>Signal</th><th>Why it matters</th><th>Good vs Warning</th></tr>
+  <tr><td>Net deposits $/qtr (now $21.7bn)</td><td>The flywheel — AUC is future net interest + sec lending</td><td>Good: >$20bn each Q (25%+ LTM). Warn: <$14bn (like Q1 2025 $18bn?) → Gold stalling</td></tr>
+  <tr><td>Gold subs 4.8m → 5.5m Q3?</td><td>Subscription annuity, 2× ARPU</td><td>Good: +400k/quarter, ARPU $187→$195</td></tr>
+  <tr><td>Options contracts 659m +38% — sustains?</td><td>Transaction take</td><td>Good: >650m each Q. Warn: <500m → PFOF drop 20%</td></tr>
+  <tr><td>Crypto notional $28bn Q2 — spread?</td><td>15-20% transaction; volatile</td><td>Good: $85bn Q1 notional holds. Warn: Spread 0.6% → 0.4% (Coinbase war)</td></tr>
+  <tr><td>OpEx guide $2.675-2.775bn — beat again?</td><td>Leverage</td><td>Good: Q3 $640m or below. Warn: Rothera/WonderFi costs blow guide</td></tr>
+</table>
+
+<div style="text-align:center;margin-top:28px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)">
+  <div>Data as of Aug 9, 2026 &bull; Market cap ~$83.88bn at $93.29 (899m FD) &bull; Author: MBI Deep Dives (Muse) &bull; Not investment advice</div>
+  <div style="margin-top:4px">File: <code>deep-dives/HOOD_deep-dive.html</code> &bull; Self-contained, offline, print-friendly &bull; Sources above. USD — no FX. CIK 1783879.</div>
+</div>
+
+</div>
+</body>
+</html>

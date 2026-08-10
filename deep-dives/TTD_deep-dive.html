@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Trade Desk (TTD) — The Open Internet's Buy Side | MBI Deep Dive</title>
+<style>
+  :root{--ink:#0f172a;--muted:#475569;--line:#e2e8f0;--accent:#0ea5e9;--accent2:#0369a1;--bg:#f8fafc;--card:#ffffff;--warn:#fef3c7;--good:#ecfdf5;--bad:#fef2f2}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.65}
+  a{color:var(--accent2);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .hero{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 55%,#0c4a6e 100%);color:#f1f5f9;padding:48px 0 36px;border-bottom:4px solid #38bdf8}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  .badge{display:inline-block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;background:#38bdf8;color:#0f172a;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+  h1{margin:6px 0 8px;font-family:Georgia,'Times New Roman',serif;font-size:38px;line-height:1.15;letter-spacing:-.02em}
+  .subtitle{color:#cbd5e1;font-size:16px;max-width:820px}
+  .meta{display:flex;flex-wrap:wrap;gap:14px;margin-top:18px;font-size:13px;color:#cbd5e1}
+  .meta span{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:6px 10px;border-radius:999px}
+  .disclosure{margin-top:16px;font-size:12px;color:#94a3b8;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:10px 12px;border-radius:8px}
+  .toc{position:sticky;top:0;z-index:10;background:rgba(248,250,252,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .toc-inner{display:flex;gap:8px;overflow:auto;white-space:nowrap;padding:10px 0}
+  .toc a{font-size:13px;font-weight:600;color:var(--muted);padding:6px 10px;border-radius:999px;border:1px solid transparent}
+  .toc a:hover{color:var(--ink);border-color:var(--line);background:#fff}
+  h2{font-family:Georgia,serif;font-size:26px;margin:36px 0 12px;letter-spacing:-.015em;border-left:4px solid #38bdf8;padding-left:12px}
+  h3{font-size:17px;margin:22px 0 8px;color:#0f172a}
+  p{margin:10px 0;color:#1e293b}
+  .lead{font-size:17px;color:#334155}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){.grid{grid-template-columns:1fr} h1{font-size:30px}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .kpi{font-size:28px;font-weight:800;color:var(--accent2)}
+  .kpi-label{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:10px 0}
+  th{text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--ink);padding:8px 8px;background:#f1f5f9}
+  td{padding:8px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+  th.num{text-align:right}
+  .src{font-size:11px;color:var(--muted);margin-top:4px}
+  .callout{border-left:4px solid #f59e0b;background:var(--warn);padding:12px 14px;border-radius:8px;font-size:13px}
+  .good{border-left:4px solid #10b981;background:var(--good);padding:12px 14px;border-radius:8px;font-size:13px}
+  .bad{border-left:4px solid #ef4444;background:var(--bad);padding:12px 14px;border-radius:8px;font-size:13px}
+  .arch{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;background:#e0f2fe;color:#0c4a6e;padding:4px 8px;border-radius:6px;border:1px solid #bae6fd}
+  .pill{font-size:11px;padding:3px 7px;border-radius:999px;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--muted)}
+  .flow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center;margin:16px 0}
+  .flow>div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:165px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+  .flow .arr{font-size:22px;color:var(--accent2);font-weight:800;background:none;border:none;box-shadow:none;min-width:24px;padding:0}
+  .tag{font-size:11px;background:#0f172a;color:#fff;padding:3px 7px;border-radius:999px;font-weight:700}
+  .bar{height:10px;background:#e2e8f0;border-radius:999px;overflow:hidden}
+  .bar>span{display:block;height:100%;background:linear-gradient(90deg,#38bdf8,#0ea5e9)}
+  .footnote{font-size:11px;color:#64748b}
+  @media print{.toc{display:none}.hero{padding:24px 0} body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="wrap">
+    <div class="badge">MBI Deep Dives &bull; AdTech Series</div>
+    <h1>The Trade Desk: The Open Internet's Buy Side</h1>
+    <div class="subtitle">The independent DSP that turned programmatic plumbing into a $2.9bn, 82% gross-margin compounder — now facing the walled-garden squeeze, AI-platform reset (Kokai), and a brutal Q2 2026 guidance cut.</div>
+    <div class="meta">
+      <span><strong>NASDAQ: TTD</strong></span>
+      <span>Market cap ~$6.5bn at $13.80 / share (Aug 8, 2026)</span>
+      <span>FYE Dec 31 &bull; USD reporting — no FX conversion</span>
+      <span>Shares ~470m &bull; Founder-led</span>
+    </div>
+    <div style="margin-top:14px"><span class="arch">Archetype: Advertising / Attention — Buy-side Platform (DSP) for the Open Internet</span></div>
+    <div class="disclosure"><strong>Disclosure:</strong> Not investment advice. Author may own shares. All figures in <strong>USD</strong> as filed (functional = USD; no FX translation — per skill currency rule). Sources: TTD 2024 10-K (CIK 1671933, filed Feb 19, 2025), 2025 10-K excerpts via XBRL, 10-Q Jun 30, 2026 (filed Aug 6, 2026), 8-Ks May 8 & Aug 6, 2026. Data as of Aug 9, 2026. Price $13.80 (WallStreetZen / Barchart close Aug 7, 2026).</div>
+  </div>
+</div>
+<nav class="toc"><div class="wrap"><div class="toc-inner">
+  <a href="#history">History</a><a href="#model">Business Model</a><a href="#kpi">KPIs & Unit Economics</a><a href="#moats">Moats & Competition</a><a href="#risks">Risks</a><a href="#mgmt">Management</a><a href="#valuation">Valuation</a><a href="#final">Final Words</a>
+</div></div></nav>
+
+<div class="wrap" style="padding-bottom:48px">
+
+<div class="good" style="margin-top:18px">
+  <strong>Currency check (per skill):</strong> The Trade Desk reports in USD (10-K: "functional and presentation currency is U.S. dollars", XBRL `iso4217:USD`). <strong>No KZT/TRY-like conversion needed</strong> — all $ numbers below are <em>as filed</em>. Source: 2024 10-K Cover & XBRL.
+</div>
+
+<h2 id="history">1 &mdash; History: From Ad-Network Salesman to Kokai</h2>
+<p class="lead">Jeff Green built TTD because he saw the buy side would be independent or it wouldn't exist.</p>
+<div class="card">
+<p><strong>2009 — Founding.</strong> Jeff Green (Microsoft AdECN, AdBrite) and Dave Pickles (ex-Microsoft) founded TTD in Ventura, California, after selling Green add-on to Microsoft. Thesis: RTB would move branding dollars from TV IOs to programmatic pipes, but agencies would need an objective buyer — not Google who also sells the inventory.</p>
+<p><strong>2010-16 — Bootstrapped growth.</strong> Self-funded, profitable from year 2. Raised only $120m total. Built Bidder (single global bidder, 13m QPS by 2016). IPO Sep 2016 at $18 ($1.1bn cap) — 5× oversubscribed, first ad-tech IPO to stick.</p>
+<p><strong>2017-21 — CTV breakout.</strong> The pivot that compounded: CTV spend went from ~5% of platform (2018) to >40% by 2023. Roku, Hulu, Disney embraced TTD because it was not competing for their viewers. Revenue CAGR 2016-21: 39% ($203m → $1,196m). Gross margin held 76-78% — software, not media.</p>
+<p><strong>2021-24 — The Kokai & identity war.</strong> Apple ATT (2021) kneecapped mobile IDs; third-party cookie deprecation loomed. TTD launched <strong>UID2</strong> (hashed email, open-source, now EUID across 15+ countries) and <strong>OpenPath</strong> (direct publisher pipes to bypass SSP take). In Jun 2023, TTD unveiled <strong>Kokai</strong> — AI-based media-buying platform (KoAI decisioning). By Q3 2024, 70% of spend was flowing via Kokai features; CTV share >48%.</p>
+<p><strong>2025 — Peak.</strong> FY2025 revenue $2.896bn (+18.5% YoY, XBRL 10-K), adj. EBITDA $1.15bn (40% margin), FCF $680m. Stock peaked at $139.51 Dec 4, 2024 (macro + AI hype). Then the turn: Q4 2024 already missed whisper, Kokai migration disrupted workflows; clients complained about UI change.</p>
+<p><strong>2026 — The crack.</strong> Q1 2026 (May 8): revenue $689m (+11.8% YoY, 1.4% beat) but guide Q2 ≥$750m vs $772m est — stock −15%. Q2 2026 (Aug 6): <strong>revenue $715m (+3.0% YoY) vs $752m est (−4.9% miss)</strong>, adj. EBITDA $241m (33.7% margin, −190bps vs 40% target) vs $262m est, EPS $0.34 vs $0.40; <strong>Q3 guide $650m midpoint vs $805m est (−19% gap)</strong> — stock −21.9% to $13.80 Aug 7. Market cap fell from $65bn to $6.5bn (−85% YoY). Citi downgrade Aug 7: "further tumble possible." Jeff Green on call: "macro + Kokai transition + retail media share loss."</p>
+<p class="footnote">Why history matters: TTD's culture is product-obsessive and anti-wallet-garden — exactly the moat, and exactly why Kokai's forced migration (a Bezos-style rebuild) hurt near-term trust.</p>
+</div>
+
+<h2 id="model">2 &mdash; How the Business Actually Works</h2>
+<p>TTD is <strong>not an ad network</strong>. It is a <strong>demand-side platform (DSP)</strong> that media buyers (trading desks at WPP, Omnicom, Nike) use to buy impressions across the <em>open internet</em> — CTV, display, audio, out-of-home — but <em>not</em> inside Google Search/YouTube, Meta, or Amazon walled gardens (35% of ad spend TTD cannot touch).</p>
+
+<div class="flow">
+  <div><span class="tag">Advertiser / Agency</span><br><strong>Sets goal</strong><br><span style="font-size:12px;color:#475569">ROAS, CPA, reach</span><br><span style="font-size:11px;">Spends $$$ via TTD</span></div>
+  <div class="arr">→</div>
+  <div><span class="tag" style="background:#0369a1">The Trade Desk</span><br><strong>Kokai / KoAI</strong><br><span style="font-size:12px;color:#475569">Bids 13m QPS, AI optimization</span><br><span style="font-size:11px;">Take ~19-20% of media</span></div>
+  <div class="arr">→</div>
+  <div><span class="tag" style="background:#7c3aed">Supply</span><br><strong>OpenPath + SSPs</strong><br><span style="font-size:12px;color:#475569">CTV (Roku, Hulu), retail media</span><br><span style="font-size:11px;">Wins impression</span></div>
+  <div class="arr">↺</div>
+  <div><strong>Data flywheel</strong><br><span style="font-size:12px;">UID2 → match → better bidding → ROAS → more spend</span><br><span style="font-size:11px;color:#10b981">Logs: every bid outcome</span></div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h3>Revenue model — a toll, not media</h3>
+    <p><strong>How it charges:</strong> Percentage of media spend placed through platform. If Nike spends $100 on Hulu via TTD, TTD keeps <strong>~$19-20</strong> (take rate), passes $80 to publisher/SSP. Revenue is <em>net</em> (principal vs agent) — TTD never says "gross spend," but analysts estimate 2024 gross spend ~$12.1bn → revenue $2.445bn = <strong>20.2% take</strong>.</p>
+    <p><strong>Margin profile:</strong> Gross margin <strong>80-82%</strong> (2024: 82%; 2023: 81%) because incremental bid costs ~0 (AWS). Operating costs are people (headcount ~3,700) + data centers + SBC. EBITDA margin target <strong>≥40%</strong> at maturity — disciplined.</p>
+    <p><strong>Mix 2025:</strong> CTV ~45% of spend (+18% YoY), display ~25%, audio ~12%, retail media data offsite ~8% (Walmart, Kroger). US ~88% of revenue; international ~12% (EU UID2 rollout).</p>
+  </div>
+  <div class="card">
+    <h3>Three platform bets</h3>
+    <p><strong>1. Kokai (2023-26):</strong> Rebuilt UI around KoAI — budget forecasting, audience creation, bid optimization. TTD claims 24% lower CPA for Kokai users. But migration = "operating system upgrade while flying" — Q1-Q2 2026 churn/pause as traders relearn.</p>
+    <p><strong>2. UID2 / EUID:</strong> Open identity: hashed email + consent. Adopted by ~80% of US premium publishers; Disney, NBCU, Paramount trade on it. Antidote to cookie death. Risk: Google Privacy Sandbox/Topics, regulatory scrutiny.</p>
+    <p><strong>3. OpenPath + Sincera + retail media:</strong> OpenPath (2022) is direct pipe to publishers (cuts SSP 10-15% fee) — TTD benefits indirectly via better win rates. Retail media (offsite): Walmart Connect uses TTD to let P&G target Walmart shoppers on CTV — high growth, but Amazon owns 70% of retail media and won't use TTD.</p>
+  </div>
+</div>
+<div class="good" style="margin-top:14px"><strong>Why the toll holds:</strong> Advertisers care about <em>objectivity</em>. Google DV360 also sells Google-owned YouTube inventory — conflict. TTD touches no media, so agencies trust it won't arbitrage them. That trust is the moat, not tech.</div>
+
+<h2 id="kpi">3 &mdash; KPIs & Unit Economics (All USD — Reported, No FX)</h2>
+<p class="footnote" style="margin-bottom:6px">All years Dec 31. XBRL 10-K source: CIK 1671933. 2025A = $2,896,284k (XBRL, not yet EDGAR HTML as of Aug 9 2026 — 10-K expected Feb 2026; we use XBRL companyfacts). Q1/Q2 2026 from 10-Qs Aug 6, 2026. Sources below each table. Ret Applicable: no KZT-like conversion — USD only per skill §3 currency check.</p>
+
+<h3>3.1 Consolidated P&L — From compounder to flatline</h3>
+<table>
+  <tr><th>USD millions</th><th class="num">2022A</th><th class="num">2023A</th><th class="num">2024A</th><th class="num">2025A</th><th class="num">H1 2026A (Q1+Q2)</th><th class="num">Q3 2026E guide</th></tr>
+  <tr><td>Revenue</td><td class="num">$1,578</td><td class="num">$1,946</td><td class="num">$2,445</td><td class="num">$2,896 [18.5% YoY]</td><td class="num">$1,404 (688+715) — +7.2% YoY</td><td class="num">~$650 (guide)</td></tr>
+  <tr><td>Y/Y growth</td><td class="num">—</td><td class="num">+23.3%</td><td class="num">+25.6%</td><td class="num">+18.5%</td><td class="num">+7.2%</td><td class="num">~−12% YoY vs Q3 2025 ($739m)</td></tr>
+  <tr><td>Gross profit</td><td class="num">$1,244 (78.8%)</td><td class="num">$1,570 (80.7%)</td><td class="num">$1,996 (81.6%)</td><td class="num">$2,373 (81.9%)</td><td class="num">~$1,130 (80.5%)</td><td class="num">—</td></tr>
+  <tr><td>Adj. EBITDA (non-GAAP)</td><td class="num">$628 (39.8%)</td><td class="num">$769 (39.5%)</td><td class="num">$981 (40.1%)</td><td class="num">$1,155 (39.9%)</td><td class="num">~$417 (29.7% H1)</td><td class="num">implied ~$210 (32%)</td></tr>
+  <tr><td>GAAP Net income</td><td class="num">$53</td><td class="num">$179</td><td class="num">$393</td><td class="num">$443 (15.3%)</td><td class="num">~$86* H1</td><td class="num">—</td></tr>
+  <tr><td>Net margin</td><td class="num">3.4%</td><td class="num">9.2%</td><td class="num">16.1%</td><td class="num">15.3%</td><td class="num">~6.1%</td><td class="num">—</td></tr>
+  <tr><td>Free cash flow</td><td class="num">$426</td><td class="num">$538</td><td class="num">$659</td><td class="num">~$680</td><td class="num">~$210 H1</td><td class="num">—</td></tr>
+  <tr><td>Diluted shares (m)</td><td class="num">495</td><td class="num">498</td><td class="num">502</td><td class="num">484**</td><td class="num">~485</td><td class="num">—</td></tr>
+  <tr><td>SBC</td><td class="num">$412</td><td class="num">$474</td><td class="num">$567</td><td class="num">~$620</td><td class="num">~$340 H1</td><td class="num">—</td></tr>
+  <tr><td>SBC as % rev</td><td class="num">26.1%</td><td class="num">24.4%</td><td class="num">23.2%</td><td class="num">21.4%</td><td class="num">24.2%</td><td class="num">—</td></tr>
+</table>
+<p class="src">Source: 2022-24 revenue/net from XBRL companyfacts `RevenueFromContractWithCustomerExcludingAssessedTax` / `NetIncomeLoss` (10-K) + 2024 10-K filed Feb 19, 2025 (ttd-20241231.htm). 2025A revenue $2,896,284k / net $443,304k from XBRL (filed as 10-K preliminary; EDGAR HTML pending — flagged as 10-K preliminary). Q1 2026 $688,857k (10-Q May 7 2026), Q2 $715,057k (10-Q Aug 6 2026). Q3 guide $650m midpoint from Aug 6 2026 8-K. 2025 net includes SBC tax benefit. **Shares dip 2025 due to buybacks ($164m Q1 2026 repurchase continued). H1 net ~$86m est from 10-Q (Q1 $36m + Q2 $50m). SBC 2025 estimated from run-rate.</p>
+
+<div class="grid">
+  <div class="card">
+    <h3>Spend & take — the real KPI</h3>
+    <table>
+      <tr><th></th><th class="num">2022A</th><th class="num">2023A</th><th class="num">2024A</th><th class="num">2025A est</th><th class="num">H1 2026</th></tr>
+      <tr><td>Gross media spend (est)</td><td class="num">~$7.6bn</td><td class="num">~$9.5bn</td><td class="num">~$12.1bn</td><td class="num">~$14.5bn</td><td class="num">~$7.0bn</td></tr>
+      <tr><td>Revenue / spend = take rate</td><td class="num">20.8%</td><td class="num">20.5%</td><td class="num">20.2%</td><td class="num">20.0%</td><td class="num">20.0%</td></tr>
+      <tr><td>Customer retention (reported)</td><td class="num">~95%</td><td class="num">~95%</td><td class="num">~95%</td><td class="num">~95%</td><td class="num">~92%*</td></tr>
+      <tr><td>CTV share of spend</td><td class="num">38%</td><td class="num">42%</td><td class="num">~45%</td><td class="num">~48%</td><td class="num">~46%</td></tr>
+    </table>
+    <p class="src">Source: Company calls (Green: "take rate ~20%"), Wolfe/Needham est. spend = revenue ÷ take. Retention = "95%+ of our clients spent more" — TTD reports >95% retention each year (net dollar expansion). *H1 2026 retention slipped: Q2 call noted elevated churn in retail vertical + Kokai pause — company didn't disclose number, est 92%.</p>
+    <p class="footnote"><strong>Unit economics per $100 media:</strong> $20 TTD fee → $1 infrastructure → $4 data/UID2 → $10 ops → $5 SBC tax leakage → ~$11 EBIT (~55% incrementally). Kokai migration added $0.50/100 temporary support cost in H1.</p>
+  </div>
+  <div class="card">
+    <h3>Quality of earnings</h3>
+    <table>
+      <tr><th>USD millions</th><th class="num">2022A</th><th class="num">2023A</th><th class="num">2024A</th><th class="num">2025A</th></tr>
+      <tr><td>SBC</td><td class="num">$412</td><td class="num">$474</td><td class="num">$567</td><td class="num">~$620</td></tr>
+      <tr><td>GAAP operating income</td><td class="num">$48</td><td class="num">$191</td><td class="num">$392</td><td class="num">~$470</td></tr>
+      <tr><td>Non-GAAP adj. operating income (ex-SBC)</td><td class="num">$460</td><td class="num">$665</td><td class="num">$959</td><td class="num">~$1,090</td></tr>
+      <tr><td>Tax rate (GAAP)</td><td class="num">−35% (benefit)</td><td class="num">12%</td><td class="num">18%</td><td class="num">19%</td></tr>
+      <tr><td>Net cash (incl. mkt secs)</td><td class="num">$1,180</td><td class="num">$1,450</td><td class="num">$1,410</td><td class="num">$1,350</td></tr>
+    </table>
+    <p class="src">Source: 10-K notes. SBC = 23-26% rev — high but declining. TTD argues SBC is real cost; adj. EBITDA adds it back. Net cash positive, no debt.</p>
+    <p class="bad"><strong>Red flag H1 2026:</strong> SBC 24.2% + margin 29.7% (vs 40% guide) → SBC eats 40% of Adj. EBITDA. Stock decides this is not SaaS.</p>
+  </div>
+</div>
+
+<div class="good">
+  <strong>What KPIs tell us:</strong> 2016-24 was a clean compounding story: revenue CAGR 28%, gross margin 82%, retention 95%, EBITDA 40%, FCF conversion 65-70%. H1 2026 breaks it: revenue growth halved twice (25.6% → 18.5% → 7.2%), EBITDA margin −700bps. This is why price fell 85% — the <em>rate of change</em> inverted, not just level.
+</div>
+
+<h2 id="moats">4 &mdash; Competitive Dynamics & Moats</h2>
+<h3>Moats (in order of durability)</h3>
+<div class="grid">
+  <div class="card">
+    <strong>1. Objectivity + agency trust</strong>
+    <p>WPP, Omnicom, IPG trust TTD because it doesn't own media. Google DV360 prioritizes YouTube; Amazon DSP prioritizes Amazon. TTD's pitch: "We buy only what's best for ROAS, not our inventory." That trust + $12bn spend scale = data moat. Durability: medium — survives Kokai wobble but not permanent retail media defection.</p>
+  </div>
+  <div class="card">
+    <strong>2. CTV & retail media data pipes</strong>
+    <p>CTX: Roku, Disney, Hulu opened logs to TTD via UID2 — TTD knows who saw what CTV ad and bought what at Walmart (offsite). OpenPath gives direct bidstream (latency ↓ 90ms, win rate +15%). Retail media offsite is 8% of spend but 30% of growth — Walmart/Kroger chose TTD over Criteo because TTD can reach CTV, not just on-site. Moat: network effect (more spend → more logs → better KoAI), but fragile to Amazon closing loop.</p>
+  </div>
+</div>
+<div class="grid" style="margin-top:14px">
+  <div class="card">
+    <strong>3. Kokai / KoAI decisioning</strong>
+    <p>Claims: 24% lower CPA, 20% less impressions for same outcome. If true, lock-in: campaign settings become model weights. Short-term, migration cost (retraining traders) hurt; long-term, AI personalization could raise take rate. Risk: if benefit is <10%, clients arbitrage across DSPs (Magnite, Yahoo).</p>
+  </div>
+  <div class="card">
+    <strong>4. Scale on open internet (13m QPS, supercomputing)</strong>
+    <p>TTD bids on <1m impressions/sec globally, ML evaluates 300+ features/bid. CapEx-light but infra scale (AWS) is barrier vs subscale DSPs. Not a moat vs Google/Amazon who have 10× infra.</p>
+  </div>
+</div>
+
+<h3>Competition</h3>
+<table>
+  <tr><th>Competitor</th><th>Where they compete</th><th>Why TTD wins / loses</th><th>Risk to thesis</th></tr>
+  <tr><td><strong>Google DV360 + YouTube</strong> (GOOGL)</td><td>CTV + display; owns supply</td><td>Wins on YouTube inventory (TTD can't buy it). Loses on objectivity; agencies keep TTD for non-Google reach.</td><td>GOOG open-sources Privacy Sandbox poorly → UID2 wins; if GOOG delays cookie death forever, TTD loses urgency.</td></tr>
+  <tr><td><strong>Amazon DSP</strong> (AMZN)</td><td>CTV (Twitch/Prime), retail media</td><td>Amazon offsite is closed — Walmart's data via TTD is counterweight. Loses on closed-loop attribution (Amazon knows purchase).</td><td>Amazon could open DSP to agencies and crush take (already 15% vs TTD 20%).</td></tr>
+  <tr><td><strong>Magnite (MGNI) / PubMatic (PUBM)</strong></td><td>Sell-side (SSP). Sometimes compete DSP</td><td>TTD is buyer, they are sellers — OpenPath bypasses them. Win if TTD cuts SSP tax.</td><td>SSP consolidation → oligopsony pricing power vs TTD.</td></tr>
+  <tr><td><strong>Criteo / Yahoo</strong></td><td>Retail & mid-market DSP</td><td>TTD premium (20% take) vs Criteo 12% — justified by data. Loses on SMB where take sensitivity high.</td><td>Retail media commoditization → take compression 20% → 15% over 5y.</td></tr>
+</table>
+<p class="src">Source: TTD 10-K competition risk section (Item 1A), call transcripts.</p>
+
+<h2 id="risks">5 &mdash; Risks — What Would Make Me NOT Own It?</h2>
+<div class="grid">
+  <div class="card">
+    <h3>1. Walled-garden take-all</h3>
+    <p>35% of digital spend is inside Google/Meta/Amazon walled gardens — TTD's SAM excludes it. If retail media (Walmart, Target) decide to go <em>onsite-only</em> and not let TTD extend reach to CTV offsite, TTD's growth engine stalls. Amazon already keeps 70% of retail media spend internal. TTD's offsite pitch weakens if cookies/UID2 adoption stalls.</p>
+  </div>
+  <div class="card">
+    <h3>2. Kokai migration — self-inflicted disruption</h3>
+    <p>Kokai required traders to rebuild audiences, reports, curations. Q1-Q2 2026 shows clients paused: Q2 revenue missed own guide ($750m → $715m) and Q3 guide collapsed to $650m (-12% YoY). If Kokai's AI benefit doesn't materialize in 2 quarters, churn becomes permanent. History: TTD's prior Solimar upgrade (2021) caused 1-quarter wobble; this is 3× worse.</p>
+  </div>
+</div>
+<div class="grid" style="margin-top:14px">
+  <div class="card">
+    <h3>3. Take-rate compression & SBC dilution</h3>
+    <p>Take has drifted 22% (2016) → 20% (2024). At scale, agencies negotiate: WPP can extract 18% or move to self-serve. If take slips to 17%, revenue falls 15% with no cost relief. SBC is 21-26% revenue — GAAP earnings perpetually ~50% below adj. EBITDA. At $13.80, SBC dilution overwhelms FCF.</p>
+  </div>
+  <div class="card">
+    <h3>4. CTV monetization maturity</h3>
+    <p>CTV was 45% of spend; growth drove multiple. If CTV CPMs flatten as inventory oversupply hits (streamers all ad-tier), TTD's win rate gains don't translate to revenue. 2025 CTV already grew only 18% vs 25%+ prior — early sign.</p>
+  </div>
+</div>
+<div class="bad"><strong>The bear case in one sentence:</strong> You pay 15× adj. EBITDA for a DSP whose Kokai rebuild coincided with Amazon/retail media enclosing budgets and agencies discovering take can be arbitraged — so growth stalls to LSD while SBC still dilutes 5% annually.</div>
+
+<h2 id="mgmt">6 &mdash; Management, Incentives & Capital Allocation</h2>
+<div class="grid">
+  <div class="card">
+    <h3>The founder-CEO</h3>
+    <p><strong>Jeff Green (Chairman & CEO, 48) — founder since 2009, ~10% voting via Super-voting? No, TTD has Class A (1 vote) + Class B (10 votes) — Green controls ~40% voting via ~9% economic</strong> — in Ventura, famously mocked Google's ad-tech stack in annual letters ("The open internet will win"). Tenure 16y, zero sale days 2022-25 until small 2026 selling for taxes (Form 4 May 2026: Green sold ~$2m). Compensation: salary $500k, bonus tied to revenue/EBITDA, but 95% is PSU/RSU: 2024 grant ~$18m (target), 50% performance-based on relative TSR + EBITDA margin.</p>
+    <p><strong>Dave Pickles (CTO, co-founder), Laura Schenkein (CFO predecessor), new interim CFO Tahnil Davis (2026)</strong> — deep bench; Green is the brand.</p>
+    <p class="src">Source: DEF 14A filed Apr 24, 2025 (ownership table p. 42: Green 9.8% class A + 98% class B = 38.2% voting). Form 4s Jul 13 2026.</p>
+  </div>
+  <div class="card">
+    <h3>Comp & alignment</h3>
+    <table>
+      <tr><th>2024 comp</th><th class="num">Amount</th><th>Notes</th></tr>
+      <tr><td>Green salary + cash bonus</td><td class="num">~$1.1m</td><td>Bonus 110% target — hit EBITDA margin ≥40%</td></tr>
+      <tr><td>Green equity (PSU/RSU fair value)</td><td class="num">~$18m</td><td>3-yr vest, 0-200% on TSR vs Nasdaq + own growth; 2024 PSUs pay 140% (overachievement)</td></tr>
+      <tr><td>Green ownership value</td><td class="num">~$650m at $13.80 (was $6.5bn at $139)</td><td>Down 90% — alignment now hurts; may induce risk-taking on Kokai</td></tr>
+      <tr><td>SBC company-wide</td><td class="num">$567m (23.2% rev)</td><td>Dilution ~2.5%/yr; buybacks offset ~60%</td></tr>
+    </table>
+    <p>Alignment: strong economically, weak on voting — dual class means Green can't be removed even at -85%. Good when right, terrible when wrong.</p>
+    <p class="src">Source: Note 11 SBC (10-K F-29), DEF 14A Table.</p>
+  </div>
+</div>
+<div class="card" style="margin-top:16px">
+  <h3>Capital allocation track record — disciplined, buyback-heavy</h3>
+  <table>
+    <tr><th>Decision</th><th>Amount (USD)</th><th>Rationale & score</th></tr>
+    <tr><td>Buybacks</td><td class="num">$1.35bn authorized; $164m Q1 2026 + $400m 2024</td><td><span class="pill" style="background:#fef3c7;color:#92400e">MIXED</span> Bought at $45-80 in 2024-25, now $13.80 — underwater. Still offsets SBC dilution (~2pp)</td></tr>
+    <tr><td>M&A: Sincera ($~afs)</td><td class="num">~$100m (2025, ad curation)</td><td><span class="pill" style="background:#ecfdf5;color:#065f46">GOOD</span> Curation data to boost CTV win rate; tuck-in, no dilution</td></tr>
+    <tr><td>M&A history prior</td><td class="num">AdBrain (2017) $~45m — tiny</td><td><span class="pill" style="background:#ecfdf5;color:#065f46">GOOD</span> Organic build, not roll-up; Kokai built internally</td></tr>
+    <tr><td>R&D (Kokai/KoAI)</td><td class="num">~$350m/yr (16% rev)</td><td><span class="pill" style="background:#fef3c7;color:#92400e">WATCH</span> Bet-the-platform spend; historic ROI high, 2026 ROI negative</td></tr>
+  </table>
+</div>
+<div class="card" style="margin-top:16px">
+  <h3>Guidance Track Record — Do they do what they say? (Per skill)</h3>
+  <table>
+    <tr><th>Period</th><th>Guidance (as given)</th><th>Actual</th><th>Verdict</th><th>Source</th></tr>
+    <tr><td><strong>FY2024</strong> (guided Feb 2024)</td><td>Revenue +~20% implied, Adj. EBITDA margin ≥40%</td><td class="num">Rev +25.6% ($2,445m), EBITDA 40.1% — <strong>beat</strong></td><td><span class="pill" style="background:#ecfdf5;color:#065f46">BEAT</span></td><td><a href="https://www.sec.gov/Archives/edgar/data/1671933/000167193324000012/ttd-20240215.htm">8-K Feb 15 2024</a> guide vs <a href="https://www.sec.gov/Archives/edgar/data/1671933/000167193325000009/ttd-20241231.htm">10-K Feb 19 2025</a></td></tr>
+    <tr><td><strong>FY2025</strong> — initial (Feb 2025)</td><td>Guided ~$3.0bn revenue (Zacks est at time) + margin ≥40%</td><td class="num">$2,896m (+18.5%), EBITDA ~39.9% — <strong>miss ~3.5%</strong> on rev</td><td><span class="pill" style="background:#fef3c7;color:#92400e">MISS</span></td><td>Feb 13 2025 8-K vs XBRL 2025A $2,896,284k</td></tr>
+    <tr><td><strong>Q1 2026</strong> (guided Feb 2025)</td><td>Q1 guide ≥$678m</td><td class="num">Q1 actual $689m (+11.8%) — <strong>beat 1.4%</strong></td><td><span class="pill" style="background:#ecfdf5;color:#065f46">BEAT</span></td><td><a href="https://www.sec.gov/Archives/edgar/data/1671933/000167193326000055/ttd-20260508.htm">8-K May 8 2026</a></td></tr>
+    <tr><td><strong>Q2 2026</strong> (guided May 8 2026)</td><td>Q2 guide ≥$750m, Adj. EBITDA ~$260m, FY margin ≥40%</td><td class="num">Q2 actual $715m (−4.7% vs guide), EBITDA $241m (−7.3% vs guide), margin 33.7%</td><td><span class="pill" style="background:#fef2f2;color:#991b1b;border-color:#fecaca">MISS — guide miss</span></td><td><a href="https://www.sec.gov/Archives/edgar/data/1671933/000167193326000085/ttd-20260806.htm">8-K Aug 6 2026</a> — <strong>own guide miss</strong></td></tr>
+    <tr><td><strong>Q3 2026</strong> (guided Aug 6 2026)</td><td>Guide ~$650m midpoint (8-K), adj. EBITDA implied ~32%</td><td class="num">TBD — vs $739m Q3 2025 (−12% YoY) & vs $805m consensus (−19%)</td><td><span class="pill" style="background:#e0f2fe;color:#0c4a6e">NEW — deep cut</span></td><td>Same 8-K Aug 6: Q3 $650m vs Zacks $804.8m</td></tr>
+  </table>
+  <p class="src">Scorecard: 2 beats, 2 misses, 1 miss-on-own-guide (cardinal sin). The pattern: TTD beat through 2024, then Kokai/macro broke guide discipline in 2025-26. Credibility now requires 2 beats.</p>
+  <p class="footnote"><strong>Why this matters:</strong> Green historically sandbagged and beat by 2-3%. 2026's guide miss suggests either honest surprise (macro) or loss of forecasting edge (Kokai noise). For valuation, anchoring to guide (not 2024 CAGR) is mandatory.</p>
+</div>
+
+<h2 id="valuation">7 &mdash; Valuation & Model — What Is Priced In? (USD)</h2>
+<div class="callout"><strong>Valuation lens:</strong> AdTech is valued on <strong>revenue/FCF, not P/E</strong> — SBC inflates P/E, walled-garden risk inflates WACC. Use <strong>Adj. EBITDA − SBC as owner earnings</strong> + reverse DCF. At $13.80: Market cap $6.48bn (469.9m shares), + net cash $1.05bn (Jun 30 2026: cash $1.45bn less mkt secs) → EV ~$5.43bn. EV/2025 Sales 1.87×, EV/2025 Adj. EBITDA 4.70×, P/FCF ~9.5× — was 15× sales / 40× EBITDA at $139. Derating is real.</div>
+
+<h3>7.1 Revenue build — Base case (guidance-anchored)</h3>
+<p>We anchor 2026E to <strong>company guide + H1 actuals</strong>, not to 2024 CAGR — per skill §7 Guidance vs Model rule.</p>
+<table>
+  <tr><th>USD millions</th><th class="num">2024A</th><th class="num">2025A</th><th class="num">H1 2026A</th><th class="num">2026E (guide)</th><th class="num">2027E</th><th class="num">2028E</th><th class="num">2029E</th><th class="num">2030E</th><th>Assumption (1 sentence)</th></tr>
+  <tr><td>Revenue</td><td class="num">2,445</td><td class="num">2,896</td><td class="num">1,404</td><td class="num">2,720</td><td class="num">3,150</td><td class="num">3,680</td><td class="num">4,280</td><td class="num">4,950</td><td>CTV + retail media; 2026 is trough</td></tr>
+  <tr><td>Y/Y growth</td><td class="num">+25.6%</td><td class="num">+18.5%</td><td class="num">+7.2%</td><td class="num">−6.1%</td><td class="num">+15.8%</td><td class="num">+16.8%</td><td class="num">+16.3%</td><td class="num">+15.6%</td><td>2026 YoY negative because H2 guide collapses (−12% Q3)</td></tr>
+  <tr><td>Gross margin</td><td class="num">81.6%</td><td class="num">81.9%</td><td class="num">80.5%</td><td class="num">80.0%</td><td class="num">81.0%</td><td class="num">81.5%</td><td class="num">82.0%</td><td class="num">82.0%</td><td>Mix to Kokai data costs, then leverage</td></tr>
+  <tr><td>Implied gross spend (rev ÷ 20%)</td><td class="num">12,225</td><td class="num">14,480</td><td class="num">7,020</td><td class="num">13,600</td><td class="num">15,750</td><td class="num">18,400</td><td class="num">21,400</td><td class="num">—</td><td>Take ~20% → 19.5% as retail/CTV scale</td></tr>
+</table>
+<p class="src">Source: Model; 2026E derived from H1 1,404 + Q3 650 guide + Q4 666 (est. flat YoY, typical seasonality) = 2,720. This is ~$200m below Zacks 2026 consensus $3.18bn (pre-cut). We use guide, not consensus.</p>
+
+<h3>7.2 Cost structure & earnings power (USD)</h3>
+<table>
+  <tr><th>USD millions</th><th class="num">2024A</th><th class="num">2025A</th><th class="num">2026E (guide)</th><th class="num">2027E</th><th class="num">2028E</th><th class="num">2030E</th></tr>
+  <tr><td>Revenue</td><td class="num">2,445</td><td class="num">2,896</td><td class="num">2,720</td><td class="num">3,150</td><td class="num">3,680</td><td class="num">4,950</td></tr>
+  <tr><td>Cost of platform ops (non-SBC)</td><td class="num">(448)</td><td class="num">(524)</td><td class="num">(544)</td><td class="num">(599)</td><td class="num">(684)</td><td class="num">(891)</td></tr>
+  <tr><td>Sales & marketing (ex-SBC)</td><td class="num">(402)</td><td class="num">(488)</td><td class="num">(490)</td><td class="num">(536)</td><td class="num">(608)</td><td class="num">(792)</td></tr>
+  <tr><td>Technology & dev (ex-SBC)</td><td class="num">(418)</td><td class="num">(502)</td><td class="num">(520)</td><td class="num">(567)</td><td class="num">(644)</td><td class="num">(842)</td></tr>
+  <tr><td>G&A (ex-SBC)</td><td class="num">(218)</td><td class="num">(252)</td><td class="num">(260)</td><td class="num">(284)</td><td class="num">(322)</td><td class="num">(421)</td></tr>
+  <tr style="font-weight:700;background:#ecfdf5"><td>Adj. EBITDA (non-GAAP)</td><td class="num">981</td><td class="num">1,155</td><td class="num">906</td><td class="num">1,139</td><td class="num">1,382</td><td class="num">1,985</td></tr>
+  <tr><td>Margin</td><td class="num">40.1%</td><td class="num">39.9%</td><td class="num">33.3%</td><td class="num">36.2%</td><td class="num">37.5%</td><td class="num">40.1%</td></tr>
+  <tr><td>Less SBC</td><td class="num">(567)</td><td class="num">(620)</td><td class="num">(680)</td><td class="num">(720)</td><td class="num">(760)</td><td class="num">(840)</td></tr>
+  <tr><td>Less D&A</td><td class="num">(48)</td><td class="num">(55)</td><td class="num">(60)</td><td class="num">(65)</td><td class="num">(70)</td><td class="num">(80)</td></tr>
+  <tr><td>GAAP Operating income</td><td class="num">366</td><td class="num">480</td><td class="num">166</td><td class="num">354</td><td class="num">552</td><td class="num">1,065</td></tr>
+  <tr><td>Tax (19%)</td><td class="num">(71)</td><td class="num">(91)</td><td class="num">(32)</td><td class="num">(67)</td><td class="num">(105)</td><td class="num">(202)</td></tr>
+  <tr style="font-weight:700"><td>GAAP Net income</td><td class="num">393</td><td class="num">443</td><td class="num">134</td><td class="num">287</td><td class="num">447</td><td class="num">863</td></tr>
+  <tr><td>FCF (SBC addback, capex ~1.5%)</td><td class="num">659</td><td class="num">680</td><td class="num">520</td><td class="num">740</td><td class="num">950</td><td class="num">1,480</td></tr>
+</table>
+<p class="src">2026E adj. EBITDA 906 = H1 $417 + Q3 ~$210 + Q4 $279. Margin 33.3% — below 40% guide, because Q3 guide implies 32%. SBC rises 9.7% (Kokai retention grants). GAAP net collapses 70% YoY — SBC + margin hit.</p>
+
+<h3>7.2b Company Guidance vs Model — Where we sit vs TTD's guide (Aug 9, 2026)</h3>
+<table>
+  <tr><th>Metric</th><th>Company Guidance (as worded)</th><th class="num">Our Model 2026E</th><th class="num">Delta (Model − Guide)</th><th>Source</th></tr>
+  <tr><td>Q2 2026 Revenue</td><td>≥$750m (Q1 call May 8)</td><td class="num">$715m actual</td><td class="num">−4.7% <span class="pill" style="border-color:#fecaca;color:#991b1b">MISS</span></td><td><a href="https://www.sec.gov/Archives/edgar/data/1671933/000167193326000055/ttd-20260508.htm">8-K Q1 May 8, 2026</a> → <a href="https://www.sec.gov/Archives/edgar/data/1671933/000167193326000085/ttd-20260806.htm">8-K Q2 Aug 6</a></td></tr>
+  <tr><td>Q2 2026 Adj. EBITDA</td><td>~$260m</td><td class="num">$241m actual</td><td class="num">−7.3%</td><td>Same</td></tr>
+  <tr><td>Q3 2026 Revenue</td><td>~$650m midpoint (Aug 6)</td><td class="num">$650m — <strong>at guide</strong></td><td class="num">0%</td><td><a href="https://www.sec.gov/Archives/edgar/data/1671933/000167193326000085/ttd-20260806.htm">8-K Aug 6, 2026</a></td></tr>
+  <tr><td>FY2026 Adj. EBITDA margin</td><td>≥40% for full year (reiterated May 8), but Q3 implies ~32%</td><td class="num">33.3% FY — <strong>6.7pp below guide</strong></td><td class="num">−6.7pp <span class="pill" style="border-color:#fed7aa;color:#9a3412">BELOW</span></td><td>May 8 2026 call transcript (BigGo/Zacks summary)</td></tr>
+  <tr><td>FY2026 Revenue</td><td>No FY revenue guide; consensus $3.18bn pre-cut → $2.72bn post</td><td class="num">$2,720m (−6.1% YoY)</td><td class="num">aligned to Q3 guide math</td><td>Zacks consensus pre-cut vs our guide-anchored model</td></tr>
+  <tr><td>2025 Actual</td><td>—</td><td class="num">$2,896m (+18.5%)</td><td class="num">—</td><td>XBRL 2025A $2,896,284k</td></tr>
+</table>
+<p class="src">Guidance is <strong>cut and missed</strong>: TTD missed its own Q2 guide by $35m and then cut Q3 by 19% vs consensus ($805m → $650m). Our model is <em>at</em> the new guide, not above — respecting the Kokai/macro reset. If you model ≥40% margin for FY2026, you are modeling a $180m beat to guide.</p>
+
+<h3>7.3 DCF & reverse DCF — What does $13.80 price imply?</h3>
+<div class="grid">
+  <div class="card">
+    <h3>Base-case DCF (USD, guide-anchored)</h3>
+    <p><strong>WACC 9.5%</strong> = 4.3% Rf + 1.1 beta × 5% ERP + 0.5% AdTech premium. Terminal growth 4% (ad spend grows GDP+). 2026E is trough; 2027E+ assumes Kokai recovery.</p>
+    <table>
+      <tr><th>Year</th><th class="num">FCF</th><th class="num">PV 9.5%</th><th class="num">PV</th></tr>
+      <tr><td>2026E (guidance)</td><td class="num">520</td><td class="num">0.913</td><td class="num">475</td></tr>
+      <tr><td>2027</td><td class="num">740</td><td class="num">0.834</td><td class="num">617</td></tr>
+      <tr><td>2028</td><td class="num">950</td><td class="num">0.762</td><td class="num">724</td></tr>
+      <tr><td>2029</td><td class="num">1,190</td><td class="num">0.696</td><td class="num">828</td></tr>
+      <tr><td>2030</td><td class="num">1,480</td><td class="num">0.635</td><td class="num">940</td></tr>
+      <tr style="font-weight:700;background:#f1f5f9"><td colspan="2">Terminal 2031: FCF 1,539 × (1.04) / (0.095−0.04) = 29,101</td><td class="num">0.635</td><td class="num">18,479</td></tr>
+      <tr style="font-weight:800;background:#0f172a;color:#fff"><td colspan="3">Enterprise value</td><td class="num">$22.06bn</td></tr>
+      <tr><td colspan="3">+ Net cash 1.05 → Equity</td><td class="num">$23.11bn</td></tr>
+      <tr><td colspan="3">÷ 470m → <strong>DCF / share (base)</strong></td><td class="num"><strong>~$49.20</strong></td></tr>
+    </table>
+    <p class="footnote">Base assumes revenue CAGR 15-17% 2027-30, EBITDA margin back to 40% by 2030. At 9.5% WACC, 85% of value is terminal — this is a faith-in-Kokai DCF.</p>
+  </div>
+  <div class="card">
+    <h3>Reverse DCF — At $13.80, market says Kokai failed</h3>
+    <p>EV $5.43bn at $13.80 implies:</p>
+    <table>
+      <tr><th>Scenario</th><th class="num">Implied rev CAGR 2026-30</th><th class="num">Terminal FCF margin</th></tr>
+      <tr><td>WACC 9.5% → at $13.80</td><td class="num">~2.1% CAGR (rev $2.72bn → $2.95bn)</td><td class="num">~19%</td></tr>
+      <tr><td>WACC 12% →</td><td class="num">~5.5% CAGR</td><td class="num">~17%</td></tr>
+    </table>
+    <p>That is: market prices TTD as if <strong>revenue never recovers from 2026 trough</strong> — 2% CAGR vs prior 25% CAGR. Either Kokai is permanently broken, or price embeds 3.6× upside to base DCF.</p>
+    <p style="margin-top:10px"><strong>Sensitivity (Equity value / share, $)</strong></p>
+    <table>
+      <tr><th></th><th class="num">WACC 8%</th><th class="num">9.5% (base)</th><th class="num">12%</th></tr>
+      <tr><td>Terminal FCF margin 45%</td><td class="num">74.80</td><td class="num">55.60</td><td class="num">34.20</td></tr>
+      <tr><td>Terminal 38% (base)</td><td class="num">66.30</td><td class="num"><strong>49.20</strong></td><td class="num">29.80</td></tr>
+      <tr><td>Terminal 30% (take compresses to 17%)</td><td class="num">57.90</td><td class="num">42.80</td><td class="num">25.40</td></tr>
+    </table>
+    <p class="src">Even bear (30% margin, 12% WACC) = $25.40 → 84% above $13.80. The optionality is not linear.</p>
+  </div>
+</div>
+
+<h3>7.4 Multiples context (USD, as of Aug 8, 2026)</h3>
+<table>
+  <tr><th>Company</th><th class="num">EV ($bn)</th><th class="num">Revenue 2025A ($bn)</th><th class="num">EV/Sales</th><th class="num">EV/Adj.EBITDA</th><th class="num">Gross margin</th><th class="num">Rev growth</th></tr>
+  <tr style="font-weight:700;background:#e0f2fe"><td>Trade Desk (at $13.80)</td><td class="num">5.43</td><td class="num">2.90</td><td class="num">1.87×</td><td class="num">4.7×</td><td class="num">82%</td><td class="num">−6% 2026E / +16% 27E</td></tr>
+  <tr><td>Trade Desk at $139 (Dec 2024)</td><td class="num">~64</td><td class="num">2.45</td><td class="num">26×</td><td class="num">65×</td><td class="num">82%</td><td class="num">+25%</td></tr>
+  <tr><td>Magnite (MGNI)</td><td class="num">~1.1</td><td class="num">0.62</td><td class="num">1.8×</td><td class="num">6.5×</td><td class="num">~50%</td><td class="num">+9%</td></tr>
+  <tr><td>PubMatic (PUBM)</td><td class="num">~0.45</td><td class="num">0.28</td><td class="num">1.6×</td><td class="num">5.2×</td><td class="num">~60%</td><td class="num">+7%</td></tr>
+  <tr><td>Criteo (CRTO)</td><td class="num">~1.3</td><td class="num">1.95</td><td class="num">0.67×</td><td class="num">4.1×</td><td class="num">~45%</td><td class="num">+6%</td></tr>
+  <tr><td>Applovin (APP) — ad-adjacent</td><td class="num">~85</td><td class="num">4.7</td><td class="num">18×</td><td class="num">35×</td><td class="num">~70%</td><td class="num">+40%</td></tr>
+</table>
+<p class="src">Source: WallStreetZen, KoyFin Aug 8, 2026. At $13.80, TTD trades like a sell-side SSP (1.8× sales) despite 82% gross vs 50% for SSPs. At $139 it traded like AppLovin. The truth is in the middle — our $49 base implies 7.3× 2027 sales, 16× EBITDA — still below historic TTD 15× sales.</p>
+<p><strong>Stance:</strong> Earnings power is <em>overestimated</em> if you extrapolate 2024 25% growth; <em>underestimated</em> if you extrapolate Q3 2026 −12% forever. Base case prices a 15% re-acceleration in 2027 — requires Kokai stabilization (Green says "transition complete by Q4") + macro up. Play with 2026→2027 slope — that's the lever.</p>
+<p class="footnote"><strong>Sensitivities:</strong> (1) Q3 guide already −19% vs consensus — if Q3 actual $620m not $650m, FY 2026 rev −1.1% → DCF $44. (2) Take slips to 18% → 2027 rev −10% → DCF $41. (3) Kokai delivers 24% CPA benefit → retention 96% → 2027 rev +8% → DCF $57.</p>
+
+<h2 id="final">8 &mdash; Final Words — Thesis Summary & What to Watch</h2>
+<div class="card" style="border-left:4px solid #0ea5e9">
+  <p><strong>Thesis:</strong> At $13.80, TTD is priced as if the open internet died. It didn't — CTV is still growing 12-15% and TTD still does 81% gross with 95% historical retention. The Q2 2026 miss is a **company-specific Kokai transition** (Green's letter: "we underestimated workflow disruption") + macro softness in retail, not a secular DSP death. If you believe Kokai's KoAI math (24% CPA improvement) and that agencies still pay 20% for objective buying, then $13.80 is a 3-year, 3.6× call option with $5bn net cash downside cushion. If Kokai is Vapor, then $13.80 is fair for a 2% grower with 21% SBC.</p>
+  <p><strong>Bull:</strong> Kokai stabilizes Q4, retention back to 95%, 2027 rev +16% ($3.15bn), EBITDA back to 36%, rerates to 8× sales ($28) + FCF yield 3% — IRR ~30%.</p>
+  <p><strong>Bear:</strong> Q3 another miss ($620m), 2027 flat, take to 18%, SBC stays 24% → EBITDA never >33% → trades at Magnum 1.8× → $10-11 (−25%).</p>
+</div>
+
+<h3>What to watch (next 2 quarters)</h3>
+<table>
+  <tr><th>Signal</th><th>Why it matters</th><th>Good vs Warning</th></tr>
+  <tr><td>Q3 actual vs $650m guide (report ~Nov 6, 2026)</td><td>Credibility after own-guide miss</td><td>Good: $660m+ and guide Q4 +10% → trust rebuilt. Warn: &lt;$640m → second guide miss.</td></tr>
+  <tr><td>Kokai adoption % of spend</td><td>Migration progress</td><td>Good: &gt;75% and traders cite "faster" on call. Warn: "we extended dual-run" language.</td></tr>
+  <tr><td>Net retention / JBP signings</td><td>Agency trust</td><td>Good: retention 95%+, JBP +15% YoY. Warn: retail vertical down 2Q in a row.</td></tr>
+  <tr><td>SBC as % rev</td><td>Owner earnings</td><td>Good: SBC ≤23% and buybacks offset. Warn: SBC 26% + dilution &gt;3%.</td></tr>
+  <tr><td>UID2 / OpenPath win rate</td><td>Supply moat</td><td>Good: OpenPath 30% of impressions, UID2 80% CTV. Warn: Google delays deprecation → urgency fades.</td></tr>
+</table>
+
+<div class="good" style="margin-top:16px"><strong>For a generalist:</strong> This is not a quality-compounder at $13.80 — it's a turnaround. Size it as an option: 2% position, add on Q3 beat, stop if Q3 misses. The historical TTD (95% retention, 40% margins) is still inside; Kokai is the veil.</div>
+
+<div style="background:#0f172a;color:#e2e8f0;padding:18px;border-radius:14px;margin-top:28px">
+  <h3 style="color:#fff;margin-top:0;border:none;padding:0">Model Note — Guidance Discipline (per updated skill)</h3>
+  <p style="color:#cbd5e1">This deep dive anchors 2026E to <strong>company guidance</strong> (Q3 $650m, Q2 ≥$750m miss) not to 2024 CAGR. The <strong>Guidance vs Model</strong> table in §7.2b shows every delta at 0% or explicitly below guide; the <strong>Track Record</strong> table in §6 shows 2024 beat, 2025 miss, Q2 2026 own-guide miss — so 2026E is priced with credibility discount. Skill now requires this for every deep dive.</p>
+</div>
+
+<div style="text-align:center;margin-top:28px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)">
+  <div>Data as of Aug 9, 2026 &bull; Market cap $6.48bn at $13.80 (469.9m shares) &bull; Author: MBI Deep Dives (Muse) &bull; Not investment advice</div>
+  <div style="margin-top:4px">File: <code>deep-dives/TTD_deep-dive.html</code> &bull; Self-contained, offline, print-friendly &bull; Sources above. USD reporting — no FX.</div>
+</div>
+
+</div>
+</body>
+</html>

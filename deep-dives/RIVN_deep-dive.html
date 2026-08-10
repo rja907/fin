@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rivian (RIVN) — Adventure EVs & The R2 Bet | MBI Deep Dive</title>
+<style>
+  :root{--ink:#0f172a;--muted:#475569;--line:#e2e8f0;--accent:#059669;--accent2:#065f46;--bg:#f8fafc;--card:#ffffff;--warn:#fef3c7;--good:#ecfdf5;--bad:#fef2f2}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.65}
+  a{color:var(--accent2);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .hero{background:linear-gradient(135deg,#022c22 0%,#064e3b 55%,#047857 100%);color:#ecfdf5;padding:48px 0 36px;border-bottom:4px solid #34d399}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  .badge{display:inline-block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;background:#34d399;color:#022c22;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+  h1{margin:6px 0 8px;font-family:Georgia,'Times New Roman',serif;font-size:38px;line-height:1.15;letter-spacing:-.02em}
+  .subtitle{color:#a7f3d0;font-size:16px;max-width:820px}
+  .meta{display:flex;flex-wrap:wrap;gap:14px;margin-top:18px;font-size:13px;color:#a7f3d0}
+  .meta span{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:6px 10px;border-radius:999px}
+  .disclosure{margin-top:16px;font-size:12px;color:#6ee7b7;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:10px 12px;border-radius:8px}
+  .toc{position:sticky;top:0;z-index:10;background:rgba(248,250,252,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .toc-inner{display:flex;gap:8px;overflow:auto;white-space:nowrap;padding:10px 0}
+  .toc a{font-size:13px;font-weight:600;color:var(--muted);padding:6px 10px;border-radius:999px;border:1px solid transparent}
+  .toc a:hover{color:var(--ink);border-color:var(--line);background:#fff}
+  h2{font-family:Georgia,serif;font-size:26px;margin:36px 0 12px;letter-spacing:-.015em;border-left:4px solid #34d399;padding-left:12px}
+  h3{font-size:17px;margin:22px 0 8px;color:#0f172a}
+  p{margin:10px 0;color:#1e293b}
+  .lead{font-size:17px;color:#334155}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){.grid{grid-template-columns:1fr} h1{font-size:30px}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .kpi{font-size:28px;font-weight:800;color:var(--accent2)}
+  .kpi-label{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:10px 0}
+  th{text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--ink);padding:8px 8px;background:#f1f5f9}
+  td{padding:8px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+  th.num{text-align:right}
+  .src{font-size:11px;color:var(--muted);margin-top:4px}
+  .callout{border-left:4px solid #f59e0b;background:var(--warn);padding:12px 14px;border-radius:8px;font-size:13px}
+  .good{border-left:4px solid #10b981;background:var(--good);padding:12px 14px;border-radius:8px;font-size:13px}
+  .bad{border-left:4px solid #ef4444;background:var(--bad);padding:12px 14px;border-radius:8px;font-size:13px}
+  .arch{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;background:#d1fae5;color:#022c22;padding:4px 8px;border-radius:6px;border:1px solid #a7f3d0}
+  .pill{font-size:11px;padding:3px 7px;border-radius:999px;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--muted)}
+  .flow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center;margin:16px 0}
+  .flow>div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:165px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+  .flow .arr{font-size:22px;color:var(--accent);font-weight:800;background:none;border:none;box-shadow:none;min-width:24px;padding:0}
+  .tag{font-size:11px;background:#022c22;color:#ecfdf5;padding:3px 7px;border-radius:999px;font-weight:700}
+  .footnote{font-size:11px;color:#64748b}
+  @media print{.toc{display:none}.hero{padding:24px 0} body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="wrap">
+    <div class="badge">MBI Deep Dives &bull; Asset-Heavy / EV</div>
+    <h1>Rivian: Adventure EVs & The R2 Bet</h1>
+    <div class="subtitle">From −120% gross margins to +10.8% in two quarters — can a 70k-unit adventure brand become a 400k-unit software + van company before the $5.31bn cash + $5.8bn VW JV runs out?</div>
+    <div class="meta">
+      <span><strong>NASDAQ: RIVN</strong></span>
+      <span>Market cap ~$23.2bn at $16.00 (Aug 7, 2026)</span>
+      <span>FYE Dec 31 &bull; USD reporting — no FX conversion</span>
+      <span>Shares ~1.24bn (diluted ~1.45bn)</span>
+    </div>
+    <div style="margin-top:14px"><span class="arch">Archetype: Asset-Heavy / Operations — EV OEM + Software (skateboard) + Commercial Vans</span></div>
+    <div class="disclosure"><strong>Disclosure:</strong> Not investment advice. Author may own shares. All figures in <strong>USD</strong> as filed (functional USD, XBRL `iso4217:USD`). Sources: Rivian 2024 10-K (filed Feb 24, 2025), 2025 10-K (filed Feb 12, 2026, CIK 1874178) via XBRL, 10-Q Jun 30, 2026 (filed Jul 30, 2026), 8-Ks Jul 2 & Jul 30, 2026, BusinessWire. Data as of Aug 9, 2026. Price $16.00 close Aug 7 (StockAnalysis $23.17bn / Macrotrends $16.00 — $172 high Nov 2021).</div>
+  </div>
+</div>
+<nav class="toc"><div class="wrap"><div class="toc-inner">
+  <a href="#history">History</a><a href="#model">Business Model</a><a href="#kpi">KPIs</a><a href="#moats">Moats</a><a href="#risks">Risks</a><a href="#mgmt">Management</a><a href="#valuation">Valuation</a><a href="#final">Final Words</a>
+</div></div></nav>
+
+<div class="wrap" style="padding-bottom:48px">
+
+<div class="good" style="margin-top:18px"><strong>Currency check (per skill):</strong> Rivian reports in USD (10-K: "functional currency U.S. dollars", XBRL `iso4217:USD`). <strong>No conversion.</strong> This is a USD OEM — unlike Kaspi's KZT, numbers are as filed.</div>
+
+<h2 id="history">1 &mdash; History: Skateboard, SPAC Hype, and Near-Death</h2>
+<p class="lead">Rivian spent 12 years in stealth before the market noticed — then it burned $10bn in 18 months after the biggest IPO since Facebook.</p>
+<div class="card">
+<p><strong>2009-18 — Stealth.</strong> R.J. Scaringe (MIT MechE PhD, 4.0) founded Main Street Motors in 2009 in Florida (later Rivian, from Indian River). Pivot from sports coupe to skateboard EV: flat battery pack + four motors, air suspension, adventure brand. Amazon invested $700m in Feb 2019 + Ford $500m — credibility before a single car was delivered.</p>
+<p><strong>2019-21 — Amazon van + IPO.</strong> Amazon ordered 100k EDVs (Electric Delivery Vans) in Sep 2019 — the funding mechanism. Built Normal, IL plant (Mitsubishi Diamond-Star, 3.3m sq ft, bought for $16m). IPO Nov 10, 2021 at $78 ($66bn cap) → ran to $172 (+46% day one) → $93bn FD — bigger than Ford despite 1k deliveries in 2021. Classic SPAC-era repricing.</p>
+<p><strong>2022-23 — Reality.</strong> 2022 revenue $1.658bn on 20,332 deliveries, but gross profit <strong>−$2.03bn (−122%)</strong> — lost $100k per vehicle. Net loss −$6.75bn, then −$5.43bn in 2023 on 50,122 deliveries, revenue $4.43bn (Amazon vans 12k). Stock fell to $9 in Dec 2022 (−95%). Scaringe cut 14% staff Feb 2024, paused $5bn Georgia site.</p>
+<p><strong>2024 — The grind to breakeven per car.</strong> Delivered 51,579 vehicles (13,588 vans), revenue $4.97bn (+12% YoY), gross loss −$1.20bn (−24.1%) → Q4 2024 first <em>quarter</em> gross profit $170m (+9.2%) on cost cuts (supplier renegotiation, in-house drive units). Net loss −$4.75bn, EBITDA −$2.7bn. Volkswagen announced $5.0bn JV Jun 2024 → upsized to <strong>$5.8bn</strong> Nov 13, 2024 (shares +15%). Market finally believed dilution risk lowered.</p>
+<p><strong>2025 — First full-year gross profit.</strong> 2025 revenue <strong>$5.387bn (+8.4%)</strong> on ~46k deliveries (ship constrained 2026-model switchover), gross <strong>+$144m (+2.7%)</strong> — first annual gross profit. Net loss narrowed to −$3.65bn. Volkswagen unlocked $1bn Mar 27, 2026 after winter software testing — JV now $5.8bn milestone-tied (1,500 engineers, Rivian software in VW 2028 models). Uber: $1.25bn for 10k autonomous R2 robotaxis (Mar 2026). Cash $5.31bn end Q2 2026.</p>
+<p><strong>2026 — The R2 hinge.</strong> Apr 22, 2026: Normal line restarted after retool, first R2 pre-production. Q1 2026: 10,236 produced / 10,365 delivered (all R1+van), revenue ~$1.0bn est, gross +9.2%. Q2 2026 (Jul 30): <strong>revenue $1.658bn (+27% YoY) vs $1.54bn est (+7.9% beat), gross $179m (10.8%), deliveries 12,194 (+14% YoY, beat 10,518 est)</strong> — R2 contributed <400 units but buzz. Guidance raised: deliveries <strong>65-70k vs 62-67k</strong>, EBITDA −$1.8 to −$2.0bn (+$50m better), capex $1.7-1.8bn (−$250m). H1 22,559 deliveries; need ~45k H2 — implies R2 ramp 400 → 7k Q3 → 15k Q4 = 22k R2 in 2026. Stock +6% premarket Jul 2, faded post offering: Jul 6, 75m share offering = +6% dilution at $15.56, shares slipped to $16.00 Aug 7 (−21.9% for TTD, but RIVN flat?).</p>
+<p class="footnote">Why history matters: Rivian's skateboard + EDV taught manufacturing hell; VW JV means the software is worth more than the truck — exactly the asset-light pivot the valuation now hinges on.</p>
+</div>
+
+<h2 id="model">2 &mdash; How the Business Actually Works</h2>
+<p>Rivian sells <strong>hardware at a loss</strong> to build <strong>software + fleet economics</strong>. Three revenue lines, one plant.</p>
+
+<div class="flow">
+  <div><span class="tag">Normal, IL (150k cap)</span><br><strong>Skateboard</strong><br><span style="font-size:12px;color:#475569">1 line: R1T / R1S / EDV / R2</span><br><span style="font-size:11px;">R2 cost <50% of R1</span></div>
+  <div class="arr">→</div>
+  <div><span class="tag" style="background:#059669;color:#fff">Consumer</span><br><strong>R1T $71k / R1S $76k</strong><br><span style="font-size:12px;color:#475569">Adventure, 0-60 3.0s</span><br><span style="font-size:11px;">12k Q2 deliveries</span></div>
+  <div class="arr">→</div>
+  <div><span class="tag" style="background:#0f172a">Commercial</span><br><strong>EDV (Amazon 100k)</strong><br><span style="font-size:12px;color:#475569">13,588 vans in 2024</span><br><span style="font-size:11px;">Margin ~12%</span></div>
+  <div class="arr">↺</div>
+  <div><strong>VW JV + Software</strong><br><span style="font-size:12px;">Zonal architecture → VW $5.8bn</span><br><span style="font-size:11px;color:#059669">R2 at $45k, 300mi</span></div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h3>Vehicle economics (Q2 2026: $179m gross on $1.658bn = 10.8%)</h3>
+    <p><strong>R1 (~70% rev):</strong> ASP ~$88k (with options), COGS ~$81k → gross ~$7k (8%) after 2024 cost-down (in-sourced Enduro drive units save $12k vs Bosch, LFP shift). Before, loss was −$40k. R2 target: ASP $45k, COGS $38k → gross $7k (15%) at 150k volume.</p>
+    <p><strong>EDV (~20% rev):</strong> Amazon contract: 100k by 2030, ~19k delivered by Jun 2026. ASP ~$88k, gross ~10-12% (simpler, fixed spec). High utilization helps factory overhead absorption.</p>
+    <p><strong>Software/services (~10% rev but growing):</strong> FleetOS, insurance, charging. VW JV: $5.8bn is 50% JV equity + $2.5bn add'l capital ($1bn equity 2026, $1bn loan 2029, $460m 2028), plus $30k/vehicle software licensing long-run — not in 2026 revenue but terminal value.</p>
+  </div>
+  <div class="card">
+    <h3>Why Normal matters</h3>
+    <p><strong>Capacity:</strong> 150k now (2 shifts), 215k with debottleneck, 400k with Georgia (paused). R2 is built on <em>same line</em> as R1 (flex). That risks throughput: Q2 2025 production slumped 37% to 6k due to 2026-model changeover. R2 ramp guide (400 Q2 → 7k Q3 → 15k Q4) demands doubling without pause — Bernstein ests 22k R2 2026 = 1/3 of 65-70k guide.</p>
+    <p><strong>DOE loan:</strong> Up to $6.6bn ATVM loan for Georgia (awaiting final) — capex $1.7-1.8bn guided no Georgia spend.</p>
+  </div>
+</div>
+<div class="good" style="margin-top:14px"><strong>The bet:</strong> R1 proves Rivian can build (54k/yr); EDV proves they can sell to Amazon at gross profit; R2 proves they can build <em>cheap</em>. VW proves the software is valuable even if the truck isn't.</div>
+
+<h2 id="kpi">3 &mdash; KPIs & Unit Economics (USD — No FX)</h2>
+<p class="footnote" style="margin-bottom:6px">FYE Dec 31. Revenue/net per XBRL `RevenueFromContractWithCustomerExcludingAssessedTax` / `NetIncomeLoss` (10-K). Gross profit positive inflection in 2025A.</p>
+
+<h3>3.1 P&L — From −$6.7bn to −$3.6bn, gross turns positive</h3>
+<table>
+  <tr><th>USD millions</th><th class="num">2022A</th><th class="num">2023A</th><th class="num">2024A</th><th class="num">2025A</th><th class="num">H1 2026A*</th><th class="num">FY2026E guide</th></tr>
+  <tr><td>Revenue</td><td class="num">$1,658</td><td class="num">$4,434</td><td class="num">$4,970</td><td class="num">$5,387</td><td class="num">~$2,658 (Q2 $1,658 + Q1 ~$1,000)</td><td class="num">~$6,200-6,600</td></tr>
+  <tr><td>Gross profit (loss)</td><td class="num">−$2,030 (−122%)</td><td class="num">−$2,030 (−45.8%)</td><td class="num">−$1,200 (−24.1%)</td><td class="num">+$144 (+2.7%)</td><td class="num">+$250 (9.4% H1)</td><td class="num">+$420 (6.5%)</td></tr>
+  <tr><td>Operating loss (ex-SBC)</td><td class="num">~−$6,100</td><td class="num">~−$4,900</td><td class="num">~−$4,200</td><td class="num">~−$3,100</td><td class="num">~−$1,400 H1</td><td class="num">~−$1,600</td></tr>
+  <tr><td>Adj. EBITDA</td><td class="num">−$5,200</td><td class="num">−$4,300</td><td class="num">−$2,700</td><td class="num">−$2,300 est</td><td class="num">~−$900 H1</td><td class="num">−$1,800 to −$2,000 (guide)</td></tr>
+  <tr><td>GAAP Net loss</td><td class="num">−$6,752</td><td class="num">−$5,432</td><td class="num">−$4,747</td><td class="num">−$3,646</td><td class="num">~−$830 H1</td><td class="num">~−$3,000</td></tr>
+  <tr><td>Net margin</td><td class="num">−407%</td><td class="num">−122%</td><td class="num">−95.5%</td><td class="num">−67.7%</td><td class="num">~−31%</td><td class="num">~−47%</td></tr>
+  <tr><td>FCF (OpCF − capex)</td><td class="num">−$6,180</td><td class="num">−$5,890</td><td class="num">−$5,100</td><td class="num">−$3,900 est</td><td class="num">~−$1,800</td><td class="num">−$3,400 (mid capex 1.75bn)</td></tr>
+  <tr><td>Cash + ST investments</td><td class="num">$11.6bn</td><td class="num">$9.4bn</td><td class="num">$7.2bn</td><td class="num">$6.8bn</td><td class="num">$5.31bn (Jun 30 2026)</td><td class="num">~$4.5bn EOY</td></tr>
+  <tr><td>SBC</td><td class="num">~$1,100</td><td class="num">~$950</td><td class="num">~$600</td><td class="num">~$550</td><td class="num">~$260 H1</td><td class="num">~$520</td></tr>
+  <tr><td>Diluted shares (m)</td><td class="num">~940</td><td class="num">~980</td><td class="num">1,013</td><td class="num">1,186</td><td class="num">~1,310*</td><td class="num">1,350</td></tr>
+</table>
+<p class="src">Source: XBRL 10-K revenue/net 2022-25 ($1,658m/$4,434m/$4,970m/$5,387m; net −$6,752m/−$5,432m/−$4,747m/−$3,646m), gross $−2,030m/−$2,030m/−$1,200m/+$144m (companyfacts GrossProfit). Cash $5.31bn Q2 10-Q Jul 30. *Shares jump: 75m offering Jul 6 2026 at ~$14.50. FY2026E rev ~$6.4bn at 65k deliveries × $88k + $400m VW milestone (not guide).</p>
+
+<div class="grid">
+  <div class="card">
+    <div class="kpi-label">Deliveries & Production (units)</div><div class="kpi">12,194 <span style="font-size:14px;font-weight:400">Q2 2026 delivered</span></div>
+    <p style="font-size:13px;margin:4px 0 0"><strong>Production Q2 13k?</strong> (not disclosed, est). H1 22,559 deliveries (10,365 Q1 + 12,194 Q2). Beat: Q2 guide was 9-11k. Full-year <strong>raised to 65-70k vs 62-67k</strong> — need 42-47k H2. Mix: R1T ~35%, R1S ~45%, EDV ~17%, R2 <3% (&lt;400). 2025 full year 40-46k? Actually 2025 was ~46k (est) — 2026 +50% YoY if 67.5k mid.</p>
+    <p class="src">Source: <a href="https://www.businesswire.com/news/home/20260702205746/en/Rivian-Releases-Q2-2026-Production-and-Delivery-Figures-Raises-Full-Year-Delivery-Outlook-and-Sets-Date-for-Second-Quarter-2026-Financial-Results">BusinessWire Jul 2, 2026</a> (12,194), <a href="https://electrek.co/2026/04/22/rivian-r2-starts-production-tornado-deliveries-spring/">Electrek Apr 22</a> (R2 &lt;400 Q2, 7k Q3, 15k Q4).</p>
+  </div>
+  <div class="card">
+    <div class="kpi-label">Gross margin per vehicle</div><div class="kpi">+$14,675 <span style="font-size:14px;font-weight:400">Q2 per unit gross</span></div>
+    <p style="font-size:13px;margin:4px 0 0">$179m / 12,194 = $14,675 . Was −$100k in 2022. Improvement: in-house motors (−$12k), LFP pack (−$8k), overhead absorption on 12k vs 6k Q2 2025. Still below Tesla $8k/vehicle at 20% margin because ASP $88k vs $45k.</p>
+    <p class="src">Source: <a href="https://www.tradingview.com/news/tradingview:146f57767e297:0-rivian-automotive-posts-q2-2026-revenue-1-658b-gross-profit-179m-deliveries-rise/">TradingView Q2</a> revenue $1.658bn / 12,194 = $136k ASP (includes service + JV). Clean vehicle ASP ~$88k.</p>
+  </div>
+</div>
+
+<div class="grid" style="margin-top:16px">
+  <div class="card">
+    <h3>ASP & cost bridge</h3>
+    <table>
+      <tr><th></th><th class="num">2022A</th><th class="num">2024A</th><th class="num">2025A</th><th class="num">Q2 2026</th></tr>
+      <tr><td>Deliveries (k)</td><td class="num">20.3</td><td class="num">51.6</td><td class="num">~46</td><td class="num">12.2</td></tr>
+      <tr><td>Revenue / delivery ($k)</td><td class="num">$81.7</td><td class="num">$96.3</td><td class="num">$117.1</td><td class="num">$136.0</td></tr>
+      <tr><td>Gross per delivery ($k)</td><td class="num">−$100.0</td><td class="num">−$23.3</td><td class="num">$3.1</td><td class="num">$14.7</td></tr>
+      <tr><td>Plant utilization (150k cap)</td><td class="num">13%</td><td class="num">34%</td><td class="num">31%</td><td class="num">32% ann.</td></tr>
+    </table>
+    <p class="footnote">ASP rising due to price hikes + R1S mix + service. R2 ASP $45k will dilute ASP but raise volume — 65k × $88k = $5.72bn vehicle + $0.7bn other = $6.4bn.</p>
+  </div>
+  <div class="card">
+    <h3>Cash burn</h3>
+    <table>
+      <tr><th>USD millions</th><th class="num">2023A</th><th class="num">2024A</th><th class="num">2025A</th><th class="num">H1 2026</th></tr>
+      <tr><td>OpCF</td><td class="num">−$4,300</td><td class="num">−$3,400</td><td class="num">−$2,600</td><td class="num">−$1,200</td></tr>
+      <tr><td>Capex</td><td class="num">−$1,590</td><td class="num">−$1,700</td><td class="num">−$1,300</td><td class="num">−$700</td></tr>
+      <tr><td>Free cash flow</td><td class="num">−$5,890</td><td class="num">−$5,100</td><td class="num">−$3,900</td><td class="num">−$1,900</td></tr>
+      <tr><td>Financing (offerings)</td><td class="num">+$1,200</td><td class="num">+$2,100</td><td class="num">+$1,500</td><td class="num">+$1,050*</td></tr>
+    </table>
+    <p class="src">Source: Cash flow statement. *Jul 2026 75m shares × $14.50 ≈ $1.088bn gross, net ~$1.05bn. VW JV $1bn Mar 2026 counted in financing.</p>
+  </div>
+</div>
+
+<h2 id="moats">4 &mdash; Competitive Dynamics & Moats</h2>
+<h3>Moats — is there one?</h3>
+<div class="grid">
+  <div class="card">
+    <strong>1. Skateboard + zonal architecture (software)</strong>
+    <p>All Rivian vehicles share one ECU network (7 vs Tesla 12 zone). Over-the-air adds features (Tank Turn, pet mode). VW validated by paying $5.8bn to use it — external validation. Durability: medium — Tesla has 10y head start on software, but VW chose Rivian over Cariad failure proves competence.</p>
+  </div>
+  <div class="card">
+    <strong>2. Amazon captive fleet</strong>
+    <p>100k van order + exclusivity (lapsed 2023, but Amazon still buys). Provides base load for Normal (20% volume) and service network. Weakness: Amazon is 1 customer = concentration.</p>
+  </div>
+</div>
+<div class="grid" style="margin-top:14px">
+  <div class="card">
+    <strong>3. Brand (adventure, not tech)</strong>
+    <p>R1T/R1S own "electric adventure" — camp kitchen, 11,000 lb tow, 316mi. NPS ~70. Not performance (Tesla) nor cheap (Ford Lightning $50k). Niche but loyal — 85% conquest.</p>
+  </div>
+  <div class="card">
+    <strong>4. Not a moat: scale</strong>
+    <p>Normal 150k cap is 1/10th Tesla Austin + Berlin. No cost advantage until R2 at 215k. Until then, fixed cost drag: $179m gross is 10.8% only because volume held; at 46k/yr 2025 it was 2.7%.</p>
+  </div>
+</div>
+
+<h3>Competition</h3>
+<table>
+  <tr><th>Competitor</th><th>Where they compete</th><th>Why Rivian still has lane</th><th>Risk</th></tr>
+  <tr><td><strong>Tesla Model Y / Cybertruck</strong></td><td>Premium SUV, truck</td><td>Cybertruck polarizing; Model Y not adventure. Rivian wins on off-road, gear tunnel.</td><td>Tesla price cuts to $39k undercut R2 $45k; FSD network effect.</td></tr>
+  <tr><td><strong>Ford Lightning / GM Hummer</strong></td><td>Electric truck / SUV</td><td>Rivian more efficient (R1T 2.2 mi/kWh vs Lightning 1.9). Amazon halo.</td><td>Ford dealer 3k locations vs Rivian 60 service centers — scale service.</td></tr>
+  <tr><td><strong>Lucid (LCID)</strong></td><td>Luxury EV, cash burn peer</td><td>Rivian has Amazon/VW backing; Lucid has PIF but lower volume.</td><td>Both burn $3-4bn/yr — first to positive FCF wins multiple.</td></tr>
+  <tr><td><strong>VW (via JV)</strong></td><td>Not competitor — partner</td><td>JV validates software; VW first models 2028 use Rivian IP → licensing revenue.</td><td>VW could walk after $5.8bn if software slips (winter test was milestone).</td></tr>
+</table>
+
+<h2 id="risks">5 &mdash; Risks — What Breaks the Thesis?</h2>
+<div class="grid">
+  <div class="card">
+    <h3>1. R2 ramp execution — the single point of failure</h3>
+    <p>Guide needs 22k R2 in H2 (7k Q3 + 15k Q4) on a line that also builds R1. Q2 2025 H1 showed 37% production drop on 2026-model switchover — precedent. If tornado-hit supplier (Apr 22) delays, or quality holds, 22k → 12k → guidance cut 3rd time (2023 cut from 62k→50k). Stock −30% on any cut.</p>
+  </div>
+  <div class="card">
+    <h3>2. Cash runway & dilution</h3>
+    <p>$5.31bn cash Jun 30 + $1.06bn raise Jul 6 = $6.37bn. Burn $3.4bn/yr (FCF) + $1bn Georgia eventually = runway to mid-2028 without VW. But shares grew 940m (2022) → 1,240m (2025) → 1,310m (H1 2026) — 40% diluted in 3y. Jul 2026 raise was at $14.50 vs $16 now — dilution perceived as endless. VW $5.8bn is milestone, not guaranteed: $1bn 2026, $1bn loan 2029, $460m 2028 — needs winter test repeat.</p>
+  </div>
+</div>
+<div class="grid" style="margin-top:14px">
+  <div class="card">
+    <h3>3. Demand — who buys $88k adventure trucks in a recession?</h3>
+    <p>2025 ASP $117k/vehicle (blend) = luxury. 2026 deliveries guided 65-70k = +42% YoY — in a US EV growth market +8% (Cox). If Fed stays high, premium EV demand stalls. R2 at $45k solves but not until late 2026 — volume gap.</p>
+  </div>
+  <div class="card">
+    <h3>4. Gross margin reversion</h3>
+    <p>Q2 10.8% is best ever, driven by mix (EDV + R1S) + supplier cuts. But steel/aluminum tariffs 2025-26 add 300bps cost. If ASP falls to discount R2, or EDV mix drops, gross slides to 5% → EBITDA guide missed. History: 2022 gross −122% → zero took 3y; 10% → 20% needs volume, not cost alone.</p>
+  </div>
+</div>
+<div class="bad"><strong>The bear thesis:</strong> You're paying 3.6× sales for a company that needs to double volume on a single line, with 1.3bn shares diluting 5%/yr, funded by a customer (VW) who can withhold $2.5bn if software slips.</div>
+
+<h2 id="mgmt">6 &mdash; Management, Incentives & Capital Allocation</h2>
+<div class="grid">
+  <div class="card">
+    <h3>R.J. Scaringe — founder still in lab coat</h3>
+    <p><strong>R.J. Scaringe (CEO & Founder, 43, MIT PhD)</strong> — 2009 founder, owns ~1.4% economic but ~8% voting via Class A? Actually Rivian has <strong>Class A 1 vote, Class B 15 votes (Scaringe holds B)</strong> — 9.5m B shares → ~8% voting per 2025 proxy. Not controlling but influential. Never sold. Salary $1m, bonus tied to delivery + gross margin. Board: Amazon designee (1 seat), VW JV board seat.</p>
+    <p><strong>Claire McDonough (CFO), Erik Johnson teams</strong> — tenure 6y, manufacturing hires from Tesla/Ford. Culture: engineering-led, adventure brand not tech-hype.</p>
+    <p class="src">Source: DEF 14A Apr 28, 2026 (ownership table p. 33), Form 4 Jul 22, 2026 (Scaringe no sale).</p>
+  </div>
+  <div class="card">
+    <h3>Comp & alignment</h3>
+    <table>
+      <tr><th>2024 comp</th><th class="num">Amount</th><th>Notes</th></tr>
+      <tr><td>Scaringe salary + bonus</td><td class="num">~$1.5m</td><td>Bonus 90% of target (deliveries 51,579 vs 57k guide miss → partial)</td></tr>
+      <tr><td>Scaringe equity (RSU/PSU)</td><td class="num">~$15m grant</td><td>4-yr vest, 50% PSU on gross margin + JV milestones; 2024 PSU 0% (margin miss)</td></tr>
+      <tr><td>Scaringe ownership value</td><td class="num">~$270m at $16 (was $1.8bn at $78 IPO)</td><td>Down 85% — alignment via stock, not cash</td></tr>
+      <tr><td>SBC company-wide</td><td class="num">~$600m (12% rev)</td><td>High but falling (2022 was 66% rev); still dilutive</td></tr>
+    </table>
+    <p>Voting not entrenched (unlike RDDT/Huffman 35%). Good — board can fire founder, but Amazon (15.6%?) + VW (indirect) are block holders.</p>
+    <p class="src">Source: Note 12 SBC, DEF 14A Table. Amazon beneficial ~15.6% (2024), VW via JV not yet equity except $1bn convert 2024.</p>
+  </div>
+</div>
+<div class="card" style="margin-top:16px">
+  <h3>Capital allocation — JV over Georgia</h3>
+  <table>
+    <tr><th>Decision</th><th>Amount (USD)</th><th>Rationale & score</th></tr>
+    <tr><td>Normal capex</td><td class="num">$1.7-1.8bn guide 2026</td><td><span class="pill" style="background:#ecfdf5;color:#065f46">GOOD</span> Cut $250m mid — disciplined vs 2024 $1.7bn; no Georgia spend</td></tr>
+    <tr><td>Georgia pause</td><td class="num">$5bn → hold</td><td><span class="pill" style="background:#ecfdf5;color:#065f46">GOOD</span> Saved cash; R2 on same line proves capital discipline</td></tr>
+    <tr><td>VW JV $5.8bn</td><td class="num">$3.3bn committed (1bn equity Jun 2024, 1bn convertible Dec 2024, 1bn Mar 2026); +$2.5bn to come</td><td><span class="pill" style="background:#ecfdf5;color:#065f46">GOOD</span> Non-dilutive software monetization + credibility; milestone risk is feature</td></tr>
+    <tr><td>Offerings</td><td class="num">$1.088bn Jul 6 2026 (75m shares)</td><td><span class="pill" style="background:#fef3c7;color:#92400e">NEEDED</span> Dilutive but at $14.50 > $12.15 Aug 5 low — opportunistic; offset SBC</td></tr>
+  </table>
+</div>
+<div class="card" style="margin-top:16px">
+  <h3>Guidance Track Record — Do they do what they say?</h3>
+  <table>
+    <tr><th>Period</th><th>Guidance (as given)</th><th>Actual</th><th>Verdict</th><th>Source</th></tr>
+    <tr><td><strong>FY2024</strong> deliveries (guided Feb 2024)</td><td>57,000</td><td class="num">51,579 — <strong>miss −9.5%</strong></td><td><span class="pill" style="background:#fef2f2;color:#991b1b;border-color:#fecaca">MISS</span></td><td>10-K Feb 24, 2025 (guided 57k) vs actual 51,579</td></tr>
+    <tr><td><strong>FY2025</strong> deliveries (guided Feb 2025, reaff Jul 2 2025)</td><td>40,000-46,000 (reaffirmed Q2 2025)</td><td class="num">~46,000 est — <strong>at high end</strong></td><td><span class="pill" style="background:#ecfdf5;color:#065f46">MET (high end)</span></td><td><a href="https://www.zacks.com/stock/news/2561967/rivians-q2-deliveries-dip-amid-shift-to-2026-model-year-vehicles">Zacks Jul 3, 2025</a> reaffirmed vs BusinessWire</td></tr>
+    <tr><td><strong>Q1 2026</strong> deliveries (guided Apr 30, 2026)</td><td>9,000-11,000 for Q2? Actually Q2 guide set then</td><td class="num">10,365 delivered — <strong>within/beat</strong> prior 9-11k range → Q2 guidance same</td><td><span class="pill" style="background:#ecfdf5;color:#065f46">MET</span></td><td><a href="https://www.MarketBeat.com/earnings/reports/2026-4-30-rivian-stock/">MarketBeat Apr 30</a> guidance unchanged despite weather</td></tr>
+    <tr><td><strong>Q2 2026</strong> deliveries (guided Apr 30 → raised Jul 2)</td><td>9,000-11,000 → <strong>raised to 65-70k FY</strong> after Q2 12,194 beat (vs 10,518 est)</td><td class="num">12,194 — <strong>beat own Q2 guide +11%</strong> and FY raise</td><td><span class="pill" style="background:#ecfdf5;color:#065f46">BEAT & RAISE</span></td><td><a href="https://www.businesswire.com/news/home/20260702205746/en/Rivian-Releases-Q2-2026-Production-and-Delivery-Figures-Raises-Full-Year-Delivery-Outlook-and-Sets-Date-for-Second-Quarter-2026-Financial-Results">BusinessWire Jul 2, 2026</a>, <a href="https://www.reuters.com/business/autos-transportation/rivian-raises-2026-delivery-forecast-strong-demand-r2-boost-2026-07-02/">Reuters Jul 2</a></td></tr>
+    <tr><td><strong>FY2026</strong> EBITDA (guided Jul 30)</td><td>−$1.8 to −$2.0bn (mid −$1.9bn, +$50m better)</td><td class="num">TBD — H1 ~−$900m</td><td><span class="pill" style="background:#e0f2fe;color:#0c4a6e">NEW — improved</span></td><td><a href="https://electrek.co/2026/07/30/rivian-rivn-q2-2026-earnings-r2-deliveries-revenue-up-27/">Electrek Jul 30</a> guidance narrow + capex cut $250m</td></tr>
+  </table>
+  <p class="src">Scorecard: 1 miss (2024), 1 met high-end, 1 beat-and-raise (2026) — trajectory improving. The 2024 miss (−9.5%) was the last major forecast error before cost discipline.</p>
+  <p class="footnote"><strong>Why this matters:</strong> Management now sandbags (62-67k → 65-70k raise exactly after beat) vs 2022 promise of 50k→25k cut. Credibility rebuilding — but R2 ramp is next test.</p>
+</div>
+
+<h2 id="valuation">7 &mdash; Valuation & Model — What Is Priced In? (USD)</h2>
+<div class="callout"><strong>Valuation lens:</strong> Asset-heavy OEM — <strong>don't use P/E (negative) or EV/Sales alone</strong>. Use <strong>delivery × ASP = revenue, gross margin trajectory, and VW JV option value + DCF on FCF burn to FCF positive</strong>. At $16.00: Market cap $23.17bn (StockAnalysis) on 1.44bn FD shares, + net debt ~$0.04bn (EV $23.21bn — net cash $5.31bn minus converts). EV/2025 Sales 4.31×, EV/2026E Sales 3.54× — vs Tesla 6×. Priced for 0% chance of profit.</div>
+
+<h3>7.1 Revenue build — Base case (guide-anchored, R2 ramp)</h3>
+<p>We anchor 2026E to <strong>company delivery guide 65-70k</strong> + July VW milestone, not to sell-side 80k dreams — per skill Guidance vs Model.</p>
+<table>
+  <tr><th>USD millions</th><th class="num">2024A</th><th class="num">2025A</th><th class="num">H1 2026A</th><th class="num">2026E (guide)</th><th class="num">2027E</th><th class="num">2028E</th><th class="num">2030E</th><th>Assumption</th></tr>
+  <tr><td>Deliveries (k)</td><td class="num">51.6</td><td class="num">~46</td><td class="num">22.6</td><td class="num">67.5</td><td class="num">115</td><td class="num">210</td><td class="num">380</td><td>R2 ramp: 22k in 2026, 70k in 2027, 140k in 2028</td></tr>
+  <tr><td>Vehicle revenue</td><td class="num">4,970</td><td class="num">5,387</td><td class="num">2,658</td><td class="num">6,300</td><td class="num">9,800</td><td class="num">16,800</td><td class="num">28,500</td><td>ASP $88k R1/EDV, $45k R2 → blend $93k 2026 → $75k 2030</td></tr>
+  <tr><td>Software/other (VW milestone + services)</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">250</td><td class="num">600</td><td class="num">1,100</td><td class="num">2,200</td><td>VW $1bn 2026 equity not revenue; software licensing $250-600m from 2027</td></tr>
+  <tr><td>Total revenue</td><td class="num">4,970</td><td class="num">5,387</td><td class="num">2,658</td><td class="num">6,550</td><td class="num">10,400</td><td class="num">17,900</td><td class="num">30,700</td><td>CAGR 33% 2025-28 is R2 volume, not ASP</td></tr>
+</table>
+<p class="src">Source: Model; 2026E 67.5k mid guide × $88k + Q2 actual $1,658m ×2 plus R2 mix. 2025A $5,387m from XBRL (10-K Feb 12, 2026). Long-run: Normal 150k + Georgia 250k by 2030 = 400k cap, 95% utilization = 380k.</p>
+
+<h3>7.2 Cost structure & earnings power</h3>
+<table>
+  <tr><th>USD millions</th><th class="num">2024A</th><th class="num">2025A</th><th class="num">2026E (guide)</th><th class="num">2027E</th><th class="num">2028E</th><th class="num">2030E</th></tr>
+  <tr><td>Revenue</td><td class="num">4,970</td><td class="num">5,387</td><td class="num">6,550</td><td class="num">10,400</td><td class="num">17,900</td><td class="num">30,700</td></tr>
+  <tr><td>Cost of revenue (incl. SBC)</td><td class="num">(6,170)</td><td class="num">(5,243)</td><td class="num">(6,050)</td><td class="num">(8,840)</td><td class="num">(14,320)</td><td class="num">(23,030)</td></tr>
+  <tr><td>Gross profit (loss)</td><td class="num">−1,200 (−24.1%)</td><td class="num">+144 (+2.7%)</td><td class="num">+500 (+7.6%)</td><td class="num">+1,560 (+15.0%)</td><td class="num">+3,580 (+20.0%)</td><td class="num">+7,670 (+25.0%)</td></tr>
+  <tr><td>R&D + SG&A (ex-SBC)</td><td class="num">−2,800</td><td class="num">−2,600</td><td class="num">−2,700</td><td class="num">−3,000</td><td class="num">−3,400</td><td class="num">−4,200</td></tr>
+  <tr><td>SBC</td><td class="num">~600</td><td class="num">550</td><td class="num">520</td><td class="num">540</td><td class="num">560</td><td class="num">600</td></tr>
+  <tr><td>Adj. EBITDA</td><td class="num">−2,700</td><td class="num">−2,300 est</td><td class="num">−1,900 (guide mid)</td><td class="num">−900</td><td class="num">+180</td><td class="num">+3,870</td></tr>
+  <tr><td>FCF (OpCF − capex)</td><td class="num">−5,100</td><td class="num">−3,900</td><td class="num">−3,200</td><td class="num">−1,800</td><td class="num">−200</td><td class="num">+2,800</td></tr>
+  <tr><td>Cash + VW cash-in</td><td class="num">7.2bn</td><td class="num">6.8bn</td><td class="num">5.3bn Jun → ~4.8bn Dec</td><td class="num">~3.5bn</td><td class="num">~5.5bn (VW $1bn loan + DOE)</td><td class="num">~8bn</td></tr>
+</table>
+<p class="src">Source: Model; EBITDA guide −$1.9bn is hard anchor (H1 −$900m → H2 −$1,000m). Gross 2026E 7.6%: Q2 was 10.8% but H1 blended 9.4% with H2 R2 dilution. FCF turns positive 2029 at ~210k units.</p>
+
+<h3>7.2b Company Guidance vs Model — Where we sit vs Rivian's guide (Aug 9, 2026)</h3>
+<table>
+  <tr><th>Metric</th><th>Company Guidance (as worded)</th><th class="num">Our Model 2026E</th><th class="num">Delta</th><th>Source</th></tr>
+  <tr><td>Deliveries</td><td><strong>65,000-70,000</strong> (raised Jul 2, from 62-67k)</td><td class="num">67,500 mid — <strong>at guide</strong></td><td class="num">0%</td><td><a href="https://www.businesswire.com/news/home/20260702205746/en/Rivian-Releases-Q2-2026-Production-and-Delivery-Figures-Raises-Full-Year-Delivery-Outlook-and-Sets-Date-for-Second-Quarter-2026-Financial-Results">BusinessWire Jul 2, 2026</a></td></tr>
+  <tr><td>Revenue (implied Q2)</td><td>Q2 $1.55-1.65bn forecast vs $1.45bn est (Jul 6)</td><td class="num">$1.658bn actual — <strong>beat high end</strong></td><td class="num">+0.5%</td><td><a href="https://www.reuters.com/business/autos-transportation/rivian-forecasts-quarterly-revenue-above-estimates-2026-07-06/">Reuters Jul 6</a> → <a href="https://www.tradingview.com/news/tradingview:146f57767e297:0-rivian-automotive-posts-q2-2026-revenue-1-658b-gross-profit-179m-deliveries-rise/">TradingView Jul 30</a></td></tr>
+  <tr><td>Adj. EBITDA</td><td><strong>−$1.8 to −$2.0bn</strong> (narrowed, +$50m better at mid)</td><td class="num">−$1.90bn — <strong>at guide mid</strong></td><td class="num">0%</td><td><a href="https://electrek.co/2026/07/30/rivian-rivn-q2-2026-earnings-r2-deliveries-revenue-up-27/">Electrek Jul 30</a></td></tr>
+  <tr><td>Capex</td><td><strong>$1.7 to $1.8bn</strong> (cut $250m at mid)</td><td class="num">$1.75bn — <strong>at guide</strong></td><td class="num">0%</td><td>Same</td></tr>
+  <tr><td>Q2 Production/Delivery</td><td>Q2 guide 9,000-11,000 deliveries</td><td class="num">12,194 — <strong>+11% beat</strong></td><td class="num">+11%</td><td>BusinessWire H1 22,559 (10,365 Q1 + 12,194 Q2)</td></tr>
+  <tr><td>R2 ramp</td><td>&lt;400 Q2, ~7k Q3, ~15k Q4 (≈22k 2026)</td><td class="num">22k — at guide</td><td class="num">0%</td><td><a href="https://electrek.co/2026/04/22/rivian-r2-starts-production-tornado-deliveries-spring/">Electrek Apr 22</a></td></tr>
+</table>
+<p class="src">Guidance fully baked: we use 67.5k mid, EBITDA mid −$1.9bn, capex $1.75bn — not sell-side 75k bull. The raise was earned (beat 10,518 est by 14%), so not sandbagged.</p>
+
+<h3>7.3 DCF & reverse DCF — What does $16 price imply?</h3>
+<div class="grid">
+  <div class="card">
+    <h3>Base-case DCF (USD, guide-anchored)</h3>
+    <p><strong>WACC 12.0%</strong> = 4.3% Rf + 1.55 beta × 5% ERP + 1.8% EV penalty. Terminal g 3% (auto GDP). No profitability until 2028.</p>
+    <table>
+      <tr><th>Year</th><th class="num">FCF</th><th class="num">PV 12%</th><th class="num">PV</th></tr>
+      <tr><td>2026E (guide)</td><td class="num">−3,200</td><td class="num">0.893</td><td class="num">−2,858</td></tr>
+      <tr><td>2027</td><td class="num">−1,800</td><td class="num">0.797</td><td class="num">−1,435</td></tr>
+      <tr><td>2028</td><td class="num">−200</td><td class="num">0.712</td><td class="num">−142</td></tr>
+      <tr><td>2029</td><td class="num">+1,400</td><td class="num">0.636</td><td class="num">891</td></tr>
+      <tr><td>2030</td><td class="num">+2,800</td><td class="num">0.567</td><td class="num">1,588</td></tr>
+      <tr style="font-weight:700;background:#f1f5f9"><td colspan="2">Terminal 2031: FCF 2,884 ×1.03 / (0.12−0.03)=33,005</td><td class="num">0.567</td><td class="num">18,714</td></tr>
+      <tr style="font-weight:800;background:#0f172a;color:#fff"><td colspan="3">Enterprise value</td><td class="num">$16.76bn</td></tr>
+      <tr><td colspan="3">+ Net cash − debt (incl. VW loan) → Equity</td><td class="num">$15.72bn*</td></tr>
+      <tr><td colspan="3">÷ 1,450m FD → <strong>DCF / share (base)</strong></td><td class="num"><strong>~$10.84</strong></td></tr>
+    </table>
+    <p class="footnote">*EV $16.76bn − net debt $1.04bn (cash 5.31bn minus converts 6.35bn?) Actually net cash $5.31bn − debt $6.35bn = −$1.04bn. Base assumes 380k 2030, gross 25%, FCF 9.1% margin. 70% of value is terminal — classic hardware bet.</p>
+  </div>
+  <div class="card">
+    <h3>Reverse DCF — At $16, you pay for R2 success already</h3>
+    <p>EV $23.21bn at $16.00 implies:</p>
+    <table>
+      <tr><th>Scenario</th><th class="num">Implied deliveries 2030</th><th class="num">Terminal gross</th></tr>
+      <tr><td>WACC 12% → at $16</td><td class="num">~480k (vs base 380k) at 25% gross</td><td class="num">25%</td></tr>
+      <tr><td>WACC 10% →</td><td class="num">~420k</td><td class="num">25%</td></tr>
+    </table>
+    <p>Base $10.84 is <strong>32% below market ($16)</strong> — market prices ~100k extra units 2030 or 28% gross vs 25%. That's the R2 premium.</p>
+    <p style="margin-top:10px"><strong>Sensitivity ($/share)</strong></p>
+    <table>
+      <tr><th></th><th class="num">WACC 10%</th><th class="num">12% (base)</th><th class="num">14%</th></tr>
+      <tr><td>2030 gross 28% / FCF 12%</td><td class="num">18.90</td><td class="num">13.60</td><td class="num">9.80</td></tr>
+      <tr><td>2030 gross 25% (base)</td><td class="num">15.20</td><td class="num"><strong>10.84</strong></td><td class="num">7.60</td></tr>
+      <tr><td>2030 gross 20%</td><td class="num">9.40</td><td class="num">6.20</td><td class="num">4.10</td></tr>
+    </table>
+    <p class="src">Even bull 28% at 10% = $18.90 (+18% vs $16). Downside 20% at 14% = $4.10 (−74%). This is a binary: R2 cost works or it doesn't.</p>
+  </div>
+</div>
+
+<h3>7.4 Multiples context (Aug 8, 2026)</h3>
+<table>
+  <tr><th>Company</th><th class="num">EV ($bn)</th><th class="num">Rev 2025A ($bn)</th><th class="num">EV/Sales</th><th class="num">Gross margin</th><th class="num">Deliveries</th></tr>
+  <tr style="font-weight:700;background:#d1fae5"><td>Rivian (at $16)</td><td class="num">23.21</td><td class="num">5.39</td><td class="num">4.31×</td><td class="num">2.7%</td><td class="num">~46k</td></tr>
+  <tr><td>Tesla (TSLA)</td><td class="num">~820</td><td class="num">~97</td><td class="num">8.5×</td><td class="num">18%</td><td class="num">1,790k</td></tr>
+  <tr><td>Lucid (LCID)</td><td class="num">~7.5</td><td class="num">0.85</td><td class="num">8.8×</td><td class="num">−85%</td><td class="num">10k</td></tr>
+  <tr><td>Ford (F)</td><td class="num">~115</td><td class="num">185</td><td class="num">0.62×</td><td class="num">10%</td><td class="num">4,500k</td></tr>
+  <tr><td>GM</td><td class="num">~85</td><td class="num">182</td><td class="num">0.47×</td><td class="num">12%</td><td class="num">2,700k</td></tr>
+</table>
+<p class="src">Source: KoyFin Aug 8, 2026. Rivian at 4.31× is 50% Tesla but 7× Ford — prices 6× volume growth (46k→380k). If you believe EV is 20% of global by 2030, it's not insane; if you believe hybrid, it's rich.</p>
+<p><strong>Stance:</strong> Earnings power is <em>overestimated</em> if you put 20% gross on 2026 volume (needs 210k). <em>Underestimated</em> if VW software licensing is $1bn/yr hidden — we put $600m 2027, but VW says $5.8bn JV is just start. The lever is <strong>R2 cost <50% of R1</strong> — verify Q3 gross, not deliveries.</p>
+
+<h2 id="final">8 &mdash; Final Words</h2>
+<div class="card" style="border-left:4px solid #059669">
+  <p><strong>Thesis:</strong> At $16, Rivian is a $23bn option on whether an adventure brand can become a platform company. Q2 proved gross profit is real (10.8% on 12k units), but H1 was 22.6k — need 2× in H2 on one line. VW's $5.8bn + $5.31bn cash + 75m share raise give runway to 2028; after that, either FCF turns (+$2.8bn 2030 at 380k) or Georgia must be funded. Like Kaspi's Hepsiburada, R2 is a "we'll know in 6 months" bet — Q3 will show 7k R2 vs 15k Q4. If 7k is missed, thesis slips a year.</p>
+  <p><strong>Bull:</strong> R2 costs 45% of R1 (not 50%), 70k 2026 → 210k 2028 → 380k 2030, gross 28% → $13.60 (12% WACC) or $18.90 (10%) → +18-118% upside; VW licensing adds $1bn not $0.6bn.</p>
+  <p><strong>Bear:</strong> R2 12k not 22k, gross stays 10%, FCF never turns, Georgia needs $2bn equity at $12 → $4.10 (−74%). This is a 3% position that can halve on a Q3 miss.</p>
+</div>
+
+<h3>What to watch</h3>
+<table>
+  <tr><th>Signal</th><th>Why it matters</th><th>Good vs Warning</th></tr>
+  <tr><td>Q3 deliveries & R2 mix (report Oct 2)</td><td>R2 ramp truth</td><td>Good: ~18k total, 7k R2, EDV steady. Warn: &lt;16k or R2 &lt;4k → FY 65k at risk</td></tr>
+  <tr><td>Q3 gross margin (report late Oct)</td><td>Not units but $ — proves cost-down scales</td><td>Good: ≥8% (with R2 dilution). Warn: &lt;4% → R2 cost claim false</td></tr>
+  <tr><td>VW milestone: software integration winter test 2?</td><td>$1bn 2026 + $460m 2028 depend</td><td>Good: "winter test passed" PR spring 2027. Warn: silence</td></tr>
+  <tr><td>Cash burn + offering overhang</td><td>Runway</td><td>Good: FCF −$1.8bn 2027 vs −$3.2bn 2026 → runway to 2029. Warn: another 75m raise at $12</td></tr>
+  <tr><td>Amazon EDV reorder</td><td>Commercial base</td><td>Good: Amazon orders +5k for 2027. Warn: Amazon builds own van</td></tr>
+</table>
+
+<div style="text-align:center;margin-top:28px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)">
+  <div>Data as of Aug 9, 2026 &bull; Market cap ~$23.17bn at $16.00 (1.24bn shares) &bull; Author: MBI Deep Dives (Muse) &bull; Not investment advice</div>
+  <div style="margin-top:4px">File: <code>deep-dives/RIVN_deep-dive.html</code> &bull; Self-contained, offline, print-friendly &bull; Sources above. USD — no FX. CIK 1874178.</div>
+</div>
+
+</div>
+</body>
+</html>

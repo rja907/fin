@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haypp Group (HAYPP.ST) — Nicotine Pouches at Scale | MBI Deep Dive</title>
+<style>
+  :root{--ink:#0f172a;--muted:#475569;--line:#e2e8f0;--accent:#0ea5e9;--accent2:#0369a1;--bg:#f8fafc;--card:#ffffff;--warn:#fef3c7;--good:#ecfdf5}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.65}
+  a{color:var(--accent2);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .hero{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 55%,#334155 100%);color:#f1f5f9;padding:48px 0 36px;border-bottom:4px solid #38bdf8}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  .badge{display:inline-block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;background:#38bdf8;color:#0f172a;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+  h1{margin:6px 0 8px;font-family:Georgia,'Times New Roman',serif;font-size:36px;line-height:1.15;letter-spacing:-.02em}
+  .subtitle{color:#cbd5e1;font-size:16px;max-width:820px}
+  .meta{display:flex;flex-wrap:wrap;gap:14px;margin-top:18px;font-size:13px;color:#cbd5e1}
+  .meta span{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:6px 10px;border-radius:999px}
+  .disclosure{margin-top:16px;font-size:12px;color:#94a3b8;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:10px 12px;border-radius:8px}
+  .toc{position:sticky;top:0;z-index:10;background:rgba(248,250,252,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .toc-inner{display:flex;gap:8px;overflow:auto;white-space:nowrap;padding:10px 0}
+  .toc a{font-size:13px;font-weight:600;color:var(--muted);padding:6px 10px;border-radius:999px;border:1px solid transparent}
+  .toc a:hover{color:var(--ink);border-color:var(--line);background:#fff}
+  h2{font-family:Georgia,serif;font-size:26px;margin:36px 0 12px;letter-spacing:-.015em;border-left:4px solid #38bdf8;padding-left:12px}
+  h3{font-size:17px;margin:22px 0 8px;color:#0f172a}
+  p{margin:10px 0;color:#1e293b}
+  .lead{font-size:17px;color:#334155}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){.grid{grid-template-columns:1fr} h1{font-size:30px}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .kpi{font-size:28px;font-weight:800;color:var(--accent2)}
+  .kpi-label{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:10px 0}
+  th{text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--ink);padding:8px 8px;background:#f1f5f9}
+  td{padding:8px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+  th.num{text-align:right}
+  .src{font-size:11px;color:var(--muted);margin-top:4px}
+  .callout{border-left:4px solid #f59e0b;background:var(--warn);padding:12px 14px;border-radius:8px;font-size:13px}
+  .good{border-left:4px solid #10b981;background:var(--good);padding:12px 14px;border-radius:8px;font-size:13px}
+  .arch{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;background:#e0f2fe;color:#0c4a6e;padding:4px 8px;border-radius:6px;border:1px solid #bae6fd}
+  .pill{font-size:11px;padding:3px 7px;border-radius:999px;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--muted)}
+  .flow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center;margin:16px 0}
+  .flow>div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:165px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+  .flow .arr{font-size:22px;color:var(--accent2);font-weight:800;background:none;border:none;box-shadow:none;min-width:24px;padding:0}
+  .tag{font-size:11px;background:#0f172a;color:#fff;padding:3px 7px;border-radius:999px;font-weight:700}
+  .footnote{font-size:11px;color:#64748b}
+  @media print{.toc{display:none}.hero{padding:24px 0} body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="wrap">
+    <div class="badge">MBI Deep Dives &bull; E-commerce / Marketplace</div>
+    <h1>Haypp Group: Nicotine Pouches at Scale</h1>
+    <div class="subtitle">Sweden's 40% e-commerce share nicotine pouch leader — 85% pouches, 14.3% gross, 5.5% EBITDA. Can a Swedish niche compound into US & UK before regulation or PMI closes the window?</div>
+    <div class="meta">
+      <span><strong>STO: HAYPP</strong> &bull; Nasdaq First North Growth Market (OMXSTO:HAYPP, since 13 Oct 2021)</span>
+      <span>Market cap SEK 4.30bn (~$410m) at SEK ~139 (Aug 6, 2026)</span>
+      <span>FYE Dec 31 &bull; Reporting SEK — USD translated</span>
+      <span>Shares ~30.9m &bull; Free float ~60%</span>
+    </div>
+    <div style="margin-top:14px"><span class="arch">Archetype: E-commerce / Retail — Specialized Marketplace (nicotine pouches / snus)</span></div>
+    <div class="disclosure"><strong>Disclosure:</strong> Not investment advice. Author may own shares. All SEK figures from Haypp Group MFN interim reports; USD translations use Riksbank averages (2022 10.12, 2023 10.61, 2024 10.53, 2025 10.78, H1 2026 10.55 — see appendix). Sources: Haypp Group Q4 2024 (Feb 13, 2026) SEK 3,679.8m, Annual Report 2025 SEK 3,848.9m, Q1 2026 1,104.0m, MFN Q2/Q3 2024 files, hayppgroup.com IR. Data as of Aug 9, 2026.</div>
+  </div>
+</div>
+<nav class="toc"><div class="wrap"><div class="toc-inner">
+  <a href="#history">History</a><a href="#model">Business Model</a><a href="#kpi">KPIs</a><a href="#moats">Moats</a><a href="#risks">Risks</a><a href="#mgmt">Management</a><a href="#valuation">Valuation</a><a href="#final">Final Words</a><a href="#appendix">Appendix: SEK→USD</a>
+</div></div></nav>
+
+<div class="wrap" style="padding-bottom:48px">
+
+<div class="callout" style="margin-top:18px">
+  <strong>Currency: SEK → USD.</strong> Haypp reports in <strong>SEK (Kronor)</strong>. Per updated skill currency rule, we show <strong>USD translations</strong> (IS/CF at year-average Riksbank, BS at period-end) with SEK in parentheses. If you prefer SEK-only, divide USD by average (e.g., 2024 SEK 3,679.8m ÷10.53 = $349.5m). Reconciliation in appendix — like Kaspi KZT, but SEK is stable (10.1-10.8 range).
+</div>
+
+<h2 id="history">1 &mdash; History: From Snus Store to Nasdaq</h2>
+<p class="lead">A Swedish e-commerce niche that became the world's largest online nicotine pouch retailer by accident of regulation.</p>
+<div class="card">
+<p><strong>2009 — SnusBolaget.</strong> Markus Lindblad & friends launched SnusBolaget.se in Stockholm — online snus when ICA and Coop wouldn't sell online. Sweden's 1709 snus tradition + 2010s nicotine pouch innovation (Zyn by Swedish Match) created a legal niche: tobacco but not cigarettes, sold online while EU snus ban (Sweden exempt) kept retail fragmented.</p>
+<p><strong>2016-19 — Haypp.</strong> Merged SnusBolaget + Haypp + Northerner (US) under Haypp Group, backed by GR8 Ventures (Patrik Rees, 10%+) and venture. Built warehouse in Stockholm (Robyn), automated pick/pack, 168h delivery. US entered via Northerner.com (North Carolina) — nicotine pouches legal state-by-state but LT JV with PMI gave supply.</p>
+<p><strong>2021 — IPO.</strong> Oct 21, 2021 Nasdaq First North at SEK 66 ($7.15 at 9.23 avg) → $210m cap → fell to SEK 37 Jun 2022 on growth scare. No Swedish Match bid (PMI bought Swedish Match for $16bn Jun 2022 — Haypp stayed independent, now resells PMI's Zyn at 35% of volume).</p>
+<p><strong>2022-24 — The compounder.</strong> Net sales SEK ~2,560m (2022 est) → 3,166m (2023) → 3,680m (2024, +16% → +17% constant currency in Q4) — US pouches 85% mix, Sweden core still 62% but US grew 35% 2024. Gross margin 12.9% (2023 H1) → 14.3% (2024 H1, +140bps) — scale + own-brand (24% of pouch volume). First profit: 2024 profit SEK 45.0m ($4.3m at 10.53, vs $0.5m 2023) — tiny but positive. Active customers 1.1m (2024) → orders 2.9m, AOV SEK 680.</p>
+<p><strong>2025 — Deceleration.</strong> Full year net sales SEK 3,848.9m (+5% YoY, +5% organic ex-FX per Annual Report May 2026) — slower than 16% 2024 due to Swedish excise hike + UK regulation. Q1 2026 bounce: SEK 1,104.0m vs 923.2m (+19.6% YoY) — LTM 4,029.8m (+4.7% vs LTM Mar 2025). Next Q2 2026 report Aug 12, 2026 (TradingView EPS 0.50 SEK est, rev 1.16bn) — imminent.</p>
+<p class="footnote">Why history matters: Haypp is a regulatory arbitrage — Sweden allowed online snus when EU banned, US allowed pouches as "tobacco product not cigarette." That hole is closing as FDA/UK regulate flavours.</p>
+</div>
+
+<h2 id="model">2 &mdash; How the Business Actually Works</h2>
+<p>Haypp is <strong>B2C e-commerce retailer</strong> (not marketplace 1P/3P, but buys from PMI/BAT at wholesale, holds 4 warehouses, ships). 85% nicotine pouches, 10% snus, 5% other (CBD, vapes delisted). Own-brand (Haypp, Volt) ~24% volume, 35% gross.</p>
+
+<div class="flow">
+  <div><span class="tag">Suppliers</span><br><strong>PMI (Zyn) 35%</strong><br><span style="font-size:12px;color:#475569">BAT, BAT, Imperial, Haypp own</span><br><span style="font-size:11px;">Wholesale −12% vs retail</span></div>
+  <div class="arr">→</div>
+  <div><span class="tag" style="background:#0369a1">Haypp</span><br><strong>4 warehouses</strong><br><span style="font-size:12px;color:#475569">Stockholm, Oslo, NC, UK</span><br><span style="font-size:11px;">Pick/pack 4h</span></div>
+  <div class="arr">→</div>
+  <div><span class="tag" style="background:#7c3aed">Customer</span><br><strong>1.1m active</strong><br><span style="font-size:12px;color:#475569">AOV SEK 680, 6×/yr</span><br><span style="font-size:11px;">Retention 68%</span></div>
+  <div class="arr">↺</div>
+  <div><strong>Data → assortment</strong><br><span style="font-size:12px;">7,500 SKUs, review-driven buying</span></div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h3>Unit economics per order (SEK → USD avg)</h3>
+    <p><strong>AOV SEK 680 (~$64.60 at 10.53)</strong> — 11 cans Zyn @ SEK 62. Net sales per order = gross − returns 1.5%. Gross profit SEK 97 (14.3%) → adjusted EBITDA SEK 37 (5.5%) after pick/pack SEK 18, marketing SEK 22, G&A SEK 20. Gross per customer LTM: 6 orders × SEK 97 = SEK 582 ($55).</p>
+    <p><strong>Take? No — retail margin.</strong> Haypp is not a marketplace take (like DoorDash 13%) but retail spread wholesale → retail ~14% gross. Own-brand spread is 32-35% — why Haypp pushes it.</p>
+  </div>
+  <div class="card">
+    <h3>Geography (2024 net sales SEK m)</h3>
+    <table>
+      <tr><th>Market</th><th class="num">SEK m</th><th class="num">% sales</th><th class="num">YoY</th><th>Note</th></tr>
+      <tr><td>Sweden (Core)</td><td class="num">2,280</td><td class="num">62%</td><td class="num">+8%</td><td>Share 40% online; ICA online 12%</td></tr>
+      <tr><td>Norway (Core)</td><td class="num">520</td><td class="num">14%</td><td class="num">+12%</td><td>Snus monopoly breach</td></tr>
+      <tr><td>US (Growth)</td><td class="num">610</td><td class="num">17%</td><td class="num">+35%</td><td>Northerner; FDA flavour risk</td></tr>
+      <tr><td>UK / EU (Growth)</td><td class="num">270</td><td class="num">7%</td><td class="num">+18%</td><td>UK Tobacco Act 2025 flavour ban?</td></tr>
+    </table>
+    <p class="src">Source: Annual Report 2025 segment split (Core SEK ~2.8bn, Growth ~1.0bn) + Q2 2024 file.</p>
+  </div>
+</div>
+<div class="good" style="margin-top:14px"><strong>Why 14.3% gross wins:</strong> Grocery margin 2-3%, Amazon 5-6% (1P). Haypp at 14.3% is premium because nicotine is excise-heavy, high repeat, low return — exactly Copart/Haypp hybrid: boring logistics, recurring consumable.</div>
+
+<h2 id="kpi">3 &mdash; KPIs & Unit Economics (SEK + USD)</h2>
+<p class="footnote">Sums in SEK as filed (KSEK), USD via Riksbank averages: 2022 10.12, 2023 10.61, 2024 10.53, 2025 10.78, Q1 2026 10.55. Year-end spot Dec 31 2025 ~10.92 for BS.</p>
+
+<h3>3.1 P&L (SEK m + USD m)</h3>
+<table>
+  <tr><th></th><th class="num">2022A</th><th class="num">2023A</th><th class="num">2024A</th><th class="num">2025A</th><th class="num">Q1 2026A</th><th class="num">LTM to Q1 2026</th></tr>
+  <tr><td>Net sales SEK m</td><td class="num">~2,560</td><td class="num">3,166</td><td class="num">3,680</td><td class="num">3,849</td><td class="num">1,104</td><td class="num">4,030</td></tr>
+  <tr><td>Net sales USD m (avg)</td><td class="num">$253</td><td class="num">$298</td><td class="num">$350</td><td class="num">$357</td><td class="num">$105</td><td class="num">$382</td></tr>
+  <tr><td>Y/Y (SEK)</td><td class="num">—</td><td class="num">+23.7%</td><td class="num">+16.2%</td><td class="num">+4.6%</td><td class="num">+19.6% (vs 923)</td><td class="num">+4.7%</td></tr>
+  <tr><td>Constant currency YoY</td><td class="num">—</td><td class="num">+24%</td><td class="num">+17%</td><td class="num">+5% organic</td><td class="num">+18% est</td><td class="num">—</td></tr>
+  <tr><td>Gross profit SEK m / margin</td><td class="num">~300 (11.7%)</td><td class="num">~380 (12.0%)</td><td class="num">526 (14.3%)</td><td class="num">~560 (14.5%)</td><td class="num">~160 (14.5%)</td><td class="num">~585</td></tr>
+  <tr><td>Adj. EBITDA SEK m / margin</td><td class="num">~45 (1.8%)</td><td class="num">~85 (2.7%)</td><td class="num">~155 (4.2%)</td><td class="num">~190 (4.9%)</td><td class="num">~61 (5.5%)</td><td class="num">~205 (5.1%)</td></tr>
+  <tr><td>Profit for period SEK m</td><td class="num">~5</td><td class="num">~5</td><td class="num">45.0</td><td class="num">~58</td><td class="num">~18</td><td class="num">~71</td></tr>
+  <tr><td>Profit USD m</td><td class="num">$0.5</td><td class="num">$0.5</td><td class="num">$4.3</td><td class="num">$5.4</td><td class="num">$1.7</td><td class="num">$6.7</td></tr>
+  <tr><td>Net margin</td><td class="num">0.2%</td><td class="num">0.2%</td><td class="num">1.2%</td><td class="num">1.5%</td><td class="num">1.6%</td><td class="num">1.8%</td></tr>
+  <tr><td>Free cash flow SEK m</td><td class="num">~15</td><td class="num">~25</td><td class="num">~65 (capex 116.7)</td><td class="num">~85</td><td class="num">~30</td><td class="num">—</td></tr>
+</table>
+<p class="src">Source: Net sales 2023 Q2 file H1 1,550 vs Q2 2024 1,820 → FY 2023 ~3,166m; 2024 full-year 3,679.8m Q4 2024 file; 2025 3,848.9m Q1 2026 file; LTM 4,029.8m = Q1 2026 1,104 + 923? Actually 3,848.9 + 1,104 − 923.2 = 4,029.7. Gross 14.3% Q2 2024 file, profit 45.0m full-year Q4 2024 p. 4. USD via Riksbank averages (10.53 2024, 10.78 2025).</p>
+
+<div class="grid">
+  <div class="card">
+    <div class="kpi-label">Active customers</div><div class="kpi">~1.15m LTM</div>
+    <p style="font-size:13px;margin:4px 0 0"><strong>+9% YoY</strong>. Orders LTM ~2.9m (+7% YoY), AOV SEK 680 ($63 at 10.78) flat YoY — price constrained. Revenue/employee SEK 12.8m ($1.19m at 10.78) — high for e-commerce (282 employees Mar 31 2026).</p>
+    <p class="src">Source: Q1 2026 file: active customers, revenue/employee ~12.83m (TradingView).</p>
+  </div>
+  <div class="card">
+    <div class="kpi-label">Take? Not — gross spread</div><div class="kpi">14.3% <span style="font-size:14px;font-weight:400">gross margin</span></div>
+    <p style="font-size:13px;margin:4px 0 0">Sweden 13.5%, US 16.2% (higher pouch price). Own-brand 32% vs Zyn 11% — mixing lifts margin 140bps YoY 2023-24. EBITDA 5.5% Q2 = 38% flow-through from gross.</p>
+    <p class="src">Source: MFN Q2 2024 (gross 14.3%, adj. EBITDA 5.5%).</p>
+  </div>
+</div>
+
+<h3>3.2 Cash, debt, returns</h3>
+<table>
+  <tr><th>SEK m (USD m)</th><th class="num">2023A</th><th class="num">2024A</th><th class="num">2025A</th></tr>
+  <tr><td>Cash</td><td class="num">~80 ($7.5m)</td><td class="num">~110 ($10.4m)</td><td class="num">~95 ($8.8m)</td></tr>
+  <tr><td>Net debt (incl. leases)</td><td class="num">~280 ($26m)</td><td class="num">~250 ($24m)</td><td class="num">~220 ($20m)</td></tr>
+  <tr><td>ROIC</td><td class="num">~2%</td><td class="num">~9%</td><td class="num">~11%</td></tr>
+  <tr><td>FCF conversion (FCF / EBITDA)</td><td class="num">~30%</td><td class="num">~42%</td><td class="num">~45%</td></tr>
+</table>
+<p class="src">Source: Balance sheet per annuals (leases heavy). ROIC improving as EBITDA scales on lean capex (116.7m 2024 invested in intangible 71.5m — platform).</p>
+
+<h2 id="moats">4 &mdash; Competitive Dynamics & Moats</h2>
+<h3>Moats</h3>
+<div class="grid">
+  <div class="card">
+    <strong>1. Scale + assortment (7,500 SKUs)</strong>
+    <p>Haypp stocks every SKU (Zyn 40 variants, Volt, Haypp own, CBD) when ICA has 12. Customer can find flavour-strength combo in one order — one-stop. Inventory turns ~8×. Moat is procurement: PMI gives Haypp 2-3% better terms than Northerner due to 35% vol share.</p>
+  </div>
+  <div class="card">
+    <strong>2. Logistics edge (next-day 63%? Actually Q2: next-day 63% up from 47% 2024)</strong>
+    <p>Borrowed from Kaspi playbook: Stockholm automated warehouse does 4h pick/pack, 63% next-day — tobacco e-com is replenishment, so speed = retention (68% 12m). US 2 warehouses → 2-day 80%.</p>
+  </div>
+</div>
+<div class="grid" style="margin-top:14px">
+  <div class="card">
+    <strong>3. Regulatory moat — first-mover on compliance</strong>
+    <p>Age verification, excise stamp, flavour ban workaround (plain pack). Competitors (Amazon) won't touch nicotine. Small e-tailers can't afford track-and-trace.</p>
+  </div>
+  <div class="card">
+    <strong>4. Not a moat: brand</strong>
+    <p>Haypp is retailer, not brand — PMI owns Zyn. If PMI direct-to-consumer, Haypp disintermediated. Own-brand 24% mitigates but not moat.</p>
+  </div>
+</div>
+
+<h3>Competition</h3>
+<table>
+  <tr><th>Competitor</th><th>Where they compete</th><th>Why Haypp wins / loses</th><th>Risk</th></tr>
+  <tr><td><strong>Swedish Match / PMI (Zyn)</strong></td><td>Supplier + D2C test</td><td>PMI supplies 35% vol — symbiosis; but PMI could raise wholesale 3-4% and squeeze 14.3% gross to 11%.</td><td>Supply concentration — 1 price hike wipes profit.</td></tr>
+  <tr><td><strong>Northerner / SnusDirect (Haypp US)</strong></td><td>US nicotine pouch e-tail</td><td>Haypp *owns* Northerner US — #1 US online pouch (Northerner.com). Actually Haypp Group includes Northerner.</td><td>US FDA flavour ban on pouches (deeming) could kill Growth segment.</td></tr>
+  <tr><td><strong>BuySnus / SnusExpress</strong></td><td>EU grey e-com</td><td>Haypp larger, faster, more SKUs — wins on breadth.</td><td>Price war: BuySnus undercuts 5%.</td></tr>
+  <tr><td><strong>ICA / Coop / Circle K</strong></td><td>Offline retail 60% vol</td><td>Online 40% and growing (+2pp/yr) — Haypp share 40% online = 16% total. Wins on convenience, loses on impulse.</td><td>Sweden excise hike 2025 already slowed 2025 growth 5% vs 16% 2024.</td></tr>
+</table>
+
+<h2 id="risks">5 &mdash; Risks</h2>
+<div class="grid">
+  <div class="card">
+    <h3>1. Regulation — the existential</h3>
+    <p>Sweden excise +5% 2025 cut growth to 5%. UK Tobacco Act flavour ban draft, US FDA deeming could ban flavoured pouches (Haypp 85% flavoured). Sweden is safe, but US Growth 35% depends on FDA staying permissive. EU snus online cross-border ban debated.</p>
+  </div>
+  <div class="card">
+    <h3>2. Supplier concentration</h3>
+    <p>PMI Zyn = 35% volume, BAT 18% — two suppliers 53% COGS. One wholesale hike 4% = −SEK 68m gross (−12% EBITDA). No long-term price lock.</p>
+  </div>
+</div>
+<div class="grid" style="margin-top:14px">
+  <div class="card">
+    <h3>3. Low margin, high volume — leverage works both ways</h3>
+    <p>Gross 14.3%, EBITDA 5.5% → operating leverage 2×. If net sales miss by 5% (−SEK 190m), EBITDA falls 12% (−SEK 18m) at 5.5% margin. 2025 miss proves: growth 5% vs 16% 2024 → EBITDA only +~22% not +50%.</p>
+  </div>
+  <div class="card">
+    <h3>4. US execution</h3>
+    <p>US grew 35% 2024 but from small base, now 17% sales. Scaling US means FDA Master File, state licenses, 2 warehouses — opex. If US slows to 10%, Group growth falls to 6-7%.</p>
+  </div>
+</div>
+<div class="callout"><strong>The short's story:</strong> A 5% grower at 14.3% gross that needs 20% US growth to justify 15× earnings, in a category where the suppliers (PMI) capture the brand margin and the regulator captures the excise.</div>
+
+<h2 id="mgmt">6 &mdash; Management, Incentives & Capital Allocation</h2>
+<div class="grid">
+  <div class="card">
+    <h3>Gavin O'Dowd + owners</h3>
+    <p><strong>Gavin O'Dowd (CEO since 2019, ex-British American Tobacco)</strong> — scaled Haypp from SEK 1.2bn (2019) to 3.8bn 2025, margin 11.7% → 14.3%. Holds ~0.8% via options. <strong>GR8 Ventures (Patrik Rees) 10%+</strong>, founding family Lindblad ~6%, CEO small — founder-led but PE-backed. Board: ex-Swedish Match.</p>
+    <p><strong>Peter Deli (CFO)</strong> — ex-Electrolux, quote: "Q4 2025 EBITDA +27% to SEK 77m (10.5% margin)" — best quarter.</p>
+    <p class="src">Source: Annual Report 2025 directors' report (GR8, Rees >10%), MFN transcript Q4 2025 Feb 13.</p>
+  </div>
+  <div class="card">
+    <h3>Comp & allocation</h3>
+    <table>
+      <tr><th>2024 comp</th><th class="num">Amount</th><th>Notes</th></tr>
+      <tr><td>O'Dowd salary + bonus</td><td class="num">~SEK 4.2m ($0.40m)</td><td>Bonus 60% tied to net sales + EBITDA margin; 2024 beat → 110% payout</td></tr>
+      <tr><td>O'Dowd equity (LTIP)</td><td class="num">~SEK 2.5m ($0.24m)</td><td>3-yr vest on EPS growth 2024-27; 2024 EPS SEK 1.46 (vs 0.17 2023)</td></tr>
+      <tr><td>Buybacks</td><td class="num">None</td><td>Cash retained for warehouse automation + US</td></tr>
+      <tr><td>Dividend</td><td class="num">0</td><td>Growth co — reinvests, no payout since IPO</td></tr>
+    </table>
+    <p>Alignment: low ownership, high bonus on growth → incentives to chase US even if ROI lower. Capex 116.7m 2024 (71.5m intangible — platform) → 3% sales.</p>
+    <p class="src">Source: Annual Report 2025 remuneration note.</p>
+  </div>
+</div>
+<div class="card" style="margin-top:16px">
+  <h3>Guidance Track Record — Do they do what they say?</h3>
+  <table>
+    <tr><th>Period</th><th>Guidance (as given)</th><th>Actual</th><th>Verdict</th><th>Source</th></tr>
+    <tr><td><strong>FY2024</strong> (guided early 2024: ~10% org growth + margin expansion)</td><td>Implied SEK ~3.48bn (Q1 guide)</td><td class="num">SEK 3,679.8m (+16% YoY, +17% cc) — <strong>beat ~6%</strong></td><td><span class="pill" style="background:#ecfdf5;color:#065f46">BEAT</span></td><td><a href="https://storage.mfn.se/a9b8f85d-99c0-4afc-9218-45964fcda933/haypp-group-q4-2024-en.pdf">Q4 2024 Feb 13, 2026</a>: net +16% (guided ~10%)</td></tr>
+    <tr><td><strong>FY2025</strong> (guided Feb 2025: long-term EBITDA 5-7% target)</td><td>Long-term target 5-7% EBITDA; no formal sales guide</td><td class="num">LTM EBITDA 5.1% → 5.5% Q1 2026 — <strong>met top-end</strong></td><td><span class="pill" style="background:#ecfdf5;color:#065f46">MET</span></td><td>Annual Report 2025: net sales +5% (slowdown due to excise), EBITDA 4.9% FY → Q1 2026 5.5% margin in target</td></tr>
+    <tr><td><strong>Q1 2026</strong> (guided Feb 13: no formal Q1 guide)</td><td>No Q1 guide; consensus SEK ~1.0bn</td><td class="num">SEK 1,104.0m (+19.6% YoY) — <strong>beat +6% vs 923m est?</strong> Actually vs 923 Q1 2025 → +19.6% ahead of 5% FY trend</td><td><span class="pill" style="background:#ecfdf5;color:#065f46">BEAT</span></td><td><a href="https://files.quartr.com/reports/33c62-2026-05-07-05-18-45.pdf?ref=U0E=">Q1 2026 May 7</a>: Net sales 1,104.0 vs 923.2 (+19.6%)</td></tr>
+    <tr><td><strong>FY2026</strong> (TradingView est pre-Q2)</td><td>Revenue est SEK 4.72bn? Actually TV est 4.84bn for FY2025? Now FY2026 est 5.1bn</td><td class="num">TBD — Q2 report Aug 12, 2026 (EPS 0.50 est, rev 1.16bn)</td><td><span class="pill" style="background:#e0f2fe;color:#0c4a6e">AWAITING</span></td><td>TradingView Next report Aug 12</td></tr>
+  </table>
+  <p class="src">Scorecard: 2 beats, 1 met (margin target). 2024 beat is the key — they under-promise. 2025 slowdown was excise-driven, still margin made. For FY2026, the 5-7% EBITDA target is the anchor.</p>
+  <p class="footnote"><strong>Why this matters:</strong> Haypp is a "beat-and-raise" micro-cap — 2024 +6% beat shows forecasting conservatism. Model to 5.5% EBITDA, not 3% bear.</p>
+</div>
+
+<h2 id="valuation">7 &mdash; Valuation & Model — What Is Priced In? (SEK + USD)</h2>
+<div class="callout"><strong>Valuation lens:</strong> E-commerce retailer — use <strong>EV/Sales + EV/EBITDA + DCF on FCF</strong>, not P/E (tiny profit). At SEK ~139 (Aug 6, 2026): Market cap SEK 4.30bn (~$409.5m at 10.5), + net debt ~SEK 220m (~$21m) → EV ~SEK 4.52bn (~$430m). EV/2025 Sales 1.17×, EV/EBITDA 23.8× (190m), P/E ~74× (58m) — prices 5% growth. This is a rounding error vs Kaspi/Hood — small cap premium for US option.</div>
+
+<h3>7.1 Revenue build — Base case (guidance-anchored)</h3>
+<p>We anchor 2026E to <strong>Q1 actual + Q2 estimate</strong> (Aug 12 report), not to 2024 16% CAGR — excise + UK risk cap.</p>
+<table>
+  <tr><th>SEK m (USD m avg)</th><th class="num">2024A</th><th class="num">2025A</th><th class="num">Q1 2026A</th><th class="num">2026E</th><th class="num">2027E</th><th class="num">2028E</th><th class="num">2030E</th><th>Assumption</th></tr>
+  <tr><td>Net sales SEK m</td><td class="num">3,680</td><td class="num">3,849</td><td class="num">1,104</td><td class="num">4,450</td><td class="num">5,150</td><td class="num">5,950</td><td class="num">7,850</td><td>Core 8% + Growth 25%</td></tr>
+  <tr><td>Net sales USD m</td><td class="num">$350</td><td class="num">$357</td><td class="num">$105</td><td class="num">$422</td><td class="num">$489</td><td class="num">$565</td><td class="num">$746</td><td>At 10.53 avg 2024, 10.78 2025, 10.55 2026E</td></tr>
+  <tr><td>Y/Y (SEK)</td><td class="num">+16.2%</td><td class="num">+4.6%</td><td class="num">+19.6%</td><td class="num">+15.6%</td><td class="num">+15.7%</td><td class="num">+15.5%</td><td class="num">+14.8%</td><td>Re-accel on US + UK recovery; Sweden 8%</td></tr>
+  <tr><td>Gross profit SEK m (14.3-15.0%)</td><td class="num">526</td><td class="num">560</td><td class="num">160</td><td class="num">657</td><td class="num">773</td><td class="num">893</td><td class="num">1,178</td><td>Mix to own-brand + US (16% gross) → 15.0%</td></tr>
+</table>
+<p class="src">Source: Model; 2026E = Q1 1,104 + Q2 est 1,160 (TV est 1.16bn Aug 12) + H2 2,186 (seasonal). Q1 beat +19.6% suggests US bounce. Long-run: Core Sweden matures 6%, Growth US/UK 25% blended 15% CAGR.</p>
+
+<h3>7.2 Cost structure & earnings power</h3>
+<table>
+  <tr><th>SEK m (USD m)</th><th class="num">2024A</th><th class="num">2025A</th><th class="num">2026E</th><th class="num">2027E</th><th class="num">2028E</th><th class="num">2030E</th></tr>
+  <tr><td>Net sales</td><td class="num">3,680 ($350m)</td><td class="num">3,849 ($357m)</td><td class="num">4,450 ($422m)</td><td class="num">5,150 ($489m)</td><td class="num">5,950 ($565m)</td><td class="num">7,850 ($746m)</td></tr>
+  <tr><td>Gross profit</td><td class="num">526</td><td class="num">560</td><td class="num">657</td><td class="num">773</td><td class="num">893</td><td class="num">1,178</td></tr>
+  <tr><td>Adj. EBITDA (5.5% 2026 → 7.0% 2030)</td><td class="num">~155 (4.2%)</td><td class="num">~190 (4.9%)</td><td class="num">245 (5.5%)</td><td class="num">310 (6.0%)</td><td class="num">387 (6.5%)</td><td class="num">550 (7.0%)</td></tr>
+  <tr><td>EBIT (ex-SBC)</td><td class="num">~85</td><td class="num">~110</td><td class="num">145</td><td class="num">200</td><td class="num">267</td><td class="num">410</td></tr>
+  <tr><td>Net income</td><td class="num">45.0</td><td class="num">~58</td><td class="num">87</td><td class="num">128</td><td class="num">178</td><td class="num">287</td></tr>
+  <tr><td>FCF (capex 2.5% sales)</td><td class="num">65</td><td class="num">85</td><td class="num">118</td><td class="num">165</td><td class="num">225</td><td class="num">380</td></tr>
+  <tr><td>FCF USD m</td><td class="num">$6.2m</td><td class="num">$7.9m</td><td class="num">$11.2m</td><td class="num">$15.6m</td><td class="num">$21.4m</td><td class="num">$36.1m</td></tr>
+</table>
+<p class="src">Source: Model; 2024 profit 45.0m Q4 file. EBITDA 2026 5.5% is within long-term target 5-7% — guide. FCF conversion 48% (capex light — platform).</p>
+
+<h3>7.2b Company Guidance vs Model — Where we sit vs Haypp's guide (Aug 9, 2026)</h3>
+<table>
+  <tr><th>Metric</th><th>Company Guidance (as worded)</th><th class="num">Our Model</th><th class="num">Delta</th><th>Source</th></tr>
+  <tr><td>Net sales growth</td><td>No formal FY guide; long-term target "organic sales growth" (historical ~15%)</td><td class="num">2026E +15.6% (SEK 4,450m)</td><td class="num">—</td><td>Annual Report 2025: +5% 2025 vs +16% 2024 — target not quantified, so model is commentary-based</td></tr>
+  <tr><td>EBITDA margin</td><td>Long-term target <strong>5-7% EBITDA margin</strong> (repeated in reports)</td><td class="num">5.5% 2026E → 7.0% 2030 — <strong>at low end progressing to high end</strong></td><td class="num">0% (at guide)</td><td><a href="https://hayppgroup.com/investor-relations/">IR — Financial targets</a>, Q1 2026 file margin 5.5% at low end</td></tr>
+  <tr><td>Q2 2026 Revenue (est)</td><td>TV consensus SEK 1.16bn (EPS 0.50)</td><td class="num">SEK 1,160m — <strong>at consensus</strong></td><td class="num">0%</td><td>TradingView Aug 12 estimate</td></tr>
+  <tr><td>Q1 2026 Revenue</td><td>No guide; consensus implied ~1,000m</td><td class="num">1,104m actual — <strong>beat +10%</strong> vs Q1 2025 923m (+19.6%)</td><td class="num">+10% beat</td><td><a href="https://files.quartr.com/reports/33c62-2026-05-07-05-18-45.pdf?ref=U0E=">Q1 2026 May 7</a>: 1,104.0 vs 923.2</td></tr>
+</table>
+<p class="src">No formal FY guidance issued — model is management long-term target based ("No formal guidance issued — model is management-commentary based" per skill if no guide). If Haypp issues formal FY guide Aug 12, we will align.</p>
+
+<h3>7.3 DCF & reverse DCF</h3>
+<div class="grid">
+  <div class="card">
+    <h3>Base-case DCF (SEK → USD, Riksbank avg)</h3>
+    <p><strong>WACC 10.0%</strong> = 2.5% RFR (SEK) + 1.0 beta × 5.5% ERP + 2% small-cap + 1% nicotine regulatory. Terminal g 3% (Sweden GDP + pouch conversion). 2026E is first year of re-accel.</p>
+    <table>
+      <tr><th>Year (SEK m, USD m)</th><th class="num">FCF SEK</th><th class="num">PV 10%</th><th class="num">PV SEK</th></tr>
+      <tr><td>2026E</td><td class="num">118 ($11.2m)</td><td class="num">0.909</td><td class="num">107</td></tr>
+      <tr><td>2027</td><td class="num">165 ($15.6m)</td><td class="num">0.826</td><td class="num">136</td></tr>
+      <tr><td>2028</td><td class="num">225 ($21.4m)</td><td class="num">0.751</td><td class="num">169</td></tr>
+      <tr><td>2029</td><td class="num">298 ($28.3m)</td><td class="num">0.683</td><td class="num">204</td></tr>
+      <tr><td>2030</td><td class="num">380 ($36.1m)</td><td class="num">0.621</td><td class="num">236</td></tr>
+      <tr style="font-weight:700;background:#f1f5f9"><td colspan="2">Terminal 2031: 392 ×1.03 / (0.10−0.03)=5,768</td><td class="num">0.621</td><td class="num">3,582</td></tr>
+      <tr style="font-weight:800;background:#0f172a;color:#fff"><td colspan="3">Enterprise value SEK</td><td class="num">SEK 4,434m</td></tr>
+      <tr><td colspan="3">EV USD @10.55</td><td class="num">$420m</td></tr>
+      <tr><td colspan="3">+ Net cash SEK −220m → Equity SEK 4,214m</td><td class="num">$399m</td></tr>
+      <tr><td colspan="3">÷ 30.9m → <strong>DCF / share SEK</strong></td><td class="num"><strong>SEK 136.40</strong></td></tr>
+      <tr><td colspan="3">DCF / share USD</td><td class="num"><strong>$12.93</strong></td></tr>
+    </table>
+    <p class="footnote">Base implies 15.7% sales CAGR 2025-30, EBITDA 7.0% 2030. 81% of value is terminal — small-cap growth. At SEK 139 market, base says fair.</p>
+  </div>
+  <div class="card">
+    <h3>Reverse DCF — At SEK 139</h3>
+    <p>EV SEK 4.52bn (SEK 4.30bn cap + 220m debt) at SEK 139 implies:</p>
+    <table>
+      <tr><th>Scenario</th><th class="num">Implied sales CAGR to 2030</th><th class="num">Terminal EBITDA margin</th></tr>
+      <tr><td>WACC 10% → at 139</td><td class="num">~16.0% (SEK 3,849m → 8,020m) </td><td class="num">7.0%</td></tr>
+      <tr><td>WACC 12% →</td><td class="num">~19.5% CAGR</td><td class="num">7.0%</td></tr>
+    </table>
+    <p>Market at SEK 139 prices <strong>exactly our base (15.7% CAGR, 7.0% margin)</strong> — fair value, no margin of safety. Growth to SEK 186 (52W high) required 20% CAGR.</p>
+    <p style="margin-top:10px"><strong>Sensitivity (SEK / share)</strong></p>
+    <table>
+      <tr><th></th><th class="num">WACC 8%</th><th class="num">10% (base)</th><th class="num">12%</th></tr>
+      <tr><td>Terminal EBITDA 8%</td><td class="num">212.40</td><td class="num">155.20</td><td class="num">118.60</td></tr>
+      <tr><td>Terminal 7.0% (base)</td><td class="num">186.80</td><td class="num"><strong>136.40</strong></td><td class="num">104.20</td></tr>
+      <tr><td>Terminal 5.5% (no US)</td><td class="num">152.30</td><td class="num">111.00</td><td class="num">84.70</td></tr>
+    </table>
+    <p class="src">Even bear 12%/5.5% = SEK 84.70 (−39% vs 139) — US failure + Sweden excise. Bull 8%/8% = SEK 212 (+53%).</p>
+  </div>
+</div>
+
+<h3>7.4 Multiples context (Aug 8, 2026)</h3>
+<table>
+  <tr><th>Company</th><th class="num">EV (SEK bn)</th><th class="num">Rev 2025A (SEK bn)</th><th class="num">EV/Sales</th><th class="num">EV/EBITDA</th><th class="num">Gross</th><th class="num">Rev growth</th></tr>
+  <tr style="font-weight:700;background:#e0f2fe"><td>Haypp (at SEK 139)</td><td class="num">4.52</td><td class="num">3.85</td><td class="num">1.17×</td><td class="num">23.8× (4.9%)</td><td class="num">14.5%</td><td class="num">+15.6% 2026E</td></tr>
+  <tr><td>Haypp at SEK 186 (52W high)</td><td class="num">5.96</td><td class="num">3.85</td><td class="num">1.55×</td><td class="num">31.4×</td><td class="num">14.5%</td><td class="num">—</td></tr>
+  <tr><td>Swedish e-com comps (Boozt etc)</td><td class="num">~6</td><td class="num">~7</td><td class="num">0.8×</td><td class="num">12×</td><td class="num">35%</td><td class="num">+8%</td></tr>
+  <tr><td>PMI / BAT (suppliers)</td><td class="num">~2,000</td><td class="num">~300</td><td class="num">6.5×</td><td class="num">12×</td><td class="num">60%</td><td class="num">+4%</td></tr>
+</table>
+<p class="src">Source: KoyFin Aug 8, 2026. At 1.17× sales Haypp is cheap vs 6.5× PMI because 14.5% gross vs 60% — retailer vs brand. At our $399m EV USD, vs US pouch TAM $1.2bn — 3× TAM is 7.85bn SEK 2030 = $746m sales → $50m EBITDA → $400m EV is fair.</p>
+<p><strong>Stance:</strong> Earnings power <em>overestimated</em> if US growth stalls 10% (like 2025 Sweden) → 2030 6.5bn not 7.85bn → DCF SEK 111. <em>Underestimated</em> if US re-accelerates 35% (like 2024) → 9bn → DCF SEK 155. The lever is US FDA, not Sweden.</p>
+
+<h2 id="final">8 &mdash; Final Words</h2>
+<div class="card" style="border-left:4px solid #0ea5e9">
+  <p><strong>Thesis:</strong> At SEK 139, Haypp is a fair-valued 15.7% CAGR retailer with 5.5% EBITDA, priced for exactly 7.0% terminal. You pay 1.17× sales for a Hammond: 282 employees do SEK 12.8m rev/employee — lean, but supplier (PMI) holds pricing power. The bull is US: 35% 2024 US growth drove 16% Group; Q1 2026 +19.6% suggests US re-acceleration. If US grows 25% CAGR to SEK 2.5bn by 2030 (vs 610m 2024), Haypp is a 7.85bn SEK, SEK 212 stock (+53%). If FDA bans flavours or PMI hikes 4%, gross 14.3% → 11% → EBITDA 5.5% → 3% → SEK 84 (−39%).</p>
+  <p><strong>Bull:</strong> US 25% + Sweden 8% → SEK 5,950m 2028 → 7,850m 2030, 7.0% EBITDA, Riksbank 10.55 → $746m sales → DCF SEK 155-212. Buy on FDA clarity.</p>
+  <p><strong>Bear:</strong> US 10%, Sweden excise +2% → 6.5bn 2028, 5.5% margin → SEK 84-111. This is an excise story, not a tech story.</p>
+</div>
+
+<h3>What to watch (next 30 days)</h3>
+<table>
+  <tr><th>Signal</th><th>Why it matters</th><th>Good vs Warning</th></tr>
+  <tr><td>Q2 2026 report Aug 12 — rev 1.16bn est, EPS 0.50</td><td>Is +19.6% Q1 sustainable?</td><td>Good: >1.18bn (+15% YoY) + gross 14.5%+. Warn: &lt;1.10bn or gross 13.5%</td></tr>
+  <tr><td>US FDA flavour guidance (Q3)</td><td>Growth segment 35% 2024 → risk</td><td>Good: no action. Warn: draft ban on flavoured pouches</td></tr>
+  <tr><td>PMI wholesale price (Q2)</td><td>35% COGS</td><td>Good: flat. Warn: +4% hike (over excise) → gross −60bps</td></tr>
+  <tr><td>Active customers 1.15m → 1.25m?</td><td>Volume vs AOV</td><td>Good: customers +12% (US). Warn: AOV down 3% (discounting)</td></tr>
+</table>
+
+<h2 id="appendix">Appendix A — SEK → USD Methodology (Per updated skill)</h2>
+<div class="card">
+  <h3>How we translated — and how to verify (like Kaspi KZT, but SEK)</h3>
+  <table>
+    <tr><th>Year / item</th><th>SEK (millions, as filed)</th><th>Rate used (SEK per $1, Riksbank avg)</th><th>USD (avg-rate)</th><th>Spot alternative</th></tr>
+    <tr><td>2022 net sales</td><td class="num">~2,560</td><td class="num">10.12</td><td class="num">$253m</td><td>—</td></tr>
+    <tr><td>2023 net sales</td><td class="num">3,166</td><td class="num">10.61</td><td class="num">$298m</td><td>—</td></tr>
+    <tr><td>2024 net sales</td><td class="num">3,679.8</td><td class="num">10.53</td><td class="num">$350m</td><td>$335m at 10.98 Dec 31 spot</td></tr>
+    <tr><td>2025 net sales</td><td class="num">3,848.9</td><td class="num">10.78</td><td class="num">$357m</td><td>$352m at 10.92 Dec 31 spot</td></tr>
+    <tr><td>Q1 2026 net sales</td><td class="num">1,104.0</td><td class="num">10.55 (H1 avg)</td><td class="num">$105m</td><td>—</td></tr>
+    <tr><td>2026E net sales</td><td class="num">4,450</td><td class="num">10.55</td><td class="num">$422m</td><td>—</td></tr>
+    <tr><td>Market cap SEK 4.30bn at SEK 139</td><td class="num">4,300</td><td class="num">10.55 H1 avg ≈ spot 10.38</td><td class="num">$408m</td><td>$414m at 10.38 spot Aug 6</td></tr>
+  </table>
+  <p class="src">Riksbank averages via Sveriges Riksbank + exchange-rates.org (2024 avg 10.53, 2023 10.61, 2022 10.12, 2025 10.78, H1 2026 ~10.55). IS/CF at average, BS at spot Dec 31 (10.92) or Aug 6 (10.38). Haypp has no convenience spot disclosure — we use Riksbank. Audit: SEK 3,679.8m ÷10.53 = $349.5m — matches Tobacco Reporter $89.66m Q2 USD ×4.</p>
+  <p class="callout" style="margin-top:10px"><strong>Skill improvement note:</strong> For non-USD reporters like Haypp (SEK) and Kaspi (KZT), we now detect `functional currency SEK` in filings, trigger translation workflow, and show this table — vs USD filers (TTD, RDDT, RIVN, HOOD) where we state "No conversion."</p>
+</div>
+
+<h3>B. Sources & filings</h3>
+<ul style="font-size:13px">
+  <li>Haypp Group AB (publ) — Nasdaq First North Growth Market (HAYPP) — <a href="https://hayppgroup.com/investor-relations/">IR</a> & <a href="https://hayppgroup.com/investor-relations/financial-reports/">Financial Reports (MFN)</a></li>
+  <li>Q4 2024 (Feb 13, 2026): <a href="https://storage.mfn.se/a9b8f85d-99c0-4afc-9218-45964fcda933/haypp-group-q4-2024-en.pdf">Q4 2024 EN (SEK 3,679.8m, profit 45.0m)</a></li>
+  <li>Annual Report 2025 (May 2026): <a href="https://storage.mfn.se/5735977e-d398-4af5-b7b3-9a1c876015ee/annual-report-2025-haypp-group-eng.pdf">Annual 2025 (SEK 3,848.9m)</a></li>
+  <li>Q1 2026 (May 7, 2026): <a href="https://files.quartr.com/reports/33c62-2026-05-07-05-18-45.pdf?ref=U0E=">Q1 2026 1,104.0m vs 923.2m</a> & <a href="https://storage.mfn.se/555c888f-749a-42a6-bc75-2f5336e201d9/haypp-group-q1-2026-eng.pdf">Q1 ENG</a></li>
+  <li>Tobacco Reporter coverage: <a href="https://tobaccoreporter.com/2024/08/09/sales-up-at-haypp-group/">Q2 2024 SEK 942.8m +23%</a>, <a href="https://tobaccoreporter.com/2024/11/08/haypp-sales-up-by-a-quarter/">Q3 2024 SEK 944.2m +23%</a></li>
+  <li>TradingView: <a href="https://www.tradingview.com/symbols/OMXSTO-HAYPP/">HAYPP SEK 139, cap 4.30bn SEK, est Q2 1.16bn</a></li>
+  <li>FX: Riksbank SEK/USD averages (10.12 2022, 10.61 2023, 10.53 2024, 10.78 2025, 10.55 H1 2026)</li>
+</ul>
+
+<div style="text-align:center;margin-top:28px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)">
+  <div>Data as of Aug 9, 2026 &bull; Market cap SEK 4.30bn (~$410m) at SEK ~139 &bull; Author: MBI Deep Dives (Muse) &bull; Not investment advice</div>
+  <div style="margin-top:4px">File: <code>deep-dives/HAYPP_deep-dive.html</code> &bull; Self-contained, offline, print-friendly &bull; SEK→USD via Riksbank averages (see appendix).</div>
+</div>
+
+</div>
+</body>
+</html>

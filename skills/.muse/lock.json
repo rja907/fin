@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "skills": {
+    "company-deep-dive": {
+      "id": "company-deep-dive",
+      "source": {
+        "type": "local",
+        "path": "/Users/raj/.agents/skill-drafts/company-deep-dive"
+      },
+      "version": null,
+      "revision": null,
+      "installed_at": "2026-08-09T04:16:25.346272Z",
+      "updated_at": null,
+      "content_sha256": "sha256:43e554c992ca79b2b9f74dec21575bdfd99d04220d3d0807d682e705d9f53a88",
+      "trust": "local",
+      "scan": {
+        "status": "passed",
+        "warnings": []
+      },
+      "files": [
+        {
+          "relative_path": "SKILL.md",
+          "sha256": "sha256:03e479fe3f6a8ca0997c8fa1cdf9341128b14724b12b058e2b8d2dca49941f16",
+          "bytes": 12056
+        }
+      ]
+    }
+  }
+}
