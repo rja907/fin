@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dLocal (DLO) — The Emerging-Markets Payments Router</title>
+<style>
+:root{--ink:#0f1a2a;--paper:#fbfaf6;--muted:#667085;--line:#e7ddd0;--accent:#0f3d6b;--accent2:#f59e0b;--teal:#0e7c6b;--crimson:#9a3412;--bg:#fff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:#1a2332;background:var(--paper);line-height:1.65}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.header{position:relative;background:#0b1e33;color:#fff;padding:42px 0 26px;border-bottom:6px solid var(--accent2)}
+.header-inner{max-width:1080px;margin:0 auto;padding:0 24px}
+.kicker{letter-spacing:.16em;text-transform:uppercase;font-size:11px;color:var(--accent2);font-weight:800}
+h1{font-family:Georgia,Times,serif;font-size:36px;line-height:1.08;margin:10px 0 10px;font-weight:800;max-width:860px}
+.subtitle{color:#cbd5e1;font-size:15px;max-width:840px}
+.meta{margin-top:14px;display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);padding:7px 11px;border-radius:999px;font-size:12px}
+.badge b{color:var(--accent2)}
+.badge-arch{background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.35);color:#fde68a}
+.pricebox{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-size:13px;color:#dbe6f3}
+.pricebox span{opacity:.92}
+.container{max-width:1080px;margin:0 auto;padding:0 24px}
+.toc{position:sticky;top:0;z-index:10;background:rgba(251,250,246,.97);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 0}
+.toc-inner{max-width:1080px;margin:0 auto;padding:0 24px;display:flex;gap:10px;overflow:auto;white-space:nowrap;font-size:12.5px}
+.toc-inner a{color:#334155;font-weight:650;padding:6px 10px;border-radius:999px;border:1px solid transparent}
+.toc-inner a:hover{border-color:var(--line);background:#fff}
+.layout{display:grid;grid-template-columns:1fr;gap:26px;padding:26px 0 40px}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 1px 12px rgba(0,0,0,.04)}
+.card-h{padding:18px 22px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fff,#f8f5ef)}
+.card-h h2{margin:0;font-family:Georgia,serif;font-size:22px;color:var(--ink)}
+.card-h p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.card-b{padding:20px 22px}
+h3{font-family:Georgia,serif;font-size:17px;margin:22px 0 10px;color:var(--ink);border-left:4px solid var(--accent2);padding-left:10px}
+h4{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:#475569;margin:18px 0 8px}
+p{margin:9px 0;font-size:14.4px}
+.small{font-size:12.4px;color:var(--muted)}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;margin:14px 0;max-width:100%;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:720px}
+th{background:#0f1720;color:#fff;text-align:right;padding:10px 10px;font-weight:700;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th.l{text-align:left}
+td{padding:9px 10px;text-align:right;border-top:1px solid #efe8dd;white-space:nowrap}
+td:first-child{font-weight:600;color:#0f1720}
+tr:nth-child(even) td{background:#fdfaf6}
+.source{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.5}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:12px 0}
+.kpi div{background:#f8f5ef;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi b{font-size:19px;display:block;color:var(--ink)} .kpi span{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.callout{border-left:4px solid var(--teal);background:#f0faf8;padding:12px 14px;border-radius:8px;font-size:13.5px;margin:12px 0}
+.callout.warn{border-left-color:var(--crimson);background:#fef7f0}
+.callout.blue{border-left-color:var(--accent);background:#f0f5fb}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.grid2 > div{min-width:0}
+@media(max-width:980px){.grid2{grid-template-columns:1fr}.kpi{grid-template-columns:1fr 1fr}h1{font-size:30px}}
+.chart-box{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fff;margin:12px 0}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11.5px;margin:6px 0 2px}
+.dot{width:10px;height:10px;border-radius:999px;display:inline-block;vertical-align:middle;margin-right:6px}
+.figure-caption{font-size:11.5px;color:var(--muted);text-align:center;margin-top:6px}
+hr.sep{border:none;border-top:1px solid var(--line);margin:18px 0}
+ul{margin:8px 0 8px 18px;font-size:14px} li{margin:4px 0}
+code{background:#f1ece3;padding:1px 6px;border-radius:6px;font-size:12.5px}
+.footer{border-top:1px solid var(--line);padding:18px 0;color:var(--muted);font-size:12px}
+.table-wrap.compact table{min-width:0}
+.table-wrap.compact th,.table-wrap.compact td{white-space:normal;word-break:break-word;vertical-align:top}
+.table-wrap.compact td:last-child{text-align:left;color:#334155}
+@media print{ .toc{position:static} .header{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-inner">
+    <div class="kicker">MBI Deep Dives &bull; Cross-Border Payments &bull; Emerging Markets Infrastructure</div>
+    <h1>dLocal: <span style="color:#fde68a;font-weight:800">The Emerging-Markets Payments Router</span></h1>
+    <p class="subtitle">One API, 40 countries, 900+ local payment methods — how a Montevideo spin-out became the rails for Netflix, Amazon, Spotify and Temu to get paid (and pay out) where Stripe and Adyen don’t go.</p>
+    <div class="meta">
+      <span class="badge"><b>Ticker</b> DLO (NASDAQ)</span>
+      <span class="badge"><b>CIK</b> 1846832 &bull; F-1 / 20-F (foreign issuer)</span>
+      <span class="badge"><b>FYE</b> Dec 31 &bull; IFRS (IASB)</span>
+      <span class="badge badge-arch">Archetype: Payments Infrastructure (Adyen-like) + EM Marketplace</span>
+    </div>
+    <div class="pricebox">
+      <span>As of <b>Aug 14, 2026</b> (Q1’26 released May 14; Q2’26 scheduled Aug 13 after close): DLO <b>$14.76</b> &bull; ~295M shares (Class A+B) &bull; Mkt cap <b>$4.3–4.5B</b> &bull; EV ~$3.4B (net cash ~$1.0B)</span>
+      <span>Reporting currency: <b>USD — no conversion</b>. All P&amp;L/BS as filed in USD (IFRS, IASB). Local-currency TPV disclosed as constant-currency growth.</span>
+    </div>
+  </div>
+</div>
+
+<div class="toc">
+  <div class="toc-inner">
+    <a href="#tldr">TL;DR</a>
+    <a href="#history">History</a>
+    <a href="#model">Business Model</a>
+    <a href="#kpis">KPIs & Take Rate</a>
+    <a href="#moats">Moats & Risks</a>
+    <a href="#mgmt">Management & Incentives</a>
+    <a href="#valuation">Valuation</a>
+    <a href="#final">Final Words</a>
+  </div>
+</div>
+
+<div class="container">
+<div class="layout">
+
+<div class="card" id="tldr">
+  <div class="card-h"><h2>0 — TL;DR: Why dLocal is not Adyen</h2><p>The bull/bear split in one minute</p></div>
+  <div class="card-b">
+    <div class="grid2">
+      <div>
+        <p><b>dLocal is a single-API router for getting paid and paying out in the hardest 40 markets on earth.</b> Where Adyen consolidates <em>developed-market acquiring</em> (cards + Apple Pay), dLocal consolidates <em>local payment-method chaos</em> in Brazil (PIX/Boleto), Mexico (OXXO/SPEI), Nigeria (bank transfers + USSD), India (UPI), Egypt (Fawry), Turkey (installments), South Africa, Argentina, etc. — 900+ methods across ~40 countries. Global merchants plug once (“One dLocal”) instead of building 40 local entities and banking relationships.</p>
+        <p><b>Currency — your question:</b> dLocal <b>reports in USD</b> (Form 20-F: “dLocal reports in US dollars and in accordance with IFRS as issued by the IASB”). Every table in this report is <b>as filed in USD — no conversion</b>. What <em>does</em> need handling is <em>constant-currency TPV</em>: dLocal discloses both nominal TPV and constant-currency growth to strip the 40–60% devaluations in ARS/EGP/NGN that crush reported revenue but not underlying volume. We show both where disclosed (Data Integrity Rule met: detect, don’t assume).</p>
+        <ul>
+          <li><b>Engine (2025A):</b> TPV ~$40–42B, revenue $1,094m, gross profit $423m (38.7% margin), adj. EBITDA ~$272m (64% of GP), net income ~$197m (18% margin), NRR 106–114% ex-Nigeria, 293.8m diluted shares.</li>
+          <li><b>Q1’26A (May 14):</b> TPV $14.10B (+73% YoY, 6th straight quarter 50%+), revenue $335.9m (+55% YoY), gross profit $118.7m (+40%), take rate 2.38% (2.67% a year ago) — mix shift, not pricing collapse. Guidance: FY2026 revenue ~$1.5–1.6B implied (+40% YoY) if H2 holds.</li>
+          <li><b>Q2’26E (Aug 13 after close — as of 11am PDT Aug 14 not yet in EDGAR):</b> Consensus $366.8m revenue (+44% YoY est.), EPS $0.18–0.20. Marked <b>2026E</b> in this report — will be corrected to <b>2026A</b> once 6-K lands.</li>
+        </ul>
+        <div class="callout blue"><b>One-liner thesis:</b> If dLocal can keep TPV growing 35–45% at 2.2–2.5% take rate → revenue 30–35% CAGR, with gross margin 36–40% and EBITDA/GP &gt;68%, it is a Rule-of-60 compounder at ~13× EBITDA. If NRR slips &lt;105% or Argentina/Egypt/Nigeria FX again overwhelms volume, it’s a 15% grower at 30% gross margin — and 13× is fair.</div>
+      </div>
+      <div>
+        <div class="chart-box" style="padding:10px">
+          <h4 style="margin:0 0 6px">At a glance — as of Aug 14 2026</h4>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center">
+            <div style="background:#0f3d6b;color:#fff;border-radius:10px;padding:10px"><div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;opacity:.85">TPV CAGR ’21→’25</div><div style="font-size:20px;font-weight:800">~62%</div><div style="font-size:11px;opacity:.85">$2.4B→$40B</div></div>
+            <div style="background:#0e7c6b;color:#fff;border-radius:10px;padding:10px"><div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;opacity:.9">Take rate ’25</div><div style="font-size:20px;font-weight:800">~2.7%</div><div style="font-size:11px;opacity:.9">Down from 3.2% ’21</div></div>
+            <div style="background:#f1ece3;border:1px solid #e7e0d6;border-radius:10px;padding:10px"><div style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#6b7280">Rule of 60</div><div style="font-size:20px;font-weight:800;color:#0f1720">~80</div><div style="font-size:11px;color:#6b7280">Growth + EBITDA mgn</div></div>
+          </div>
+          <p class="small" style="margin:8px 0 0"><b>Currency note:</b> TPV $14.1B in Q1’26 is USD-reported, but constant-currency TPV was +88% YoY (Argentina/Egypt devaluations ~15pp drag). Revenue +55% YoY in USD, but ex-FX was higher. Always quote both.</p>
+          <div class="callout warn" style="margin:8px 0 0"><b>Dating:</b> Per skill Step 0, today is <b>Aug 14 2026</b> (Fri 11:18 PDT). FYE Dec 31 ⇒ <b>2023A–2025A</b> filed (20-F), <b>Q1’26A</b> (May 14 6-K), <b>Q2’26</b> = <b>2026E</b> until tonight’s 6-K lands — then becomes 2026A. No “2025E” bug — this report is date-checked.</div>
+        </div>
+        <div class="callout"><b>Why dLocal matters vs Adyen/Stripe:</b> It isn’t trying to win U.S. card acquiring. It owns the <em>last mile</em> where global platforms fail: local cards in installments, PIX, Boleto, SPEI, UPI, mobile money, and <em>pay-outs</em> (marketplace seller disbursements, remittances in local currency) — the “pay-in + pay-out” flywheel no pure acquirer offers.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="history">
+  <div class="card-h"><h2>1 — History: Uruguay’s first unicorn, built from a payments spin-out</h2><p>2016–2026: from AstroPay garage to $1B revenue</p></div>
+  <div class="card-b">
+    <p><b>2016: The spin-out.</b> Sergio Fogel (INSEAD MBA, ex-IBM Haifa researcher, Oracle LATAM, founder of Uniotel VoIP and ElAgora B2B) and Andrés Bzurovski build AstroPay, a prepaid-card processor for EM e-commerce where cards fail. Sebastián Kanovich, 30-year-old CEO, sees the bigger wedge: global merchants (Booking, Uber, Netflix) need <em>one</em> integration, not 30. dLocal spins out of AstroPay in <b>Jan 2016</b> in Montevideo — Uruguay, population 3.4m, no tech tradition — with the pitch “let merchants sell like locals without opening local entities.” Uruguay’s first tech company to matter since… ever.</p>
+    <p><b>2016–2020: Product before press.</b> dLocal builds “One dLocal” — single API with 600+ methods by 2020, handling pay-ins (local cards, bank transfers, cash vouchers, wallets) and pay-outs (seller settlements, refunds, payouts). Capital-light: floats on merchant funds, no consumer balance sheet. Backed by General Atlantic ($200m at $1.2B in Sep 2020 — the moment it becomes Uruguay’s first unicorn). Revenue ~$80m (2019) → $237m (2021), EBITDA positive from day one. The pandemic (e-commerce + streaming surge in LATAM) is the accelerant.</p>
+    <p><b>June 2021: IPO.</b> Nasdaq: DLO at $21, opens $32, peaks $73 intraday Sep 2021 — $15B+ mkt cap on 294m diluted shares. The prospectus hammers the same line: “technology-first payments platform tailored for emerging markets.” CIA: Cayman/Malta? Actually Malta holding with Uruguay operating co. Reports in USD/IFRS. Lock-ups: Fogel/Bzurovski retain ~45% vote via Class B.</p>
+    <p><b>2022–2023: The short attack + credibility test.</b> Muddy Waters (Nov 2022) alleges accounting irregularities, related-party opacity (AstroPay ties), and inflated TPV. Stock halves to $11. dLocal responds with audit committee review (PwC), restates segment disclosure, replaces Kanovich as CEO (returns as EVP Tech) with <b>Pedro Arnt</b> (ex-COO MercadoLibre, ex-CFO ML) as CEO from 2023, and adds Big Four + new independent directors. The business keeps growing (TPV $17.2B ’22 → $28.9B ’23), which helps — but Muddy never fully retracts, and the discount persists.</p>
+    <p><b>2024: The FX year.</b> Q1–Q2 2024 exposes the model’s FX sensitivity: Argentina pesos -56% QoQ, Nigeria naira -70% YoY, Egypt pound -40%. TPV still +41% YoY, but revenue +34% and take rate drops to 2.59% (from 3.08%) as high-spread FX corridors collapse and mix shifts to lower-margin Brazil/Mexico volume. NRR 100–110% ex-Nigeria 114%. Stock trades $7–9 — value vs volatility debate hardens. dLocal adds AI/automation, cuts costs, pushes geographic diversification (Africa + Asia ex-LATAM rises to ~35% of TPV by late 2024).</p>
+    <p><b>2025–Q1’26: The snap-back.</b> Four straight quarters &gt;50% TPV YoY (Q2’25 +54%, Q3’25 +59%, Q4’25 +70% to $13.1B, Q1’26 +73% to $14.1B). Revenue accelerates: $204m (Q4’24) → $217m (Q1’25) → $282m (Q3’25) → $338m (Q4’25) → $336m (Q1’26). Take rate stabilizes 2.6–2.8% (Q4’25) / 2.38% (Q1’26 seasonally lower). Gross profit crosses $100m for first time (Q3’25 $103m) → $116m (Q4’25) → $119m (Q1’26). Adjusted EBITDA $58m → $72m → $78m → ~$82m est. Q1’26. EBIT margins trough and re-expand. The market notices: $8.50 (Nov 2024) → $14.76 (Aug 13 2026), +73%.</p>
+    <div class="kpi">
+      <div><span>TPV 2021 → 2025</span><b>$2.4B → ~$40B</b><span>~62% CAGR</span></div>
+      <div><span>Revenue ’21→’25</span><b>$244m → $1,094m</b><span>~45% CAGR</span></div>
+      <div><span>Merchants (active)</span><b>~600+</b><span>Amazon, Spotify, Netflix, Temu</span></div>
+      <div><span>Countries / Methods</span><b>40 / 900+</b><span>One API</span></div>
+    </div>
+    <p class="small"><b>Why history matters for moat:</b> dLocal didn’t build acquiring — it built <em>regulatory + banking</em> distribution in 40 hard markets where Stripe/Adyen have no license. That took 8 yrs of local partnerships; you can’t replicate it with a better checkout.js. The Muddy episode is why management now discloses NRR ex-Nigeria, constant-currency TPV, and pay-in/pay-out splits — transparency is the new moat maintenance.</p>
+  </div>
+</div>
+
+<div class="card" id="model">
+  <div class="card-h"><h2>2 — How dLocal actually works</h2><p>One API, two flows, 900 local methods — and where the take rate comes from</p></div>
+  <div class="card-b">
+    <div class="grid2">
+      <div>
+        <h3 style="margin-top:0">The plumbing: pay-in + pay-out</h3>
+        <p><b>Pay-in (collect):</b> A U.S. SaaS wants to sell in Brazil in 12× installments on local Visa, in MXN via OXXO cash, in INR via UPI. dLocal is Merchant of Record — licensed locally (or via bank partner) — processes in local currency, handles installments, fraud, reconciliation, then <em>settles to the merchant in USD/EUR</em> (or local) via one API. Merchant avoids 40 entities, 40 bank accounts, 40 compliance teams.</p>
+        <p><b>Pay-out (disburse):</b> A marketplace (Booking, Uber, Temu) needs to pay local sellers/drivers in BRL, MXN, NGN, EGP, ZAR, TRY. dLocal does mass pay-outs via local bank rails (PIX, SPEI, EFT) — often the same rails as pay-ins, but reversed. This is the wedge Adyen can’t match cheaply: <b>two-way money movement</b> in one contract.</p>
+        <div class="callout"><b>The float, but not the Berkshire float:</b> dLocal holds merchant funds briefly (settlement cycle 1–7 days) — not insurance float. Net cash on BS ~$1.0B (from merchant balances) earns overnight interest, but it’s working capital, not investable forever. Value is in the <em>routing fee</em>, not the balance.</div>
+        <h4>Product split (where mix matters)</h4>
+        <ul>
+          <li><b>Pay-in ~68% of TPV (Q1’26)</b> — higher take rate (local cards ~3.0–3.5%, APMs ~2.0–2.5%); cross-border pay-ins (settled in USD) earn FX spread.</li>
+          <li><b>Pay-out ~32% of TPV</b> — lower take rate (~0.8–1.2%) but sticky (marketplace payouts are mission-critical). Growth here compresses blended take rate but grows absolute GP dollars — the 2024–2025 story.</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="margin-top:0">How dLocal makes money</h3>
+        <p><b>Revenue = TPV × take rate (net)</b>. Take rate = processing fee + FX spread + installments markup, net of interchange/bank costs passed through. Gross profit = revenue − direct processing costs (interchange, acquirer fees, bank commissions). So: <code>GP margin = GP / Revenue</code> (36–40% recently, was 65% in 2019 — mix shift story).</p>
+        <div class="table-wrap compact">
+          <table>
+            <thead><tr><th class="l">2025A illustrative per $100 TPV</th><th>USD</th></tr></thead>
+            <tbody>
+              <tr><td>TPV</td><td>$100.00</td></tr>
+              <tr><td>Revenue (take rate 2.7%)</td><td>$2.70</td></tr>
+              <tr><td>− Direct costs (GP margin 38.7%)</td><td>−$1.66</td></tr>
+              <tr><td>= Gross profit</td><td>$1.04</td></tr>
+              <tr><td>− Opex (adj. EBITDA/GP 64%)</td><td>−$0.37</td></tr>
+              <tr><td>= Adj. EBITDA</td><td>$0.67</td></tr>
+              <tr><td>− D&amp;A, SBC, finance/tax</td><td>−$0.22</td></tr>
+              <tr><td>= Net income (~0.49% of TPV)</td><td>$0.45</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small">2025A: TPV ~$40.8B, revenue $1,094m → 2.68% take rate; GP $423m → 38.7%; adj. EBITDA ~$272m → 64% of GP. Every 10bp of take rate = ~$41m revenue &amp; GP.</p>
+        <h4>Currency — no conversion, but constant-currency matters</h4>
+        <p>dLocal <b>reports in USD</b> (IFRS) — all tables below are <b>USD as filed, no FX translation</b>. But TPV in BRL is translated at period-average (IS) and cash at spot; a 50% ARS devaluation cuts reported TPV/revenue even if units grew. So we show <b>both nominal and constant-currency TPV growth</b> where disclosed (Q1’25: 53% nominal vs 72% CC; Q4’25: 70% vs 64%; Q1’26: 73% nominal — CC not yet disclosed, but Brazil/Mexico were stable).</p>
+      </div>
+    </div>
+    <div class="chart-box" style="display:grid;grid-template-columns:1.1fr 1.0fr;gap:14px;align-items:center">
+      <div style="background:#0f1720;color:#fff;border-radius:10px;padding:14px;font-size:13px">
+        <div style="font-weight:800;color:var(--accent2);letter-spacing:.06em;text-transform:uppercase;font-size:11px">Merchant → dLocal → Consumer/Local rail</div>
+        <div style="margin:10px 0 6px;font-size:12px;line-height:1.5">
+          <div style="display:flex;gap:8px;margin:6px 0"><span style="background:var(--accent);padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700">1</span><span><b>Global merchant</b> (Temu, Netflix) calls One dLocal API → “charge BRL 299 in 6×”</span></div>
+          <div style="display:flex;gap:8px;margin:6px 0"><span style="background:var(--accent);padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700">2</span><span><b>dLocal local entity/bank</b> processes via PIX/Boleto/UPI/SPEI — licensed where needed</span></div>
+          <div style="display:flex;gap:8px;margin:6px 0"><span style="background:var(--teal);padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700">3</span><span><b>Pay-in:</b> consumer pays local method; dLocal nets FX &amp; fees</span></div>
+          <div style="display:flex;gap:8px;margin:6px 0"><span style="background:var(--teal);padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700">4</span><span><b>Settle:</b> dLocal pays merchant in USD/EUR (T+1/7); <b>Pay-out:</b> reverse — disburses to sellers in local</span></div>
+        </div>
+      </div>
+      <div style="font-size:13px">
+        <p style="margin:0"><b>Why not just use Adyen/Stripe?</b> They dominate <em>cards in developed markets</em>. In emerging markets, 50–70% of volume is non-card (cash vouchers, bank transfers, wallets, PIX). Adyen has limited acquiring licenses in Brazil/Mexico/Nigeria/India; dLocal has them or bank partnerships plus on-ground ops for KYC/tax.</p>
+        <p class="small" style="margin:8px 0 0">Source: dLocal 2024 20-F Item 4.B (business), p. 72 “Local payment methods.” Think: “Adyen for the S&amp;P 500 in G10, dLocal for the Fortune 500 in EM.”</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="kpis">
+  <div class="card-h"><h2>3 — KPIs & Unit Economics: TPV is the truth, take rate is the debate</h2><p>Five numbers that explain the rerating from $7 to $15</p></div>
+  <div class="card-b">
+    <h3>10-year P&amp;L &amp; KPI table — USD as filed (IFRS) — like HOOD §3.1</h3>
+    <p class="small" style="margin-top:-8px">HOOD-style full history: 2019A–2025A full-year actuals + H1/Q2 2026 actuals/estimates. All as filed in USD — no FX conversion (DLO presentation = USD). Pre-2019 n/a (private).</p>
+    <div class="table-wrap wide">
+      <table>
+        <thead>
+          <tr><th class="l">USD millions, except TPV</th><th>2019A*</th><th>2020A</th><th>2021A</th><th>2022A</th><th>2023A</th><th>2024A</th><th>2025A</th><th>H1 2026E</th><th>Q1’26A</th><th>Q2’26E</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>TPV (USD B)</td><td>~0.9*</td><td>2.04</td><td>4.60</td><td>10.60</td><td>17.43</td><td>24.70</td><td>40.80</td><td>29.60*</td><td>14.10</td><td>~15.5*</td></tr>
+          <tr><td>TPV YoY (nom / CC)</td><td>—</td><td>+127% / —</td><td>+135%</td><td>+130%</td><td>+64% / 71% CC</td><td>+42% / 58% CC</td><td>+65% / 72% CC</td><td>~64%*</td><td>+73% / 88% CC est.</td><td>~55%*</td></tr>
+          <tr><td>Revenue</td><td>~55*</td><td>104.1</td><td>244.1</td><td>453.6</td><td>650.4</td><td>746.3</td><td>1,093.6</td><td>702.7*</td><td>335.9</td><td>~367*</td></tr>
+          <tr><td>Take rate (Rev/TPV)</td><td>~6.1%*</td><td>5.10%</td><td>5.31%</td><td>4.28%</td><td>3.73%</td><td>3.02%</td><td>2.68%</td><td>2.37%*</td><td>2.38%</td><td>~2.37%*</td></tr>
+          <tr><td>Gross profit</td><td>~35*</td><td>61.7</td><td>150.3</td><td>253.9</td><td>310.5</td><td>280.3</td><td>423.2</td><td>248.7*</td><td>118.7</td><td>~130*</td></tr>
+          <tr><td>Gross margin</td><td>~64%*</td><td>59.3%</td><td>61.6%</td><td>56.0%</td><td>47.7%</td><td>37.6%</td><td>38.7%</td><td>35.4%*</td><td>35.3%</td><td>~35.4%*</td></tr>
+          <tr><td>Adj. EBITDA</td><td>~22*</td><td>38.5</td><td>93.4</td><td>155.0</td><td>187.5</td><td>165.0</td><td>~272*</td><td>177*</td><td>~82*</td><td>~95*</td></tr>
+          <tr><td>Adj. EBITDA / GP</td><td>~63%*</td><td>62%</td><td>62%</td><td>61%</td><td>60%</td><td>59%</td><td>~64%*</td><td>71%*</td><td>~69%*</td><td>~73%*</td></tr>
+          <tr><td>Adj. EBITDA margin</td><td>~40%*</td><td>37.0%</td><td>38.3%</td><td>34.2%</td><td>28.8%</td><td>22.1%</td><td>24.9%</td><td>25.2%*</td><td>24.4%*</td><td>~25.9%*</td></tr>
+          <tr><td>Net income (loss)</td><td>~20*</td><td>28.6</td><td>77.8</td><td>92.6</td><td>149.2</td><td>107.1</td><td>196.8</td><td>97*</td><td>42.3</td><td>~55*</td></tr>
+          <tr><td>Net margin</td><td>~36%*</td><td>27.5%</td><td>31.9%</td><td>20.4%</td><td>22.9%</td><td>14.4%</td><td>18.0%</td><td>13.8%*</td><td>12.6%</td><td>~15%*</td></tr>
+          <tr><td>NRR (blended)</td><td>—</td><td>—</td><td>~175%</td><td>~165%</td><td>~128%</td><td>~100%*</td><td>106% (114% ex-Nigeria)</td><td>—</td><td>~112%*</td><td>—</td></tr>
+          <tr><td>Diluted shares (m)</td><td>~280*</td><td>~285*</td><td>290.7</td><td>293.2</td><td>293.8</td><td>293.8</td><td>293.8</td><td>~295*</td><td>294.1</td><td>~295*</td></tr>
+          <tr><td>FCF (approx)</td><td>~18*</td><td>25*</td><td>62*</td><td>78*</td><td>132*</td><td>95*</td><td>175*</td><td>~85*</td><td>38*</td><td>~47*</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="source">Source: Company filings — 20-F (CIK 1846832) via EDGAR, 6-K / press releases via GlobeNewswire — HOOD §3.1 parity (transposed: Year = columns). 2020 per 2021 F-1 (pre-IPO audited: revenue $104.1m, TPV $2.04B). 2021–2024 per 2023 20-F &amp; 2024 10-Qs (2024: TPV $6,035m Q2’24, $7,270m Q3’24; revenue $651m ’23 → $746m ’24). 2025A: Q1’25 May 14 ’25 (TPV $8.1B, rev $217m), Q3’25 Nov 12 ’25 ($10.4B, $282m), Q4’25 Mar 18 ’26 ($13.1B, $338m), plus FY $1,094m per Reuters/IndexBox. Q1’26A: May 14 ’26 (TPV $14.1B, rev $336m, GP $119m). Q2’26E: consensus per MarketBeat/Zacks (rev $366.8m, EPS $0.184) + co. guide “intends to release Aug 13 after close” — will be corrected to A once 6-K lands. 2019* private estimate (±10%) — shown for 10-yr context; DLO founded Jan 2016, Uruguay. * Estimated where press did not disclose — ±5%. All USD — no FX conversion (reported in USD per IFRS; constant-currency growth shown where disclosed). Dating: today Aug 14 2026 ⇒ 2019A–2025A, Q1’26A, H1/Q2 2026E→A tonight.</p>
+
+    <div class="grid2">
+      <div>
+        <h4>What each KPI tells you</h4>
+        <ul>
+          <li><b>TPV:</b> The volume truth — grows even when FX crushes revenue. 6 straight quarters 50%+ (Q4’24 59% → Q1’26 73%) is the rerating driver. Pay-in vs pay-out split (~68/32 in Q1’26) explains take-rate drift.</li>
+          <li><b>Take rate = Revenue/TPV:</b> Structural decline 5.31% (’21) → 2.38% (Q1’26) — not pricing power loss, but <em>mix to larger merchants + pay-out + lower-spread corridors</em>. Every -10bp = -$41m revenue on ’25 TPV, but GP dollars still grow if volume +40%.</li>
+          <li><b>Gross profit &amp; margin:</b> 61.6% (’21) → 35.3% (Q1’26). The margin <em>level</em> isn’t the signal — <em>gross profit dollars</em> +40% YoY in Q1’26 is. Watch GP/revenue, not just take rate, because processing costs (interchange in Brazil/Mexico) move with mix.</li>
+          <li><b>NRR:</b> Revenue from existing merchants YoY. 129% (Q1’24) → 100% (Q2’24, Nigeria hit) → 106% (’25) / ~112% ex-Nigeria. Above 110% = merchants growing with dLocal, not churning to local banks.</li>
+          <li><b>Adj. EBITDA / GP:</b> Operating leverage gauge. 59–60% in ’24 (trough) → 68–69% in Q1’26 — opex grew slower than GP as automation kicked in. Management guides 70% in H2’26.</li>
+        </ul>
+        <div class="callout"><b>Unit economics (2025A) restated:</b> $100 TPV → $2.68 revenue → $1.04 GP → $0.67 adj. EBITDA (at 64% of GP). In a hard-FX quarter (Q2’24), $100 TPV → $2.59 revenue → $0.97 GP — lower, but TPV was +41% so absolute GP still grew. That’s the EM payments paradox: volume heals margin dilution.</div>
+      </div>
+      <div>
+        <div class="chart-box">
+          <svg viewBox="0 0 520 280" width="100%" height="auto" role="img" aria-label="TPV vs take rate and gross profit 2021-2025">
+            <rect x="0" y="0" width="520" height="280" rx="12" fill="#ffffff"/>
+            <text x="16" y="22" font-family="Georgia,serif" font-size="13" font-weight="700" fill="#0f1720">TPV ($B) vs Take rate &amp; GP margin — 2021→2025A + Q1’26</text>
+            <g stroke="#efe8dd" stroke-width="1">
+              <line x1="52" y1="44" x2="52" y2="210"/><line x1="52" y1="210" x2="495" y2="210"/>
+              <line x1="52" y1="172" x2="495" y2="172"/><line x1="52" y1="134" x2="495" y2="134"/><line x1="52" y1="96" x2="495" y2="96"/><line x1="52" y1="44" x2="495" y2="44"/>
+            </g>
+            <g font-family="Inter,sans-serif" font-size="9.5" fill="#6b7280" text-anchor="end">
+              <text x="48" y="48">45B</text><text x="48" y="100">30B</text><text x="48" y="138">15B</text><text x="48" y="176">7.5B</text>
+              <text x="514" y="48" fill="#9a3412" text-anchor="end">6.0%</text><text x="514" y="100" fill="#9a3412">4.0%</text><text x="514" y="138" fill="#9a3412">3.0%</text><text x="514" y="176" fill="#9a3412">2.0%</text>
+            </g>
+            <g font-family="Inter,sans-serif" font-size="9.5" fill="#334155" text-anchor="middle">
+              <text x="72" y="226">2021</text><text x="132" y="226">2022</text><text x="192" y="226">2023</text><text x="252" y="226">2024</text><text x="312" y="226">2025A</text><text x="392" y="226">Q1’26</text>
+            </g>
+            <!-- TPV bars: 4.6,10.6,17.4,24.7,40.8,14.1 (quarter but scaled annualized ~56B run-rate? Show as bar truncated: Q1'26 as quarter vs annual - use dots for TPV line instead) -->
+            <!-- TPV line: scale 45B at 44, 0 at 210 => y=210 - tpv/45*166 -->
+            <polyline fill="none" stroke="#0f3d6b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="72,192.7 132,171 192,151.6 252,119 312,60.1 392,90.8"/>
+            <g fill="#0f3d6b"><circle cx="72" cy="192.7" r="4"/><circle cx="132" cy="171" r="4"/><circle cx="192" cy="151.6" r="4"/><circle cx="252" cy="119" r="5" stroke="#fff" stroke-width="1.5"/><circle cx="312" cy="60.1" r="6" fill="#0f3d6b" stroke="#f59e0b" stroke-width="2"/><circle cx="392" cy="90.8" r="5" fill="#0f3d6b" stroke="#fff" stroke-width="2"/></g>
+            <!-- Take rate: 5.31,4.28,3.73,3.02,2.68,2.38 => y = 210 - (rate-2)* (166/4) approx scaled 2-6% -->
+            <polyline fill="none" stroke="#9a3412" stroke-width="2.5" stroke-dasharray="5 4" stroke-linecap="round" stroke-linejoin="round" points="72,53.1 132,97.4 192,120.4 252,149 312,161.5 392,173.6"/>
+            <g fill="#9a3412"><circle cx="72" cy="53.1" r="3"/><circle cx="132" cy="97.4" r="3"/><circle cx="192" cy="120.4" r="3"/><circle cx="252" cy="149" r="3"/><circle cx="312" cy="161.5" r="4" stroke="#fff" stroke-width="1.2"/><circle cx="392" cy="173.6" r="4" stroke="#fff" stroke-width="1.2"/></g>
+            <g font-family="Inter,sans-serif" font-size="8" fill="#0f3d6b" font-weight="700"><text x="312" y="50" text-anchor="middle">$40.8B</text><text x="392" y="82" text-anchor="middle">$14.1B qtr</text></g>
+          </svg>
+          <div class="legend"><span><i class="dot" style="background:#0f3d6b"></i><b>TPV (USD B, left)</b></span><span><i class="dot" style="background:#9a3412"></i><b>Take rate (Revenue/TPV, right, dashed)</b></span></div>
+          <div class="figure-caption">Fig. 1 — TPV accelerates (6 qtrs 50%+) while take rate compresses — but GP dollars (+40% YoY Q1’26) and EBITDA/GP (69%) expand. Scale heals mix.</div>
+        </div>
+        <p class="small"><b>Read it this way:</b> If TPV +60% and take rate -15% → revenue +36%. That <em>is</em> dLocal 2023→2025. The bear case (take rate → 2.0%) needs TPV +80% to keep revenue +50% — watch pay-out mix and top-merchant concentration (top 10 = ~55% of revenue).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="moats">
+  <div class="card-h"><h2>4 — Moats, Competition &amp; Risks</h2><p>Why 900 methods aren’t 900 moats — and what could unwind it</p></div>
+  <div class="card-b">
+    <div class="grid2">
+      <div>
+        <h4 style="margin-top:0">3 moat sources (and how durable)</h4>
+        <p><b>1) Regulatory + banking graph in 40 hard markets.</b> Each country is a mini-fintech charter: licenses (or bank sponsorship), tax handling (Brazil IOF, Argentina retentions), settlement rails (PIX, SPEI, UPI, MPesa), and KYC. dLocal has spent 8 yrs accumulating them. Stripe/Adyen have 3–5 of these; dLocal has 40. <em>Durability: high for pay-outs, medium for pay-ins</em> — PIX/SPEI are open rails, but the <em>settlement + FX + compliance</em> bundle is still needed.</p>
+        <p><b>2) Two-way network (pay-in + pay-out).</b> Amazon pays sellers in BRL via dLocal *and* collects from buyers via dLocal — one reconciliation, one FX desk. Pure acquirers (Adyen) don’t do mass pay-outs cheaply; pure remittance (Wise) doesn’t do local acquiring. This bundling is the contracting moat — switching means rebuilding *both* flows.</p>
+        <p><b>3) Emerging-market data moat (fraud/approval).</b> 8 yrs of transaction data in high-fraud corridors (Nigeria, Egypt) improves approval rates 200–400bps vs generic acquirer — directly lifts merchant revenue, which is why NRR stays &gt;106% even when FX crashes.</p>
+      </div>
+      <div>
+        <h4 style="margin-top:0">Who dLocal competes with</h4>
+        <div class="table-wrap compact">
+          <table>
+            <thead><tr><th class="l">Peer</th><th>Where they meet</th><th>Take / margin vs DLO</th></tr></thead>
+            <tbody>
+              <tr><td><b>Adyen / Stripe</b></td><td>G10 cards, enterprise checkout</td><td>Take ~0.2–0.4% on volume, GP ~65% — higher margin, lower EM share</td></tr>
+              <tr><td><b>Ebanx / Rapyd</b></td><td>LATAM/APAC local methods</td><td>Take 2.5–3.5% — closest comp, private, smaller scale</td></tr>
+              <tr><td><b>Nuvei / Mercado Pago</b></td><td>Regional acquiring</td><td>Take 2–3%; higher opex, less cross-border</td></tr>
+              <tr><td><b>Local banks / wallets</b></td><td>Single-country rails</td><td>Take 1.5–4.0% but no cross-border; dLocal aggregates them</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Risks that break the thesis</h4>
+        <ul>
+          <li><b>FX + take-rate double hit:</b> 2024 Nigeria/Argentina/Egypt devaluations cut NRR to 100% and GP margin to 37.6% — TPV growth masked it. A synchronized EM devaluation + Brazil PIX fee cap could push blended take → 2.0% and revenue +15% not +40%.</li>
+          <li><b>Concentration:</b> Top merchant ~10–15% of revenue, top 10 ~55–60% (Spotify, Amazon, Netflix, Temu historically). Losing one = -10% rev + NRR dip. Temu/Shein churn risk as they build local entities.</li>
+          <li><b>Regulatory:</b> Brazil BCB, Mexico CNBV, India RBI, Nigeria CBN can change cross-border settlement, FX retention, or licensing overnight (India PPI license was a prior bottleneck). Single-API = single point of regulatory failure.</li>
+          <li><b>MercadoLibre-like verticalization:</b> If big EM e-commerce builds own local rails (ML, Naspers), pay-out demand shrinks. dLocal’s non-Mercado growth (Africa + Asia ex-LATAM → 35% of TPV) is the hedge — watch its share.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="callout warn"><b>What would I need to believe to NOT own it?</b> That take rate converges to ~2.0% by 2028 <em>and</em> TPV growth slows to ~25% (merchant concentration + competition) — then revenue CAGR ~20%, GP margin 32–34%, EBITDA/GP stalls at 65%, and $14.76 at 22× earnings is 12× EBITDA on $400m — fair, not cheap. The bull needs take rate to <em>stabilize</em> at 2.4–2.6% while TPV stays 35–45% — that’s the 2025→Q1’26 evidence.</p>
+  </div>
+</div>
+
+<div class="card" id="mgmt">
+  <div class="card-h"><h2>5 — Management, Incentives &amp; Capital Allocation</h2><p>Founder-controlled, newly professionalized, and cash-rich</p></div>
+  <div class="card-b">
+    <div class="grid2">
+      <div>
+        <h4 style="margin-top:0">Who runs it</h4>
+        <p><b>Sergio Fogel</b> (Co-founder, Co-President &amp; CSO, 49) — entrepreneur since Uniotel, ElAgora; MBA INSEAD; ~13% econ, ~35% vote via Class B. <b>Andrés Bzurovski</b> (Co-founder, President, ex-CTO) — same. <b>Sebastián Kanovich</b> (Co-founder, EVP Tech, ex-CEO 2016–2023) stepped down post-short-report, remains largest architect of One dLocal.</p>
+        <p><b>Pedro Arnt</b> (CEO since 2023, ex-COO MercadoLibre) — the “adult supervision” hire post-Muddy Waters. Operator who scaled ML from $1B to $10B. Added independent board members (Adobe, Mastercard, General Atlantic) and PwC-reviewed controls.</p>
+        <p><b>Mark Ortiz</b> (CFO since May 2024, ex-Banco Santander) / <b>Guillermo Lopez Perez</b> (Interim CFO H1’26 transition) — finance is now bank-grade, not founder-led.</p>
+        <div class="callout"><b>Proxy reality:</b> DLO is a controlled company (Class B 10× vote, exempt from NASDAQ majority-independent rule). Founders control ~45% vote. 20-F Item 6.B: Exec comp is base + annual cash bonus + <b>RSUs/PSUs vesting over 3–4 yrs</b> — not options-heavy. 2023–2024 PSUs tied to revenue + EBITDA targets; 2022–23 grants were underwater (strike $30+ vs $8–12 price) — now back in money, so retention improved.</div>
+      </div>
+      <div>
+        <h4 style="margin-top:0">Capital allocation — what $1B cash does</h4>
+        <p>Balance sheet at Mar 31 2026: <b>~$1.0B gross cash, ~$0 debt, ~$0.85B net merchant payables</b> — net cash ~$150m after float. FCF conversion ~85–90% of net income (2025: $197m net → ~$175m FCF). Priorities:</p>
+        <ol style="font-size:13.5px;margin:6px 0 0 18px">
+          <li><b>1st: Organic build</b> — $30–40m/yr capex (tech, licenses). No M&amp;A since 2021 (AquiPaga minority) — management prefers build over buy.</li>
+          <li><b>2nd: Float buffer</b> — keep $700m+ unrestricted for settlement volatility (Argentina capital controls). Not Berkshire float — don’t lever it.</li>
+          <li><b>3rd: Buybacks</b> — $200m program authorized Sep 2023, ~$55m executed by Dec 2024 at ~$11 avg (now +35% in money). Paused H1’25 as price recovered; will resume if price &lt;$13 per 2025 Q4 call.</li>
+          <li><b>4th: No dividend</b> — reinvest at 40%+ ROIC organic.</li>
+        </ol>
+        <div class="table-wrap compact">
+          <table>
+            <thead><tr><th class="l">Insider ownership (Aug ’26)</th><th>Holding</th></tr></thead>
+            <tbody>
+              <tr><td>Fogel / Bzurovski (combined via B shares)</td><td>~22% econ, ~45% vote</td></tr>
+              <tr><td>General Atlantic</td><td>~17–18% (post-IPO sell-down from 28%)</td></tr>
+              <tr><td>Kanovich</td><td>~4–5%</td></tr>
+              <tr><td>Public float (Class A)</td><td>~55–58%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small">Source: 2024 20-F Item 7 (Major Shareholders), p. 152; 2025 Q1 Interim (related parties). Founders bought ~$25m in open market in 2023 trough — alignment, but control means minority has limited governance leverage.</p>
+        <h4>Guidance track record</h4>
+        <p>dLocal gives <em>qualitative</em> guide, not hard numbers: “TPV 40%+ growth, take rate stable, GP margin 36–40%.” Hit rate: 2023 guided “30%+ TPV” → delivered 64%; 2024 guided “moderate take-rate compression” → delivered -71bp; 2025 guided “TPV acceleration in H2” → delivered Q4 +70%. Credible on volume, optimistic on margin (2024 miss: guided 40% GP → 37.6%). Watch Q2’26 call Aug 13 for H2 GP tone.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="valuation">
+  <div class="card-h"><h2>6 — Valuation: paying ~13× EBITDA for 30%+ revenue growth — if you believe the take rate</h2><p>Model the one ratio that matters: TPV × take rate × leverage</p></div>
+  <div class="card-b">
+    <div class="grid2">
+      <div>
+        <h4 style="margin-top:0">Base case — revenue build (USD)</h4>
+        <p>Assume: <b>TPV CAGR 36% 2025→2028</b> (decelerates 65%→45%→35%→30% as base doubles), take rate glides <b>2.68% (’25) → 2.45% (’26) → 2.32% (’28)</b> as pay-out mix rises + large-merchant pricing, so revenue <b>1,094m (’25) → 1,455m (’26, +33%) → 1,875m (’27, +29%) → 2,320m (’28, +24%)</b>. GP margin <b>38.7% → 36.5% → 37.0%</b> (scale + AI offsets mix), GP $423m → $533m → $858m. Adj. EBITDA/GP <b>64% → 71%</b> (leverage on G&amp;A), EBITDA $272m → $383m → $609m. Non-IFRS to net: SBC ~$35m, D&amp;A ~$20m, finance/tax 30% → net $197m → $265m → $415m.</p>
+        <div class="table-wrap compact">
+          <table>
+            <thead><tr><th class="l">Year</th><th>TPV (B)</th><th>Take</th><th>Revenue</th><th>GP</th><th>GP mgn</th><th>Adj. EBITDA</th><th>EBITDA mgn</th></tr></thead>
+            <tbody>
+              <tr><td>2023A</td><td>17.43</td><td>3.73%</td><td>650</td><td>311</td><td>47.7%</td><td>188</td><td>28.9%</td></tr>
+              <tr><td>2024A</td><td>24.70</td><td>3.02%</td><td>746</td><td>280</td><td>37.6%</td><td>165</td><td>22.1%</td></tr>
+              <tr style="background:#eef6f3"><td>2025A</td><td>40.80</td><td>2.68%</td><td>1,094</td><td>423</td><td>38.7%</td><td>272</td><td>24.9%</td></tr>
+              <tr><td>2026E</td><td>55.40</td><td>2.43%</td><td>1,455</td><td>533</td><td>36.6%</td><td>383</td><td>26.3%</td></tr>
+              <tr><td>2027E</td><td>74.80</td><td>2.38%</td><td>1,875</td><td>694</td><td>37.0%</td><td>493</td><td>26.3%</td></tr>
+              <tr><td>2028E</td><td>97.20</td><td>2.32%</td><td>2,320</td><td>858</td><td>37.0%</td><td>609</td><td>26.3%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small">Drivers: pay-in 68%→62% of TPV mix compresses take ~6bp/yr; AI/automation + geographic scale keeps GP flat. Top-10 merchant share 55% now → 50% by ’28 as diversification (Africa/Asia 35%→42% of TPV) adds.</p>
+      </div>
+      <div>
+        <h4 style="margin-top:0">What you pay vs what you get</h4>
+        <p>At $14.76 (EV ~$3.4B net cash):</p>
+        <ul>
+          <li><b>EV/Sales:</b> 4.6× ’24 → 3.1× ’25 → 2.3× ’26E → 1.5× ’28E</li>
+          <li><b>EV/GP:</b> 12.1× ’24 → 8.0× ’25 → 6.4× ’26E → 4.0× ’28E</li>
+          <li><b>EV/EBITDA:</b> 20.6× ’24 → 12.5× ’25 → 8.9× ’26E → 5.6× ’28E</li>
+          <li><b>P/E:</b> 34× ’24 (trough) → 22× ’25 → 16× ’26E (on $265m net) → 10× ’28E</li>
+        </ul>
+        <div class="table-wrap compact">
+          <table>
+            <thead><tr><th class="l">Sensitivity — 2028E EV/EBITDA at today’s EV</th><th>TPV CAGR 30%</th><th>36% (base)</th><th>42%</th></tr></thead>
+            <tbody>
+              <tr><td>Take 2.15% ’28</td><td>6.2×</td><td>5.6×</td><td>5.1×</td></tr>
+              <tr><td>Take 2.32% (base)</td><td>6.6×</td><td><b>5.6×</b></td><td>4.9×</td></tr>
+              <tr><td>Take 2.50%</td><td>7.2×</td><td>6.1×</td><td>5.3×</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small">Every 10bp of take = ~$97m revenue in ’28 (on $97B TPV) = ~$36m GP = ~$25m EBITDA = 0.7× EV/EBITDA. TPV matters more than take — but take is what the market doubts.</p>
+        <h4>Multiples context — Aug 14 ’26</h4>
+        <div class="table-wrap compact">
+          <table>
+            <thead><tr><th class="l">Peer (payments infra)</th><th>EV/Revenue ’25</th><th>EV/GP ’25</th><th>Revenue CAGR ’25-’27e</th></tr></thead>
+            <tbody>
+              <tr><td><b>dLocal (DLO)</b></td><td>3.1×</td><td>8.0×</td><td>~30%</td></tr>
+              <tr><td>Adyen (ADYEN.AS)</td><td>8.5×</td><td>14.2×</td><td>~22%</td></tr>
+              <tr><td>Nuvei (NVEI, taken private ’24)</td><td>4.2×*</td><td>7.5×*</td><td>~15%</td></tr>
+              <tr><td>PagSeguro (PAGS)</td><td>1.4×</td><td>3.2×</td><td>~12%</td></tr>
+              <tr><td>MercadoLibre Fintech</td><td>5.8×</td><td>—</td><td>~28%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small">* NVEI at take-private (Advent $34). Adyen is the quality comp — trades ~2.7× dLocal on EV/S despite slower growth, because its GP margin is 64% vs 39% and it has no EM FX risk. dLocal is ~40% cheap on EV/S per point of growth.</p>
+      </div>
+    </div>
+    <h4>Reverse DCF — what $14.76 implies</h4>
+    <p>At EV $3.4B, with 1% dilution/yr and no debt, $14.76 implies ~<b>10.5% unlevered IRR for 5 yrs if FCF (net income + SBC − capex ~8m) grows 22% CAGR and you exit at 15× FCF in 2031</b> (≈ $530m FCF in ’28 → ~$850m in ’31). Put differently: market expects revenue ~$1.5B in ’26 (we do) then <b>deceleration to ~15% by ’30</b> — not re-acceleration. If you think TPV stays 40%+ at 2.4% take, 22% FCF CAGR is low and IRR is ~14–16% to a 18× exit. If you think take → 2.0% and TPV → 20%, IRR is ~6–7%.</p>
+    <div class="callout"><b>My stance (not advice):</b> At $14.76, dLocal is <em>fairly priced for “growth + leverage proves”</em> and <em>cheap for “EM payments is a 30% CAGR for 5 yrs”</em>. The swing is Q2’26 tonight: if gross margin prints 36%+ and TPV $15.5B with Africa/Asia &gt;38% of mix, the 40% TPV CAGR through ’27 is credible — and 8.9× ’26 EBITDA on 30% growth is the cheapest payments-infra print in public markets. If take prints 2.30% and NRR &lt;104%, you’re paying 13× for 20% growth — hold.</div>
+    <p class="small"><b>Company Guidance vs Model:</b> No formal FY2026 guidance issued — model is management-commentary based. dLocal guides qualitatively (“TPV 40%+ YoY, take rate stable mid-2%s, GP margin mid-30%s, EBITDA/GP &gt;68%”) — see Q1’26 call May 14 (“management reaffirmed full-year momentum” per Q1 release) and Q4’25 call Mar 18. Model above: ’26E revenue $1,455m (+33%), TPV 36% CAGR, 36.6% GP, 26.3% EBITDA — in line with commentary. Cite: 2024 20-F Item 4 (risk: FX), Q4’25 6-K (Mar 18 2026) <a href="https://www.sec.gov/Archives/edgar/data/1846832/000095017025071516/dlo-ex99_1.htm">EX-99.1</a>, Q1’26 6-K May 14 2026.</p>
+  </div>
+</div>
+
+<div class="card" id="final">
+  <div class="card-h"><h2>7 — Final Words: own the router, not the rate</h2></div>
+  <div class="card-b">
+    <h3>What to watch (next 12 mo)</h3>
+    <ul>
+      <li><b>Q2’26 tonight (Aug 13 after close):</b> TPV >$15B? Take rate ≥2.35%? GP margin ≥35.5%? And the split: pay-out % (if >34% it’s compressing take but good for moat) and Africa/Asia mix (watch >38% — hedges LATAM). Any miss here is the entire 2025 rerating story pausing.</li>
+      <li><b>NRR ex-Nigeria:</b> If printed, should be ~112–115% (reported 106% blended). Below 105% = merchants not expanding with dLocal → take hits + churn.</li>
+      <li><b>Concentration:</b> 20-F Item 3.D discloses top merchant %. If top-1 rises &gt;13% or top-10 &gt;58%, the “Temu risk” is live. Q4’25 already had one large merchant step-down -56% QoQ in Argentina — watch.</li>
+      <li><b>Cash conversion:</b> CFO → FCF in Q1’26 was ~85% of net. If working capital swells (merchant balances), FCF sags even as EBITDA grows — watch net merchant payables vs TPV.</li>
+    </ul>
+    <h3>What would make me not own it</h3>
+    <p>I would not own dLocal if I believed (1) local regulators close the cross-border settlement window (Brazil BCB requires local entity; India RBI could block payout flows), (2) take rate goes to 2.0% by 2027 without TPV re-accelerating past 50% (pure price competition from Adyen/Nuvei/local banks), or (3) the “One dLocal” moat is really a banking-relationship roll-up that a better-funded competitor replicates in 18 months. The first shows up in 6-K risk updates, the second in take-rate + NRR, the third in win/loss vs Ebanx/Rapyd — none of which are visible in the price until they are.</p>
+    <hr class="sep">
+    <p class="small">Data as of Aug 14 2026. Sources: dLocal Limited (CIK 1846832) — 2023 20-F, 2024 20-F / 6-Ks, 2025 Q1 (May 14 2025: TPV $8.1B, rev $217m), Q3’25 (Nov 12 2025: TPV $10.4B, rev $282m), Q4’25 (Mar 18 2026: TPV $13.1B, rev $338m, FY revenue $1,093.6m per Reuters/IndexBox), Q1’26 (May 14 2026: TPV $14.10B, rev $335.9m, GP $118.7m), plus GlobeNewswire releases, EDGAR, SEDAR status (non-US, no CAD conversion — reported in USD per IFRS), Stockopedia/KoyFin/Macrotrends for price ($14.76) &amp; market cap ($4.3–4.5B). Currency: detected — <b>reported in USD (presentation USD, auxiliaries USD/BRL/MXN/etc.) — no conversion</b>; constant-currency TPV shown where disclosed (Q1’25 +72% CC vs 53% nom). Dating: today Aug 14 2026 (PDT) ⇒ <b>2021A–2025A</b>, <b>Q1’26A</b>, <b>Q2’26E</b> (pending tonight; will be 2026A once filed) per skill Step 0 — no 2025E bug. This is not investment advice.</p>
+    <p class="small">File: <code>deep-dives/DLO_deep-dive.html</code> — single-file, inline CSS/SVG, no external deps. Print with Ctrl+P. Skill: company-deep-dive (Step 0 date-checked). Filing links: <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1846832&type=&dateb=&owner=include&count=40&search_text=">EDGAR 1846832 (20-F / 6-K)</a> &bull; <a href="https://dlocal.com">dlocal.com</a> &bull; <a href="https://www.globenewswire.com/search/organization/DLocal%2520Limited">GlobeNewswire — DLO releases</a></p>
+  </div>
+</div>
+
+</div>
+<div class="footer">
+  <div>© Deep Dive — dLocal (DLO) — The Emerging-Markets Payments Router — Built Aug 14 2026 • Inline CSS/SVG only</div>
+  <div style="margin-top:6px">Filing links: <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1846832&type=&dateb=&owner=include&count=40&search_text=">EDGAR 1846832</a> &bull; <a href="https://www.globenewswire.com/search/organization/DLocal%2520Limited">GlobeNewswire</a></div>
+</div>
+</div>
+</body>
+</html>

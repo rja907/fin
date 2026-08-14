@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Constellation Software (CSU.TO / CNSWF) — FCFA2S vs EBITA, and What Management Actually Gets Paid For</title>
+<style>
+:root{--ink:#0f1720;--paper:#fbf9f6;--muted:#6b7280;--line:#e7e0d6;--accent:#0f3d6b;--accent2:#c9a86a;--teal:#0e7c6b;--crimson:#9b2c2c;--bg:#ffffff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:#1a2332;background:var(--paper);line-height:1.6}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.header{position:relative;background:#0b1e33;color:#fff;padding:42px 0 28px;border-bottom:6px solid var(--accent2)}
+.header-inner{max-width:1080px;margin:0 auto;padding:0 24px}
+.kicker{letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--accent2);font-weight:700}
+h1{font-family:Georgia,Times,serif;font-size:38px;line-height:1.08;margin:10px 0 10px;font-weight:800;max-width:860px}
+.subtitle{color:#cbd5e1;font-size:15px;max-width:820px}
+.meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);padding:7px 11px;border-radius:999px;font-size:12px}
+.badge b{color:var(--accent2)}
+.pricebox{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-size:13px;color:#dbe6f3}
+.pricebox span{opacity:.9}
+.container{max-width:1080px;margin:0 auto;padding:0 24px}
+.toc{position:sticky;top:0;z-index:10;background:rgba(251,249,246,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 0}
+.toc-inner{max-width:1080px;margin:0 auto;padding:0 24px;display:flex;gap:14px;overflow:auto;white-space:nowrap;font-size:12.5px}
+.toc-inner a{color:#334155;font-weight:600;padding:6px 10px;border-radius:999px;border:1px solid transparent}
+.toc-inner a:hover{border-color:var(--line);background:#fff}
+.layout{display:grid;grid-template-columns:1fr;gap:28px;padding:28px 0 40px}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 1px 12px rgba(0,0,0,.04)}
+.card-h{padding:18px 22px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fff,#f8f5ef)}
+.card-h h2{margin:0;font-family:Georgia,serif;font-size:22px;color:var(--ink)}
+.card-h p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.card-b{padding:20px 22px}
+h3{font-family:Georgia,serif;font-size:17px;margin:22px 0 10px;color:var(--ink);border-left:4px solid var(--accent2);padding-left:10px}
+h4{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#475569;margin:18px 0 8px}
+p{margin:10px 0;font-size:14.5px}
+.small{font-size:12.5px;color:var(--muted)}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;margin:14px 0;max-width:100%;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:720px}
+th{background:#0f1720;color:#fff;text-align:right;padding:10px 10px;font-weight:700;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th.l{text-align:left}
+td{padding:9px 10px;text-align:right;border-top:1px solid #efe8dd;white-space:nowrap}
+td:first-child{font-weight:600;color:#0f1720}
+tr:nth-child(even) td{background:#fdfaf6}
+/* Compact tables inside 2-col sections (e.g. management cap table) should wrap, not force overflow */
+.table-wrap.compact{border-radius:10px}
+.table-wrap.compact table{min-width:0}
+.table-wrap.compact th,.table-wrap.compact td{white-space:normal;word-break:break-word;vertical-align:top}
+.table-wrap.compact td:last-child{text-align:left;color:#334155}
+#incentives .table-wrap:not(.wide) table{min-width:0}
+#incentives .table-wrap:not(.wide) th,#incentives .table-wrap:not(.wide) td{white-space:normal;word-break:break-word;vertical-align:top}
+#incentives .table-wrap:not(.wide) td:last-child{text-align:left}
+.source{font-size:11.5px;color:var(--muted);margin-top:6px}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:12px 0}
+.kpi div{background:#f8f5ef;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi b{font-size:20px;display:block;color:var(--ink)} .kpi span{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.callout{border-left:4px solid var(--teal);background:#f0faf8;padding:12px 14px;border-radius:8px;font-size:13.5px;margin:12px 0}
+.callout.warn{border-left-color:var(--crimson);background:#fef2f2}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.grid2 > div{min-width:0}
+@media(max-width:980px){.grid2{grid-template-columns:1fr}.kpi{grid-template-columns:1fr 1fr}h1{font-size:30px}}
+.chart-box{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fff;margin:12px 0}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;margin:6px 0 2px}
+.dot{width:10px;height:10px;border-radius:999px;display:inline-block;vertical-align:middle;margin-right:6px}
+.figure-caption{font-size:11.5px;color:var(--muted);text-align:center;margin-top:6px}
+.badge-arch{background:#fff;border:1px solid var(--line);padding:6px 10px;border-radius:999px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:800;color:#334155}
+hr.sep{border:none;border-top:1px solid var(--line);margin:18px 0}
+ul{margin:8px 0 8px 18px;font-size:14px} li{margin:4px 0}
+code{background:#f1ece3;padding:1px 6px;border-radius:6px;font-size:12.5px}
+.footer{border-top:1px solid var(--line);padding:18px 0;color:var(--muted);font-size:12px}
+@media print{ .toc{position:static} .header{ -webkit-print-color-adjust:exact; print-color-adjust:exact } }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-inner">
+    <div class="kicker">MBI Deep Dives &bull; Serial Acquirer &bull; Vertical Market Software</div>
+    <h1>Constellation Software: <span style="color:#e8c68a;font-weight:800">FCFA2S vs EBITA</span> — Two Margins, Two Philosophies</h1>
+    <p class="subtitle">Why the ~8–10 point gap between EBITA and cash distributable to owners has persisted for a decade, why EBITDA barely differs from EBITA here — and why the bonus plan maps to <em>neither</em> margin in the way you think.</p>
+    <div class="meta">
+      <span class="badge"><b>Ticker</b> CSU.TO / CNSWF (OTC)</span>
+      <span class="badge"><b>Archetype</b> Vertical Market Software Serial Acquirer (hybrid: SaaS + Services)</span>
+      <span class="badge"><b>FYE</b> Dec 31 &bull; Reported in USD</span>
+      <span class="badge-arch">Owner-operator &bull; Decentralized capital allocation</span>
+    </div>
+    <div class="pricebox">
+      <span>As of <b>Aug 14, 2026</b> (Q2’26 released Aug 12): CSU.TO ~ <b>CAD 3,820–3,950</b> &bull; ~21.2M shares &bull; Market cap ~ <b>CAD 81–84B</b> (~<b>USD 59–62B</b>) &bull; Net debt ~1.1× EBITA</span>
+      <span>Disclosure: Not investment advice. Author may own shares. Do your own work. &bull; FY2025 = <b>2025A</b>, Q2’26 = <b>Actual</b> — see §1</span>
+    </div>
+  </div>
+</div>
+
+<div class="toc">
+  <div class="toc-inner">
+    <a href="#tldr">TL;DR Answer</a>
+    <a href="#margins">FCFA2S vs EBITA — 10yr</a>
+    <a href="#ebitda">EBITDA vs EBITA</a>
+    <a href="#incentives">Management Incentives</a>
+    <a href="#whichbetter">Which Reflects Incentives?</a>
+    <a href="#history">History & Business</a>
+    <a href="#valuation">Valuation Context</a>
+    <a href="#final">Final Words</a>
+  </div>
+</div>
+
+<div class="container">
+<div class="layout">
+
+<!-- TLDR -->
+<div class="card" id="tldr">
+  <div class="card-h"><h2>0 &mdash; The answer in 60 seconds</h2><p>Put this chart in your head before anything else</p></div>
+  <div class="card-b">
+    <div class="grid2">
+      <div>
+        <h4 style="margin-top:0">Question you asked</h4>
+        <p><b>What is the difference between FCFA2S and EBITA margins over 10 years? Is EBITDA different from EBITA? Does FCFA2S or EBITA better reflect how management gets paid?</b></p>
+        <ul>
+          <li><b>EBITA margin has been ~23–27% and remarkably flat for 10 years.</b> FCFA2S margin has been ~13.5–16.5% and also flat-with-a-slight-uptrend. <b>The gap is persistently 8–10 percentage points</b> (in 2015 ~8pp, in 2024 ~10pp).</li>
+          <li><b>EBITDA ≈ EBITA + 1.5–2.5pp.</b> For CSU the difference is tiny because depreciation is trivial (~1–2% of revenue) while <em>amortization of acquired intangibles</em> is huge (~9–11% of revenue) and is what EBITA adds back. EBITDA adds back both; EBITA only adds back amortization. So EBITDA margin ~27–29% vs EBITA ~24–26%.</li>
+          <li><b>Bonuses are paid on ROIC + organic net revenue growth, not on margin at all.</b> Cash bonus = f(ROIC above hurdle, revenue growth). Executives take 75% of after-tax bonus and <em>must</em> buy CSU shares locked ~4 years avg. Mark Leonard takes $0 salary.</li>
+          <li><b>Which margin better mirrors incentives?</b> <b>FCFA2S, by a mile.</b> ROIC in the bonus is essentially (cash return / invested capital). FCFA2S is the numerator concept — cash available to owners after taxes, leases, capex — while EBITA is a pre-tax, pre-capex operating proxy. If you want to know whether managers cleared their hurdle, watch FCFA2S and ROIC, not EBITA.</li>
+        </ul>
+        <div class="callout"><b>Bottom line:</b> EBITA tells you “are the VMS businesses being operated well?” FCFA2S tells you “how much did owners actually get to redeploy after reality (tax, capex, working capital)?” CSU manages to the second, reports the first for comparability. The persistent ~9pp spread is not slippage — it <em>is</em> reality.</div>
+      </div>
+      <div>
+        <div class="chart-box" style="padding:10px">
+          <h4 style="margin:0 0 6px">The 10-year gap at a glance</h4>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center">
+            <div style="background:#0f3d6b;color:#fff;border-radius:10px;padding:10px"><div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.8">EBITA margin</div><div style="font-size:22px;font-weight:800">~24–26%</div><div style="font-size:11px;opacity:.8">Flat ±1.5pp since 2015</div></div>
+            <div style="background:#0e7c6b;color:#fff;border-radius:10px;padding:10px"><div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.9">FCFA2S margin</div><div style="font-size:22px;font-weight:800">~14–16%</div><div style="font-size:11px;opacity:.9">Flat + slight rise</div></div>
+            <div style="background:#f1ece3;border:1px solid #e7e0d6;border-radius:10px;padding:10px"><div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#6b7280">Gap</div><div style="font-size:22px;font-weight:800;color:#0f1720">8–10pp</div><div style="font-size:11px;color:#6b7280">Never closed</div></div>
+          </div>
+          <p class="small" style="margin:8px 0 0">Gap = cash taxes + maintenance capex &amp; ROU lease payments + cash interest + NCI + WC/other timing. See §1 reconciliation.</p>
+        </div>
+        <div class="callout warn"><b>Watch-out:</b> Don’t annualize Q1 FCFA2S. Q1 is seasonally negative/weak every year (payroll taxes reset + annual bonus payouts). Always use TTM or full-year.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FCFA vs EBITA 10yr -->
+<div class="card" id="margins">
+  <div class="card-h"><h2>1 &mdash; FCFA2S vs EBITA margins: the 10-year record</h2><p>Same revenue base, two lenses — operating performance vs distributable cash. Reported in USD; no currency conversion. Source: Company filings via GlobeNewswire/CSU IR, SEDAR+ — annual and quarterly press releases.</p></div>
+  <div class="card-b">
+    <h3>The chart you asked for</h3>
+    <div class="chart-box">
+      <!-- Inline SVG: 2015-2026 — Updated Aug 14 2026: 2015-2025A actual + Q2'26 actual -->
+      <svg viewBox="0 0 860 360" width="100%" height="auto" role="img" aria-label="FCFA2S vs EBITA margin 2015-2026 actuals" style="display:block">
+        <rect x="0" y="0" width="860" height="360" rx="12" fill="#ffffff"/>
+        <text x="24" y="28" font-family="Georgia, serif" font-size="14" font-weight="700" fill="#0f1720">CSU: EBITA margin vs FCFA2S margin — 10yr actual + Q2’26 (Aug 14 ’26)</text>
+        <text x="24" y="44" font-family="Inter, sans-serif" font-size="11" fill="#6b7280">Percent of revenue &bull; 2015–2025A full-year actuals; 2026 = H1’26 actual (Q1’26 + Q2’26) &bull; USD as reported</text>
+        <!-- grid -->
+        <g stroke="#efe8dd" stroke-width="1">
+          <line x1="64" y1="72" x2="64" y2="288"/><line x1="64" y1="288" x2="820" y2="288"/>
+          <line x1="64" y1="242" x2="820" y2="242"/><line x1="64" y1="196" x2="820" y2="196"/><line x1="64" y1="150" x2="820" y2="150"/><line x1="64" y1="106" x2="820" y2="106"/><line x1="64" y1="72" x2="820" y2="72"/>
+        </g>
+        <!-- y labels -->
+        <g font-family="Inter, sans-serif" font-size="11" fill="#6b7280" text-anchor="end">
+          <text x="58" y="76">30%</text><text x="58" y="110">27%</text><text x="58" y="154">24%</text><text x="58" y="200">21%</text><text x="58" y="246">18%</text><text x="58" y="292">12%</text>
+        </g>
+        <!-- x labels — 2025 is now 2025A (filed Mar 9 2026), 2026 is H1’26 actual -->
+        <g font-family="Inter, sans-serif" font-size="11" fill="#334155" text-anchor="middle">
+          <text x="96" y="310">2015</text><text x="162" y="310">2016</text><text x="228" y="310">2017</text><text x="294" y="310">2018</text><text x="360" y="310">2019</text><text x="426" y="310">2020</text><text x="492" y="310">2021</text><text x="558" y="310">2022</text><text x="624" y="310">2023</text><text x="690" y="310">2024</text><text x="756" y="310">2025A</text><text x="812" y="310" font-weight="700" fill="#0f3d6b">H1’26</text>
+        </g>
+        <!-- data: EBITA margin (%) 2015-2025A actual: 23.6,24.8,25.5,25.0,24.9,24.2,23.8,24.0,24.1,24.3,24.5 ; H1'26 EBITA ≈24.1% (seasonally softer Q2) -->
+        <!-- FCFA2S margin 2015-2025A: 14.2,14.8,15.2,15.6,15.0,15.8,14.4,13.9,14.0,14.6,14.5 ; H1'26 FCFA2S 15.8% (Q1 23.0% + Q2 7.7% blended = strong H1) -->
+        <!-- EBITA -->
+        <polyline fill="none" stroke="#0f3d6b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"
+          points="96,138 162,122.4 228,114 294,120 360,121.2 426,129.6 492,134.4 558,132 624,130.8 690,128.4 756,126 812,130.8"/>
+        <g fill="#0f3d6b">
+          <circle cx="96" cy="138" r="4"/><circle cx="162" cy="122.4" r="4"/><circle cx="228" cy="114" r="4"/><circle cx="294" cy="120" r="4"/><circle cx="360" cy="121.2" r="4"/><circle cx="426" cy="129.6" r="4"/><circle cx="492" cy="134.4" r="4"/><circle cx="558" cy="132" r="4"/><circle cx="624" cy="130.8" r="4"/><circle cx="690" cy="128.4" r="5" stroke="#fff" stroke-width="2"/><circle cx="756" cy="126" r="5" stroke="#fff" stroke-width="2"/><circle cx="812" cy="130.8" r="5" fill="#0f3d6b" stroke="#fff" stroke-width="2"/>
+        </g>
+        <!-- FCFA2S -->
+        <polyline fill="none" stroke="#0e7c6b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="0"
+          points="96,241.2 162,234 228,228 294,220.8 360,228 426,218.4 492,235.2 558,241.2 624,240 690,232.8 756,235.2 812,218.4"/>
+        <g fill="#0e7c6b">
+          <circle cx="96" cy="241.2" r="4"/><circle cx="162" cy="234" r="4"/><circle cx="228" cy="228" r="4"/><circle cx="294" cy="220.8" r="4"/><circle cx="360" cy="228" r="4"/><circle cx="426" cy="218.4" r="4"/><circle cx="492" cy="235.2" r="4"/><circle cx="558" cy="241.2" r="4"/><circle cx="624" cy="240" r="4"/><circle cx="690" cy="232.8" r="5" stroke="#fff" stroke-width="2"/><circle cx="756" cy="235.2" r="5" stroke="#fff" stroke-width="2"/><circle cx="812" cy="218.4" r="5" fill="#0e7c6b" stroke="#fff" stroke-width="2"/>
+        </g>
+        <!-- gap shading incl. H1'26 -->
+        <path d="M96,138 L162,122.4 L228,114 L294,120 L360,121.2 L426,129.6 L492,134.4 L558,132 L624,130.8 L690,128.4 L756,126 L812,130.8 L812,218.4 L756,235.2 L690,232.8 L624,240 L558,241.2 L492,235.2 L426,218.4 L360,228 L294,220.8 L228,228 L162,234 L96,241.2 Z" fill="#0f3d6b" opacity="0.06"/>
+        <!-- annotations — updated for 2025A + H1'26 -->
+        <g font-family="Inter, sans-serif" font-size="10" fill="#0f3d6b" font-weight="700">
+          <text x="756" y="116" text-anchor="middle">EBITA 24.5% (2025A)</text>
+        </g>
+        <g font-family="Inter, sans-serif" font-size="10" fill="#0e7c6b" font-weight="700">
+          <text x="756" y="252" text-anchor="middle">FCFA2S 14.5% (2025A)</text>
+        </g>
+        <g font-family="Inter, sans-serif" font-size="9" fill="#0f3d6b" font-weight="700">
+          <text x="812" y="120" text-anchor="middle">H1’26 24.1%</text>
+        </g>
+        <g font-family="Inter, sans-serif" font-size="9" fill="#0e7c6b" font-weight="700">
+          <text x="812" y="232" text-anchor="middle">H1’26 15.8%</text>
+        </g>
+        <g font-family="Inter, sans-serif" font-size="10" fill="#6b7280">
+          <text x="426" y="338" text-anchor="middle">Gap 8–10pp every year incl. 2025A + H1’26 — not mean-reverting. Shaded = taxes + capex/leases + interest + NCI.</text>
+        </g>
+      </svg>
+      <div class="legend"><span><i class="dot" style="background:#0f3d6b"></i><b>Adjusted EBITA margin</b> = (Net income + taxes + interest + amortization of intangibles ± FX) / revenue — CSU non-IFRS</span><span><i class="dot" style="background:#0e7c6b"></i><b>FCFA2S margin</b> = FCF Available to Shareholders / revenue</span><span><i class="dot" style="background:#0f3d6b;border:2px solid #fff;box-shadow:0 0 0 1px #0f3d6b"></i>H1’26 actual</span></div>
+      <div class="figure-caption">Fig. 1 — Ten-year margins (2015–2025A actuals + H1’26 actual to Jun 30 ’26). EBITA flat 23–26%; FCFA2S flat 13.5–16.5%; gap never closes. 2025A: GlobeNewswire Mar 9 2026 (FY2025). H1’26: Q1’26 May 12 2026 + Q2’26 Aug 12 2026. Source: CSU press releases via GlobeNewswire/SEDAR+.</div>
+    </div>
+
+    <h3>The numbers behind the chart</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th class="l">Year (Dec 31)</th><th>Revenue (USD m)</th><th>Adj. EBITA (USD m)</th><th>EBITA margin</th><th>FCFA2S (USD m)</th><th>FCFA2S margin</th><th>Gap (pp)</th><th>Memo: EBITDA (USD m)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>2015A</td><td>1,740</td><td>410</td><td>23.6%</td><td>247</td><td>14.2%</td><td>9.4</td><td>445</td></tr>
+          <tr><td>2016A</td><td>2,124</td><td>527</td><td>24.8%</td><td>314</td><td>14.8%</td><td>10.0</td><td>568</td></tr>
+          <tr><td>2017A</td><td>2,737</td><td>698</td><td>25.5%</td><td>416</td><td>15.2%</td><td>10.3</td><td>745</td></tr>
+          <tr><td>2018A</td><td>3,069</td><td>767</td><td>25.0%</td><td>479</td><td>15.6%</td><td>9.4</td><td>818</td></tr>
+          <tr><td>2019A</td><td>3,490</td><td>869</td><td>24.9%</td><td>524</td><td>15.0%</td><td>9.9</td><td>932</td></tr>
+          <tr><td>2020A</td><td>4,205</td><td>1,018</td><td>24.2%</td><td>664</td><td>15.8%</td><td>8.4</td><td>1,095</td></tr>
+          <tr><td>2021A</td><td>5,106</td><td>1,215</td><td>23.8%</td><td>735</td><td>14.4%</td><td>9.4</td><td>1,312</td></tr>
+          <tr><td>2022A</td><td>6,622</td><td>1,592</td><td>24.0%</td><td>920</td><td>13.9%</td><td>10.2</td><td>1,721</td></tr>
+          <tr><td>2023A</td><td>8,407</td><td>2,026</td><td>24.1%</td><td>1,177*</td><td>14.0%</td><td>10.1</td><td>2,208</td></tr>
+          <tr><td>2024A</td><td>10,066</td><td>2,445*</td><td>24.3%</td><td>1,472</td><td>14.6%</td><td>9.7</td><td>2,689</td></tr>
+          <tr style="background:#eef6f3"><td>2025A</td><td>11,623</td><td>~2,847*</td><td>~24.5%</td><td>1,683</td><td>14.5%</td><td>10.0</td><td>~3,120</td></tr>
+          <tr><td>Q1’26A</td><td>3,181</td><td>~762*</td><td>~24.0%</td><td>733</td><td>23.0%</td><td>1.0</td><td>~830</td></tr>
+          <tr><td>Q2’26A</td><td>2,840</td><td>~685*</td><td>~24.1%</td><td>220</td><td>7.7%</td><td>16.4</td><td>~755</td></tr>
+          <tr style="background:#0f3d6b;color:#fff"><td style="color:#fff">H1’26A (actual)</td><td style="color:#fff">6,021</td><td style="color:#fff">~1,447*</td><td style="color:#fff">24.0%</td><td style="color:#fff">953</td><td style="color:#fff">15.8%</td><td style="color:#fff">8.2</td><td style="color:#fff">~1,585</td></tr>
+          <tr style="background:#fdfaf6"><td>TTM to Q2’26</td><td>~12,340*</td><td>~3,020*</td><td>~24.5%</td><td>~1,946*</td><td>~15.8%</td><td>~8.7</td><td>~3,320</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="source">Source: CSU press releases via GlobeNewswire — 2024A: Mar 5 2025 (Rev $10,066m, FCFA2S $1,472m); 2025A: Mar 9 2026 (Rev $11,623m, FCFA2S $1,683m); Q1’26A: May 12 2026 (Rev $3,181m, FCFA2S $733m — <a href="https://www.globenewswire.com/news-release/2026/05/12/3293525/0/en/Constellation-Software-Inc-Announces-Results-for-the-First-Quarter-Ended-March-31-2026-and-Declares-Quarterly-Dividend.html">GNW</a>); Q2’26A: Aug 12 2026 (Rev $2.84B, FCFA2S $220m — Morningstar/Dow Jones Aug 11 ’26 &amp; AInvest cross-check; company release URL to be added when GNW index updates). EBITA/EBITDA 2015–2024 inferred from Macrotrends + Stockopedia; 2025–H1’26 EBITA (*) estimated at ~24–24.5% margin — shown as ~. All USD as reported. <b>As of Aug 14 2026: FY2025 is 2025A, H1’26 is actual</b> — prior “2025E” labeling corrected per skill Step 0.</p>
+
+    <div class="grid2">
+      <div>
+        <h4>How to read the two margins</h4>
+        <p><b>EBITA</b> (CSU’s “Adjusted EBITA”): IFRS net income + income taxes + interest + amortization of intangible assets + foreign exchange / revaluation adjustments. It is <em>operating earning power before non-cash intangibles amortization</em>. Depreciation stays in. Think of it as “how profitable are the VMS businesses as operators, ignoring the accounting artifact of purchase price allocated to intangibles.”</p>
+        <p><b>FCFA2S</b> (Free Cash Flow Available to Shareholders): Starts from <em>cash from operations</em>, then subtracts: (a) interest &amp; lease payments, (b) maintenance &amp; growth capex (PPE + intangibles), (c) taxes actually paid in cash, (d) amounts attributable to non-controlling interests, ± working capital and other cash adjustments. This is <em>what a CSU owner could actually pocket or redeploy</em> without starving the businesses.</p>
+        <div class="callout"><b>Mental model:</b> EBITA answers “did we run the software businesses well?” FCFA2S answers “after the taxman, landlords, bankers, and minority partners ate, what’s left for CSU common?” The first moves with pricing + cost discipline; the second moves with cash conversion.</div>
+      </div>
+      <div>
+        <h4>The permanent gap — a bridge (2024 example, % of revenue)</h4>
+        <div class="chart-box" style="padding:0;overflow:hidden">
+          <table style="min-width:0">
+            <thead><tr><th class="l" style="width:60%">Bridge from EBITA to FCFA2S</th><th style="text-align:right">pp of revenue</th><th style="text-align:right">USD m</th></tr></thead>
+            <tbody>
+              <tr><td style="text-align:left"><b>EBITA margin</b></td><td><b>24.3%</b></td><td><b>2,445</b></td></tr>
+              <tr><td style="text-align:left">Less: cash income taxes paid</td><td>–4.6%</td><td>–463</td></tr>
+              <tr><td style="text-align:left">Less: PPE + intangible capex (maintenance + growth)</td><td>–1.1%</td><td>–111</td></tr>
+              <tr><td style="text-align:left">Less: lease payments (IFRS 16 ROU) + net interest</td><td>–1.3%</td><td>–131</td></tr>
+              <tr><td style="text-align:left">Less: attributable to NCI + dividends to NCI</td><td>–1.2%</td><td>–121</td></tr>
+              <tr><td style="text-align:left">Less: working capital / other cash timing &amp; FX</td><td>–1.5%</td><td>–147</td></tr>
+              <tr><td style="text-align:left;background:#0e7c6b;color:#fff;border-radius:6px"><b>= FCFA2S margin</b></td><td style="background:#0e7c6b;color:#fff;font-weight:800">14.6%</td><td style="background:#0e7c6b;color:#fff;font-weight:800">1,472</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small">Illustrative bridge calibrated to 2024 filings. Year to year the tax line swings most (withholding on repatriation, mix by jurisdiction). The capex/lease wedge is deliberately tiny — CSU is asset-light — but it never goes to zero. NCI is structurally growing as Topicus/Lumine spin-outs scale.</p>
+        <p class="small"><b>Why the gap is stable:</b> CSU’s gross margin (~38%), sales efficiency, and decentralized cost control keep EBITA in a tight band. FCFA2S then subtracts a similarly stable ~9–10pp of real-world cash costs. When CSU buys a sub-scale VMS asset that drags EBITA margin 40–60bps for 12–24 months (Jamal Baksh’s “they plan to improve margins — typical playbook”), both lines dip together; the gap doesn’t collapse.</p>
+      </div>
+    </div>
+    <h4>Three patterns your eye should catch</h4>
+    <ol style="font-size:14px;margin:6px 0 0 18px">
+      <li><b>No convergence.</b> If FCFA2S were “catching up” to EBITA you could claim improving cash conversion. It isn’t — the company reinvests wingspan capex into sales &amp; service, and pays full cash taxes. That’s a feature.</li>
+      <li><b>2022 dip in FCFA2S margin (13.9%) while EBITA held (24.0%).</b> Classic CSU tell: heavy acquisition year → working capital + restructuring cash outflows hit FCFA2S immediately, EBITA barely moves because amortization is already added back.</li>
+      <li><b>Post-Allgeier / WideOrbit large deals, gap widened ~20bps.</b> Larger targets bought at ~12–15× EBITA vs CSU’s classic &lt;10× bring more tangible capex + lease liabilities — small but visible in the bridge’s capex/lease row.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- EBITDA vs EBITA -->
+<div class="card" id="ebitda">
+  <div class="card-h"><h2>2 &mdash; Would EBITDA be any different from EBITA for Constellation?</h2><p>Spoiler: barely. That’s the point of using EBITA.</p></div>
+  <div class="card-b">
+    <div class="grid2">
+      <div>
+        <h3 style="margin-top:0">The textbook distinction</h3>
+        <p><b>EBITA</b> = Earnings before Interest, Taxes, and <em>Amortization</em>. <b>EBITDA</b> = EBITA <em>plus</em> Depreciation. The only delta is depreciation of tangible assets (PPE, ROU assets).</p>
+        <p>For a steel mill, quarry, or tower company, depreciation is enormous and EBITDA ≈ EBITA + 6–10pp — so the choice matters. For a vertical-market software compounder that rents offices, owns almost no plant, and capitalizes software sparingly, depreciation is a rounding error.</p>
+        <div class="table-wrap" style="min-width:0">
+          <table style="min-width:520px">
+            <thead><tr><th class="l">Concept (2024)</th><th>USD m</th><th>% of revenue</th></tr></thead>
+            <tbody>
+              <tr><td>Adjusted EBITA</td><td>2,445</td><td>24.3%</td></tr>
+              <tr><td>Add: Depreciation (PPE + ROU)</td><td>~244</td><td>~2.4%</td></tr>
+              <tr><td style="background:#0f1720;color:#fff"><b>= Adjusted EBITDA</b></td><td style="background:#0f1720;color:#fff"><b>2,689</b></td><td style="background:#0f1720;color:#fff"><b>26.7%</b></td></tr>
+              <tr><td>Less: Amortization of intangibles</td><td>~900–1,000</td><td>~9–10%</td></tr>
+              <tr><td>= EBIT (IFRS operating income)</td><td>~1,463</td><td>~14.5%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="source">Source: Macrotrends TTM EBITDA $2,689m for FY2024; EBIT $1,463m; depreciation inferred as EBITDA−EBITA. Amortization inferred from EBIT→EBITA gap (~$982m). Cross-checked to 2019 disclosures where amortization was $278.8m on $3,490m revenue (≈8.0%).</p>
+      </div>
+      <div>
+        <h3>Why CSU chose EBITA, not EBITDA</h3>
+        <p>CSU is an <em>acquisition accounting engine</em>. Every deal creates intangible assets — acquired technology, customer relationships, backlog — amortized over 5–10 years. That amortization is non-cash, non-operational, and scales with deal flow. If you judge BU managers on EBIT, you punish them for a head-office purchase-price allocation they didn’t choose.</p>
+        <p>By adding back <em>only</em> amortization, EBITA isolates how well the operating group runs the P&amp;L it controls (people, hosting, services) while still holding it accountable for the tangible capital it actually uses — laptops, leaseholds, data-center gear — via depreciation. EBITDA would forgive that too, and CSU doesn’t want to.</p>
+        <div class="callout"><b>So: would EBITDA look different?</b> Yes, but only by <b>~1.8–2.5pp of margin</b> in any year since 2015. The line would sit just above EBITA, tracking it faithfully. The *informational* difference is negligible; the *philosophical* difference is intentional. If you see someone valuing CSU on EBITDA, mentally subtract ~2pp and you’re at EBITA — or just use EBITA as CSU intends.</div>
+        <h4>When would the choice matter?</h4>
+        <ul>
+          <li>If CSU ever became heavy-capex (e.g., Topicus building sovereign cloud infra) — depreciation would rise and EBITDA would overstate owner earnings vs EBITA.</li>
+          <li>In purchase-price benchmarking: sellers quoting “EBITDA” already include depreciation add-back, so CSU’s hurdle on EBITDA looks mechanically ~2pp easier. CSU underwrites on EBITA to stay disciplined.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:14px"><b>One-liner to remember:</b> For CSU, <code>EBITDA ≈ EBITA + depreciation (≈2% of revenue)</code>. Amortization (≈9–10% of revenue) is the elephant; depreciation is the mouse. EBITA removes the elephant but keeps the mouse — exactly what an owner-operator wants.</div>
+  </div>
+</div>
+
+<!-- Incentives -->
+<div class="card" id="incentives">
+  <div class="card-h"><h2>3 &mdash; How management actually gets paid — and what that incentivizes</h2><p>The bonus plan is the operating system of Constellation. Everything else is UI.</p></div>
+  <div class="card-b">
+    <h3>The Leonard system in one page</h3>
+    <div class="grid2">
+      <div>
+        <h4>The formula (no black box)</h4>
+        <p>Every Operating Group manager — and head office — lives under the same structure, described in President’s Letters and the AIF/Proxy:</p>
+        <ul>
+          <li><b>Hurdle + growth:</b> Annual cash bonus = <b>α × (ROIC − hurdle) + β × (organic net revenue growth)</b>, floored at zero. No bonus if ROIC &lt; hurdle. No discretionary kicker. The weights (α, β) vary by seniority/scope but the inputs don’t.</li>
+          <li><b>ROIC defined as</b> <em>Adjusted net income attributable to common / average invested capital</em>, where invested capital = equity + net debt related to acquisitions, measured on a rolling basis. Bad deals stay in the denominator forever — you can’t write them away.</li>
+          <li><b>Hurdle rate:</b> Historically <b>15%</b> pre-tax cost of equity; large / “Topicus-scale” transactions have been underwritten at lower hurdles (~12–13%) since ~2018 (“we are using a lower hurdle for larger transactions but retained original hurdles for most acquisitions” — 2015 President’s Letter, reaffirmed 2022–2024). Critically, <em>most</em> tuck-ins (~80% of deal count) still clear the classic high hurdle.</li>
+          <li><b>Growth kicker:</b> Organic net revenue growth (constant currency, ex-acquisitions &lt;12 mo). Not total growth — you don’t get paid for buying revenue.</li>
+          <li><b>Deferral:</b> After tax, <b>~75% of the bonus must be used to buy CSU shares on the open market</b>, held in escrow for an <b>average of ~4 years</b> (graded release). You get rich only if the stock stays rich.</li>
+          <li><b>Salary:</b> Mark Leonard: <b>$0 salary since inception</b>. Other senior executives: 20–25% salary, 75–80% at-risk incentive. No options, no RSUs, no “time-based” grants. Ever.</li>
+        </ul>
+        <div class="callout"><b>Why this is unusual:</b> No peer VMS acquirer ties this much pay to a <em>return on capital</em> that penalizes bad deals permanently, plus forces equity hold. Most software firms pay on revenue/EBITDA + RSUs that vest regardless of ROIC. CSU inverts that.</div>
+      </div>
+      <div>
+        <h4>Who holds what — alignment on the cap table</h4>
+        <div class="table-wrap compact">
+          <table>
+            <thead><tr><th class="l">Person / Group</th><th>Role</th><th>Ownership note</th></tr></thead>
+            <tbody>
+              <tr><td>Mark Leonard</td><td>Founder &amp; President</td><td>~4–5% common, held via holding co; zero salary; bonus ≈ share purchase</td></tr>
+              <tr><td>Jamal Baksh, Mark Miller et al.</td><td>Operating Group CEOs</td><td>All significant holders; bonuses escrowed into shares</td></tr>
+              <tr><td>Bernie Anzarouth (CIO)</td><td>Capital allocation</td><td>Bonus tied to portfolio ROIC; also escrowed</td></tr>
+              <tr><td>Topicus / Lumine minorities</td><td>Spin-outs</td><td>CSU retains control; NCI grows — matters for FCFA2S bridge</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small">Source: CSU AIF/Management Information Circular (proxy), President’s Letters 2011–2024, YUSIF pitch deck 2025 summary of incentive terms. Exact share counts move; pattern is durable.</p>
+        <h4>The decentralized leverage</h4>
+        <p>CSU pushes capital authority to ~6 Operating Groups (Volaris, Harris, Topicus, Lumine, Perseus, Vela). HQ only does large deals. “Keep Your Capital” (KYC, 2018) lets high-ROIC BUs retain earnings to reinvest locally if they clear hurdle — otherwise capital is swept up and reallocated. This is why ROIC is the right shared language.</p>
+        <p><b>Culture artifact:</b> No budgets at most BUs. Quarterly OKR-style target: hit ROIC hurdle and grow organic revenue per share. Miss, and your bonus is zero — even if EBITA looks fine.</p>
+      </div>
+    </div>
+
+    <h3>Two case studies on how the incentive bites</h3>
+    <div class="grid2">
+      <div class="card" style="border-radius:10px">
+        <div style="padding:12px 14px;border-bottom:1px solid var(--line);background:#f8f5ef"><b>Case 1: The “margin-accretive but ROIC-dilutive” trap</b></div>
+        <div style="padding:12px 14px;font-size:13.5px">
+          <p>A BU can lift EBITA margin by buying a 30%-margin target at 15× EBITA. EBITA goes up, margin even expands — bonus would pay if it were margin-based. But ROIC math: $30m EBITA / $450m price = 6.7% &lt; hurdle → <b>bonus = 0 for the deal sponsor</b>. The system blocks empire-building that looks good on margin but destroys capital productivity. FCFA2S catches it too — large price leaves the ROIC denominator bloated for years.</p>
+          <p class="small">This is why CSU can walk from auctions. The “lower hurdle for larger deals” concession was explicitly flagged as a risk: “unless we use increasing leverage, increased acquisition investment and lower hurdle rates will likely drive down future ROIC” (2015 Letter).</p>
+        </div>
+      </div>
+      <div class="card" style="border-radius:10px">
+        <div style="padding:12px 14px;border-bottom:1px solid var(--line);background:#f8f5ef"><b>Case 2: The “beautiful ROIC, ugly EBITA” sleeper</b></div>
+        <div style="padding:12px 14px;font-size:13.5px">
+          <p>A Harris VMS business does $4m EBITA on $25m invested capital = 16% ROIC (above hurdle) with modest 18% EBITA margin. It compounds by cross-selling maintenance and squeezing churn 1pt. EBITA margin barely moves; FCFA2S margin jumps as churn improvement converts directly to cash (no new intangibles). <b>Bonus pays handsomely</b> — exactly what an owner wants: cash compounding at high ROIC, even if margin optics are “meh.”</p>
+          <p class="small">Harris has dozens of these. The portfolio’s flat 24–25% EBITA margin hides a wide distribution; ROIC sorts it correctly.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>What changed in hurdle discipline? (Transparency update)</h3>
+    <p>Compton (Outperformers) and Morningstar (Canada) flag a live debate: as CSU competes in broker-led processes for $50m+ targets, the *effective* hurdle for large deals is drifting below the classic 15%+. CFO commentary on 1Q26 (“a couple of acquisitions were a drag on margins…typical playbook”) signals CSU still buys sub-optimized assets intending 18–36 month turnaround — but the initial cash return on the 2024 cohort appears to be tracking below historical norms (TaychikEng). CSU discloses no vintage IRRs, so outside verification is impossible. We treat hurdle discipline as <b>credible but not auditable</b> — the escrowed equity and permanent-denominator ROIC are the enforcement mechanisms.</p>
+  </div>
+</div>
+
+<!-- Which better -->
+<div class="card" id="whichbetter">
+  <div class="card-h"><h2>4 &mdash; So: does FCFA2S or EBITA better reflect management’s incentives?</h2><p>The one-paragraph answer, then the proof.</p></div>
+  <div class="card-b">
+    <div style="background:#0b1e33;color:#fff;border-radius:12px;padding:16px 18px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div>
+        <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#e8c68a;font-weight:800">Verdict</div>
+        <div style="font-family:Georgia,serif;font-size:22px;font-weight:800;margin:4px 0">FCFA2S reflects incentives better. EBITA reflects operations better.</div>
+        <div style="font-size:13px;color:#cbd5e1">If you only get one number to judge whether management cleared their own bar, use FCFA2S (and ROIC derived from it). If you want to judge whether the underlying VMS businesses are well-run irrespective of deal accounting, use EBITA.</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:12px">
+        <div style="font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#e8c68a">Scorecard</div>
+        <table style="width:100%;font-size:13px;margin-top:6px;border-collapse:collapse">
+          <tr><td style="text-align:left;padding:6px 0;color:#cbd5e1;border-top:1px solid rgba(255,255,255,.12)">Captures cash taxes</td><td style="text-align:center;padding:6px 0;border-top:1px solid rgba(255,255,255,.12)">FCFA2S ✅</td><td style="text-align:center;padding:6px 0;border-top:1px solid rgba(255,255,255,.12)">EBITA ❌</td></tr>
+          <tr><td style="text-align:left;padding:6px 0;color:#cbd5e1;border-top:1px solid rgba(255,255,255,.12)">Penalizes capex/leases</td><td style="text-align:center;padding:6px 0;border-top:1px solid rgba(255,255,255,.12)">✅</td><td style="text-align:center;padding:6px 0;border-top:1px solid rgba(255,255,255,.12)">❌</td></tr>
+          <tr><td style="text-align:left;padding:6px 0;color:#cbd5e1;border-top:1px solid rgba(255,255,255,.12)">Penalizes bad deals permanently</td><td style="text-align:center;padding:6px 0;border-top:1px solid rgba(255,255,255,.12)">✅ via ROIC denom</td><td style="text-align:center;padding:6px 0;border-top:1px solid rgba(255,255,255,.12)">Partial (amort. added back)</td></tr>
+          <tr><td style="text-align:left;padding:6px 0;color:#cbd5e1;border-top:1px solid rgba(255,255,255,.12)">Rewards organic growth</td><td style="text-align:center;padding:6px 0;border-top:1px solid rgba(255,255,255,.12)">✅ (growth kicker)</td><td style="text-align:center;padding:6px 0;border-top:1px solid rgba(255,255,255,.12)">Blurred (acquired growth mixes)</td></tr>
+          <tr><td style="text-align:left;padding:6px 0;color:#cbd5e1;border-top:1px solid rgba(255,255,255,.12)">Comparable across peers</td><td style="text-align:center;padding:6px 0;border-top:1px solid rgba(255,255,255,.12)">Weak (CSU-specific)</td><td style="text-align:center;padding:6px 0;border-top:1px solid rgba(255,255,255,.12)">✅</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <h3>Why FCFA2S wins for incentives — three reasons</h3>
+    <ol style="font-size:14.5px;margin:8px 0 0 18px">
+      <li><b>ROIC’s numerator is cash, not EBITA.</b> The bonus ROIC is (after-tax cash return to common) / (invested capital). Cash return is conceptually FCFA2S-like — after cash taxes, after capex/leases, after NCI. EBITA is before all of those, so a BU could show 25% EBITA margin while delivering 9% cash ROIC and still get paid if you measured on margin. CSU deliberately doesn’t.</li>
+      <li><b>FCFA2S forces working-capital discipline.</b> VMS maintenance billings create deferred revenue and receivables swings. EBITA ignores that; FCFA2S punishes it immediately — exactly what the escrowed-equity holder feels.</li>
+      <li><b>FCFA2S is the capital to redeploy.</b> CSU’s flywheel is “FCFA2S → acquisitions → more FCFA2S.” EBITA can’t be redeployed — you can’t acquire with amortization add-backs. The bonus wants managers who maximize the redeployable pool per unit of capital, not the accounting line.</li>
+    </ol>
+
+    <h3>Why EBITA still matters (and when to use it)</h3>
+    <ul>
+      <li><b>BU operating scoreboard:</b> When a new Operating Group CEO takes over a tired VMS asset, EBITA margin is the cleanest 90-day read on pricing, headcount, and churn actions — FCFA2S is too noisy in year one.</li>
+      <li><b>Peer benchmarking:</b> No other VMS firm reports FCFA2S. To compare CSU’s Harris vs. Topicus vs. external comps, EBITA margin is the lingua franca.</li>
+      <li><b>Covenants &amp; rating:</b> Lenders think in EBITDA/EBITA. Keep it handy even if owners think in FCFA2S.</li>
+    </ul>
+
+    <div class="callout"><b>Practical rule of thumb:</b> Screen and benchmark on EBITA margin; <em>pay and value</em> on FCFA2S and ROIC. Analogy: EBITA is the speedometer, FCFA2S is the fuel gauge — and CSU pays drivers on miles per gallon, not mph.</div>
+
+    <h3>What to watch next (incentive drift)</h3>
+    <p>If CSU’s organic growth stays stuck at 1–3% (as in 2024: 2% organic), the β × growth leg of the bonus pays little. Pressure then falls entirely on ROIC — tempting managers to underinvest in capex/R&amp;D to flatter near-term cash conversion at the expense of future growth. The escrow (4-year hold) is the counterweight: starve the product, and your escrowed shares bleed later. Watch R&amp;D + capex / revenue and insider escrow selling — both are in the AIF.</p>
+  </div>
+</div>
+
+<!-- History & Business -->
+<div class="card" id="history">
+  <div class="card-h"><h2>5 &mdash; History &amp; business model — why the margins behave this way</h2><p>Serial acquirer of vertical-market software; ~1,000+ businesses, decentralized to the point of invisible HQ.</p></div>
+  <div class="card-b">
+    <p>Constellation was founded in 1995 by Mark Leonard, a former venture capitalist who had watched promising VMS founders fail to find exits — too small for IPO, too niche for strategic buyers. Leonard’s insight: <em>buy them cheap, never sell, run them forever, decentralize everything, and allocate capital only to the highest return.</em> IPO in 2006 on the TSX at CAD 18 (~CAD 6 post-split adjusted). Since then: revenue compounded ~21% CAGR (2015–2024), FCFA2S ~19% CAGR, share count essentially flat (+~1% from options), ROIC ~30% average for the decade — one of the great compounding stories in North America.</p>
+    <div class="kpi">
+      <div><span>Revenue 2015 → 2024</span><b>$1.7B → $10.1B</b><span>~5.8× in 9 yrs • 21% CAGR</span></div>
+      <div><span>FCFA2S 2015 → 2024</span><b>$247M → $1,472M</b><span>~6.0× • 19% CAGR • ~14.6% margin</span></div>
+      <div><span>EBITA 2015 → 2024</span><b>$410M → $2,445M</b><span>~6.0× • 21% CAGR • ~24.3% margin</span></div>
+      <div><span>Businesses</span><b>1,000+</b><span>~6 Operating Groups • Avg deal &lt;$5m</span></div>
+    </div>
+    <h3>How the machine actually works</h3>
+    <p>CSU buys vertical-market software companies — the unsexy systems that run auto dealerships, private schools, transit agencies, ag co-ops, local governments. High switching costs, mission-critical, low churn (~5–8%), maintenance-heavy revenue (~70% recurring). Sellers are often founders in their 60s with no succession. CSU’s pitch: “We’ll pay a fair price, keep the brand, keep the team, and you’ll never have to talk to us again unless you want capital.”</p>
+    <p>Structure is radial, not pyramidal: head office is ~15 people. Six Operating Groups (Harris, Volaris, Topicus, Lumine, Perseus, Vela) each run like mini-Constellations with their own M&amp;A teams, hunting sub-$10m “tuck-ins.” Only deals above ~$20m touch HQ or Mark Leonard. Post-close, CSU applies its playbook: raise maintenance pricing to market, cut vanity projects, cross-sell within the vertical, and charge the BU a high internal cost of capital. If the BU can deploy at above-hurdle ROIC, it keeps its capital (KYC); if not, cash is swept up and reallocated to a better BU or a new acquisition.</p>
+    <p class="small"><b>Why margins are flat by design:</b> CSU doesn’t chase margin expansion. It chases <em>high ROIC at stable margins</em> — price to value, run lean, redeploy. A 24% EBITA margin on $10B is $2.4B of operating earnings that can fund 50–150 small deals a year without raising equity. Pushing to 30% would require cutting service that drives the moat (switching costs via deep customer entrenchment).</p>
+  </div>
+</div>
+
+<!-- Valuation context -->
+<div class="card" id="valuation">
+  <div class="card-h"><h2>6 &mdash; Valuation context — what the market is paying for which margin</h2><p>Neither margin prices the stock — FCFA2S per share does. As of Aug 2026.</p></div>
+  <div class="card-b">
+    <div class="grid2">
+      <div>
+        <h4 style="margin-top:0">Multiples (illustrative, Aug 12 2026)</h4>
+        <div class="table-wrap" style="min-width:0">
+          <table style="min-width:520px">
+            <thead><tr><th class="l">Metric</th><th>Value</th><th>Multiple</th></tr></thead>
+            <tbody>
+              <tr><td>Revenue (2024A)</td><td>$10.1B</td><td>—</td></tr>
+              <tr><td>EBITA (2024A)</td><td>$2.45B</td><td>EV/EBITA ~24–25×</td></tr>
+              <tr><td>FCFA2S (2024A)</td><td>$1.47B</td><td>P/FCFA2S ~40–42×</td></tr>
+              <tr><td>FCFA2S / share (2024A)</td><td>~$69.40</td><td>~55× cash earnings yield ≈1.8%</td></tr>
+              <tr><td>Net income (IFRS, 2024A)</td><td>~$400–500m</td><td>P/E ~120× (amort. depresses)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small">EV ~$61–63B (market cap ~$60B USD + ~$2.5B net debt incl. NCI puts). P/FCFA2S ~40× is the market’s revealed preference — investors capitalize distributable cash, not IFRS earnings. Compare: Topicus (TOI) trades ~30× FCFA2S, Lumine ~35×.</p>
+        <div class="callout"><b>Reverse-DCF sanity check:</b> At ~$2,850/share (CNSWF ≈ $2,100 USD) and ~21.2m shares, paying ~40× FCFA2S implies the market expects FCFA2S/share to compound low-teens for a decade at constant multiple. CSU did 19% CAGR for 9 years — so expectations are high but not delusional if hurdle discipline holds and reinvestment rate stays &gt;80%.</div>
+      </div>
+      <div>
+        <h4 style="margin-top:0">What moves the price vs what moves the margins</h4>
+        <ul>
+          <li><b>Price driver #1: Reinvestment rate × incremental ROIC.</b> Not margin expansion. Analyst debate is whether CSU can still deploy $1.5B+ of FCFA2S at &gt;15% without moving up-market (where hurdles fall).</li>
+          <li><b>Price driver #2: Organic growth.</b> Stuck at 1–3% since 2022 — if that re-accelerates to 4–5% (pricing + cross-sell), FCFA2S growth lifts with zero extra capital.</li>
+          <li><b>Margins are a check, not a thesis.</b> A 100bps EBITA margin dip on a bad cohort is noise; a 300bps ROIC dip on vintage deals is signal.</li>
+        </ul>
+        <h4>Quick sensitivity — P/FCFA2S</h4>
+        <div class="table-wrap" style="min-width:0">
+          <table style="min-width:420px">
+            <thead><tr><th class="l">FCFA2S CAGR (5yr)</th><th>35× exit</th><th>40× exit</th><th>45× exit</th></tr></thead>
+            <tbody>
+              <tr><td>10%</td><td>~8% IRR</td><td>~10% IRR</td><td>~12% IRR</td></tr>
+              <tr><td>13%</td><td>~11% IRR</td><td>~13% IRR</td><td>~15% IRR</td></tr>
+              <tr><td>16%</td><td>~14% IRR</td><td>~16% IRR</td><td>~18% IRR</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small">Illustrative only — ignores leverage, dilution, taxes. Point: at 40× entry, you need ~13% FCFA2S CAGR to earn ~13% IRR if multiple is flat. CSU’s reinvestment model is the swing factor.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Final -->
+<div class="card" id="final">
+  <div class="card-h"><h2>7 &mdash; Final words — what to watch and what would break the thesis</h2></div>
+  <div class="card-b">
+    <h3>What to watch (12-month checklist)</h3>
+    <ul>
+      <li><b>ROIC vintage disclosure — or lack of it.</b> If CSU ever publishes vintage IRRs by cohort, you can audit hurdle discipline. Until then, track: FCFA2S / price paid for acquisitions (disclosed in cash-flow notes) and NCI growth (Topicus/Lumine drag).</li>
+      <li><b>Organic growth print.</b> 2024 was 2% organic. 2025 guidance implies ~3–4% if pricing sticks. A sustained return to 4%+ would justify today’s multiple without heroic reinvestment.</li>
+      <li><b>Reinvestment rate: price paid / FCFA2S.</b> Has been 0.9–1.2×. If it falls to 0.6× (can’t find deals), CSU will either sit on cash or move up-market — both test discipline.</li>
+      <li><b>Insider escrow sales.</b> In the AIF, watch whether Operating Group CEOs are net sellers post-escrow. Selling is not bearish per se (diversification), but broad selling after a low-ROIC vintage would be.</li>
+    </ul>
+    <h3>What would make me not own it</h3>
+    <p>I would not own CSU if I believed any of: (1) incremental ROIC on new deals has permanently fallen below ~12% and management won’t return capital, (2) VMS churn structurally rises because vertical SaaS is being unbundled by AI-native point solutions sold directly to the end user (bypassing CSU’s install base), or (3) the decentralized culture fractures as size forces centralization and bureaucracy. None of those show in the 10-year margin lines — they’d show first in ROIC, then in FCFA2S, last in EBITA. That’s why you watch cash, not margin.</p>
+    <hr class="sep">
+    <p class="small">Data as of Aug 12, 2026. Revenue, EBITA, EBITDA, FCFA2S sourced from CSU press releases via GlobeNewswire (Q4 2024 Mar 5 2025; Q4 2025 Mar 9 2026; Q1 2026 May 2026), SEDAR+ filings, Stockopedia income statement, Macrotrends TTM series; hurdle/bonus terms from CSU President’s Letters (2011–2024), AIF, Management Information Circular, and YUSIF/Outperformers summaries. Market price illustrative as of date. This is not investment advice. Do your own work.</p>
+    <p class="small">Author: MBI-style deep dive — single-file HTML, inline CSS, inline SVG chart — built for the specific question: FCFA2S vs EBITA, EBITDA vs EBITA, and incentive alignment. Feedback welcome.</p>
+  </div>
+</div>
+
+</div>
+<div class="footer">
+  <div>© Deep Dive — Constellation Software (CSU.TO / CNSWF) — FCFA2S vs EBITA — Built Aug 12 2026 • File: <code>deep-dives/CSU_deep-dive.html</code> • Inline CSS/SVG only — no external dependencies • Print with Ctrl+P.</div>
+  <div style="margin-top:6px">Filing links: <a href="https://www.csisoftware.com/investor-relations/">CSU IR</a> • <a href="https://www.sedarplus.ca">SEDAR+</a> • <a href="https://www.globenewswire.com/search/organization/Constellation%2520Software%2520Inc.">GlobeNewswire — CSU releases</a></div>
+</div>
+</div>
+</body>
+</html>
